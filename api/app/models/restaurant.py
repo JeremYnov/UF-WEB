@@ -12,6 +12,9 @@ class Restaurant(UserMixin, db.Model):
     mail = db.Column(db.String(255), nullable = False)
     password = db.Column(db.String(255), nullable = False)
 
+    menu = db.relationship('Plate', backref=db.backref('restaurant', lazy='dynamic'))
+    orders = db.relationship('Order', backref=db.backref('order', lazy='dynamic'))
+
     def __init__(self, name, logo, address, mail, password):
         self.name = name
         self.logo = logo
