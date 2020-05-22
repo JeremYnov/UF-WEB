@@ -6,18 +6,19 @@ class User(UserMixin, db.Model):
     __tablename__ = 'user'
 
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(255))
-    age = db.Column(db.Integer)
-    mail = db.Column(db.String(255))
-    password = db.Column(db.String(255))
-    avatar = db.Column(db.String(255))
+    firstName = db.Column(db.String(255),  nullable=False)
+    lastName = db.Column(db.String(255),  nullable=False)
+    address = db.Column(db.String(255),  nullable=False)
+    mail = db.Column(db.String(255), unique=True, nullable=False)
+    password = db.Column(db.String(255),  nullable=False)
+    balance = db.Column(db.Float, default=0.0)
 
-    def __init__(self, username, age, mail, password, avatar):
-        self.username = username
-        self.age = age
+    def __init__(self, firstName, lastName, address, mail, password):
+        self.firstName = firstName
+        self.lastName = lastName
+        self.address = address
         self.mail = mail
         self.password = password
-        self.avatar = avatar
 
     def __repr__(self):
-        return '<User {}>'.format(self.username)
+        return '<User {}>'.format(self.id)
