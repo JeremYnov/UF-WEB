@@ -5,6 +5,8 @@ from flask_migrate import Migrate, MigrateCommand
 from app.config.database import db
 from app.settings import Config
 from app.models import *
+from app.models import admin
+
 
 app = Flask(__name__)
 app.config.from_object(Config)

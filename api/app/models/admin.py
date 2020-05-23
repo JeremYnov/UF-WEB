@@ -6,9 +6,9 @@ class Admin(UserMixin, db.Model):
     __tablename__ = 'admin'
 
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(255), nullable = False)
-    mail = db.Column(db.String(255), nullable = False)
-    password = db.Column(db.String(255), nullable = False)
+    username = db.Column(db.String(255), nullable=False)
+    mail = db.Column(db.String(255), nullable=False)
+    password = db.Column(db.String(255), nullable=False)
 
     def __init__(self, username, mail, password):
         self.username = username
@@ -16,4 +16,4 @@ class Admin(UserMixin, db.Model):
         self.password = password
 
     def __repr__(self):
-        return '<Admin {}>'.format(self.username)
+        return '<Admin {}>'.format(self.id)

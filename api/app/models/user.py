@@ -1,5 +1,6 @@
 from flask_login import UserMixin
 from ..config.database import db
+from ..models import order
 
 
 class User(UserMixin, db.Model):
@@ -12,6 +13,8 @@ class User(UserMixin, db.Model):
     mail = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255),  nullable=False)
     balance = db.Column(db.Float, default=0.0)
+
+    user_order = db.relationship('Order', backref='order', lazy='dynamic')
 
     def __init__(self, firstName, lastName, address, mail, password):
         self.firstName = firstName
