@@ -14,7 +14,7 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(255),  nullable=False)
     balance = db.Column(db.Float, default=0.0)
 
-    user_order = db.relationship('Order', backref='order', lazy='dynamic')
+    user_order = db.relationship('Order', backref='user_order', lazy='dynamic')
 
     def __init__(self, firstName, lastName, address, mail, password):
         self.firstName = firstName

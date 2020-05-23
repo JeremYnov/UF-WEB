@@ -10,14 +10,8 @@
     </div>
 
     <form @submit.prevent="signup" method="POST">
-      <input v-model="form.firstName" type="text" name="firstName" required />
-      <label for="firstName">firstName</label>
-
-      <input v-model="form.lastName" type="text" name="lastName" required />
-      <label for="lastName">lastName</label>
-
-      <input v-model="form.address" type="text" name="address" required />
-      <label for="address">address</label>
+      <input v-model="form.userName" type="text" name="userName" required />
+      <label for="userName">userName</label>
 
       <input v-model="form.mail" type="email" name="mail" required />
       <label for="mail">mail</label>
@@ -37,13 +31,11 @@
 const axios = require("axios");
 
 export default {
-  name: "UserSignup",
+  name: "AdminSignup",
   data: function() {
     return {
       form: {
-        firstName: null,
-        lastName: null,
-        address: null,
+        userName: null,
         mail: null,
         password: null,
         repassword: null
@@ -55,15 +47,13 @@ export default {
     signup: async function() {
       let bodyFormData = new FormData();
 
-      bodyFormData.set("firstName", this.form.firstName);
-      bodyFormData.set("lastName", this.form.lastName);
-      bodyFormData.set("address", this.form.address);
+      bodyFormData.set("userName", this.form.userName);
       bodyFormData.set("mail", this.form.mail);
       bodyFormData.set("password", this.form.password);
       bodyFormData.set("repassword", this.form.repassword);
 
       const response = await axios
-        .post("/api/user/signup", bodyFormData, {
+        .post("/api/admin/signup", bodyFormData, {
           headers: { "Content-Type": "application/x-www-form-urlencoded" }
         })
         .then(function(response) {
