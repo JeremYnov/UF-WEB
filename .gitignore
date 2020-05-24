@@ -1,1 +1,4 @@
 .vscode
+vue/package-lock.json
+vue/package.json
+api/manage.py
