@@ -1,0 +1,14 @@
+<template>
+  <footer>
+    <p>Copyright Jeremy.R & David.T © 2020</p>
+  </footer>
+</template>
+
+<script>
+export default {
+};
+</script>
+
+<style lang="scss">
+@import "../../assets/scss/main.scss";
+</style>

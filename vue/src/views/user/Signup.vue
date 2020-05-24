@@ -1,26 +1,108 @@
 <template>
-  <div>
-    <form @submit.prevent="signup" action method="POST">
-      <input v-model="form.firstName" type="text" name="firstName" required />
-      <label for="firstName">firstName</label>
+  <div class="signup-wrapper" v-bind:style="{'height' : screenHeight + 'px'}">
+    <div class="signup-title">
+      <h2>Créer un compte</h2>
+    </div>
+    <div class="form-container">
+      <form @submit.prevent="signup" action method="POST">
+        <div class="grid50-50">
+          <div class="form__group field">
+            <input
+              v-model="form.firstName"
+              type="text"
+              name="firstName"
+              class="form__field"
+              placeholder="Prénom"
+              required
+            />
+            <label for="firstName" class="form__label">Prénom</label>
+          </div>
 
-      <input v-model="form.lastName" type="text" name="lastName" required />
-      <label for="lastName">lastName</label>
+          <div class="form__group field">
+            <input
+              v-model="form.lastName"
+              type="text"
+              name="lastName"
+              class="form__field"
+              placeholder="Nom"
+              required
+            />
+            <label for="lastName" class="form__label">Nom</label>
+          </div>
+        </div>
 
-      <input v-model="form.address" type="text" name="address" required />
-      <label for="address">address</label>
+        <div class="form__group field">
+          <input
+            v-model="form.address"
+            type="text"
+            name="address"
+            class="form__field"
+            placeholder="Adresse"
+            required
+          />
+          <label for="address" class="form__label">Adresse</label>
+        </div>
 
-      <input v-model="form.mail" type="email" name="mail" required />
-      <label for="mail">mail</label>
+        <div class="form__group field">
+          <input
+            v-model="form.mail"
+            type="email"
+            name="mail"
+            class="form__field"
+            placeholder="Adresse mail"
+            required
+          />
+          <label for="mail" class="form__label">Adresse mail</label>
+        </div>
 
-      <input v-model="form.password" type="password" name="password" required />
-      <label for="password">password</label>
+        <div class="grid50-50">
+          <div class="form__group field">
+            <input
+              v-model="form.password"
+              type="password"
+              name="password"
+              class="form__field"
+              placeholder="Mot de passe"
+              required
+            />
+            <label for="password" class="form__label">Mot de passe</label>
+          </div>
 
-      <input v-model="form.repassword" type="password" name="repassword" required />
-      <label for="repassword">repassword</label>
+          <div class="form__group field">
+            <input
+              v-model="form.repassword"
+              type="password"
+              name="repassword"
+              class="form__field"
+              placeholder="Confirmation"
+              required
+            />
+            <label for="repassword" class="form__label">Confirmation</label>
+          </div>
+        </div>
 
-      <button type="submit">Envoyer</button>
-    </form>
+        <!-- <input v-model="form.firstName" type="text" name="firstName" required />
+        <label for="firstName">Prénom</label>-->
+
+        <!-- <input v-model="form.lastName" type="text" name="lastName" required />
+        <label for="lastName">Nom</label>-->
+
+        <!-- <input v-model="form.address" type="text" name="address" required />
+        <label for="address">address</label>-->
+
+        <!-- <input v-model="form.mail" type="email" name="mail" required />
+        <label for="mail">mail</label>-->
+
+        <!-- <input v-model="form.password" type="password" name="password" required />
+        <label for="password">Mot de passe</label>-->
+
+        <!-- <input v-model="form.repassword" type="password" name="repassword" required />
+        <label for="repassword">repassword</label>-->
+        <div class="submit-btn-container">
+          <button type="submit" class="submit-btn">Créer mon compte</button>
+        </div>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -39,8 +121,19 @@ export default {
         password: null,
         repassword: null
       },
-      info: null
+      info: null,
+      // windowHeight:0,
+      // headerHeight : 0,
+      // footerHeight: 0,
+      screenHeight: 0
     };
+  },
+  created() {
+    window.addEventListener("resize", this.handleResize);
+    this.handleResize();
+  },
+  destroyed() {
+    window.removeEventListener("resize", this.handleResize);
   },
   methods: {
     signup: function() {
@@ -65,6 +158,14 @@ export default {
         .catch(function(error) {
           console.log(error);
         });
+    },
+
+    handleResize() {
+      this.windowHeight = window.innerHeight;
+      this.headerHeight = document.querySelector(".header-main").clientHeight;
+      this.footerHeight = document.querySelector("footer").clientHeight;
+      this.screenHeight =
+        this.windowHeight - (this.headerHeight + this.footerHeight);
     }
   }
 };

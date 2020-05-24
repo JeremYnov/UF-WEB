@@ -1,0 +1,23 @@
+// SCSS FILE IMPORT 
+
+// BASE
+@import './base/reset';
+@import './base/global';
+@import './base/fonts';
+
+// HELPERS
+@import './helpers/mixins';
+@import './helpers/variables';
+
+
+// COMPONENTS
+@import './components/inputs';
+@import './components/buttons';
+
+// LAYOUT 
+@import './layout/header';
+@import './layout/footer';
+
+
+// PAGES
+@import './pages/signup';
