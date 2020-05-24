@@ -6,6 +6,9 @@ from .settings import Config
 
 # Import routes
 from .controllers.user import user
+from .controllers.admin import admin
+from .controllers.restaurant import restaurant
+
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -17,3 +20,5 @@ db.init_app(app)
 
 # route
 app.register_blueprint(user)
+app.register_blueprint(admin)
+app.register_blueprint(restaurant)

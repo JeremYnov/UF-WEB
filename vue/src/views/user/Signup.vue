@@ -1,7 +1,16 @@
 <template>
-  <div class="signup-wrapper" v-bind:style="{'height' : screenHeight + 'px'}">
+  <div class="signup-wrapper" v-bind:style="{ height: screenHeight + 'px' }">
     <div class="signup-title">
       <h2>Créer un compte</h2>
+    </div>
+
+    <div v-if="info != null">
+      <div v-if="info.success">
+        <p>Success {{ info.message }}</p>
+      </div>
+      <div v-else>
+        <p>Error {{ info.message }}</p>
+      </div>
     </div>
     <div class="form-container">
       <form @submit.prevent="signup" action method="POST">
@@ -110,7 +119,7 @@
 const axios = require("axios");
 
 export default {
-  name: "Signup",
+  name: "UserSignup",
   data: function() {
     return {
       form: {
@@ -136,7 +145,7 @@ export default {
     window.removeEventListener("resize", this.handleResize);
   },
   methods: {
-    signup: function() {
+    signup: async function() {
       let bodyFormData = new FormData();
 
       bodyFormData.set("firstName", this.form.firstName);
@@ -146,18 +155,17 @@ export default {
       bodyFormData.set("password", this.form.password);
       bodyFormData.set("repassword", this.form.repassword);
 
-      axios
+      const response = await axios
         .post("/api/user/signup", bodyFormData, {
           headers: { "Content-Type": "application/x-www-form-urlencoded" }
         })
         .then(function(response) {
-          console.log(response);
-          this.info = response.data;
-          console.log(this.info);
+          return response;
         })
         .catch(function(error) {
           console.log(error);
         });
+      this.info = response.data;
     },
 
     handleResize() {
@@ -170,6 +178,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-</style>
