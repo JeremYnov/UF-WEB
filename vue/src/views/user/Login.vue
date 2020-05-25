@@ -12,9 +12,7 @@
         <p>Error {{ info.message }}</p>
       </div>
     </div>
-    <form @submit.prevent="logout" method="GET">
-      <button type="submit" class="submit-btn">deconnexion</button>
-    </form>
+
     <div class="form-container">
       <form @submit.prevent="login" method="POST">
         <div class="form__group field">
@@ -94,23 +92,12 @@ export default {
 
       this.info = response.data;
 
-      if (response.data.session) {
-        this.$router.push("Home");
-      }
-    },
-    logout: async function() {
-      const response = await axios
-        .get("/api/user/logout")
-        .then(function(response) {
-          return response;
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
+      console.log(response.data);
 
-      this.info = response.data;
-    },
+      localStorage.setItem("session", response.data.session);
 
+      location.reload();
+    },
     handleResize() {
       this.windowHeight = window.innerHeight;
       this.headerHeight = document.querySelector(".header-main").clientHeight;

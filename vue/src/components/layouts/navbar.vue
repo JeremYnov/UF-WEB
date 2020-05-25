@@ -47,26 +47,34 @@
         </ul>
       </nav>
       <nav class="header-nav">
-        <ul v-if="session == false" class="nav-list">
+        <ul v-if="session" class="nav-list">
+          <li class="nav-item">
+            <router-link :to="{ name: 'UserLogout'}">Deconnexion</router-link>
+          </li>
+        </ul>
+        <ul v-else class="nav-list">
           <li class="nav-item left-item">
             <a href="#">Inscription</a>
             <ul class="sub-menu">
               <li class="nav-item">
-                <a href="user/signup">Client</a>
+                <router-link :to="{ name: 'UserSignup'}">Client</router-link>
               </li>
               <li class="nav-item">
-                <a href="/restaurant/signup">Restaurant</a>
+                <router-link :to="{ name: 'RestaurantSignup'}">Restaurant</router-link>
               </li>
             </ul>
           </li>
 
           <li class="nav-item">
             <a href="#">Connexion</a>
-          </li>
-        </ul>
-        <ul v-else class="nav-list">
-          <li class="nav-item">
-            <a @click="logout">Deconnexion</a>
+            <ul class="sub-menu">
+              <li class="nav-item">
+                <router-link :to="{ name: 'UserLogin'}">Client</router-link>
+              </li>
+              <li class="nav-item">
+                <router-link :to="{ name: 'UserLogin'}">Restaurant</router-link>
+              </li>
+            </ul>
           </li>
         </ul>
       </nav>
@@ -79,28 +87,17 @@
 </template>
 
 <script>
-const axios = require("axios");
-
 export default {
-  props: ["session"],
-  data: () => ({
-    isBurgerActive: false
-  }),
+  // props: ["session"],
+  data: () => {
+    return {
+      session: JSON.parse(localStorage.getItem("session")),
+      isBurgerActive: false
+    };
+  },
   methods: {
     toggle() {
       this.isBurgerActive = !this.isBurgerActive;
-    },
-    logout: () => {
-      axios
-        .get("/api/user/logout")
-        .then(function(response) {
-          return response;
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
-
-      this.$route.router.push("Home");
     }
   }
 };
