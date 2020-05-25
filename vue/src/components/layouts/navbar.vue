@@ -51,6 +51,14 @@
         <ul class="nav-list">
         <li class="nav-item left-item">
           <a href="#">Inscription</a>
+          <ul class="sub-menu">
+            <li class="nav-item">
+            <a href="#">Blog</a>
+          </li>
+          <li class="nav-item">
+            <a href="#">Blog</a>
+          </li>
+          </ul>
         </li>
 
         <li class="nav-item">
