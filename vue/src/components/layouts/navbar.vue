@@ -47,7 +47,7 @@
         </ul>
       </nav>
       <nav class="header-nav">
-        <ul class="nav-list">
+        <ul v-if="session == false" class="nav-list">
           <li class="nav-item left-item">
             <a href="#">Inscription</a>
             <ul class="sub-menu">
@@ -62,14 +62,11 @@
 
           <li class="nav-item">
             <a href="#">Connexion</a>
-            <ul class="sub-menu">
-              <li class="nav-item">
-                <a href="/user/login">Client</a>
-              </li>
-              <li class="nav-item">
-                <a href="/restaurant/login">Restaurant</a>
-              </li>
-            </ul>
+          </li>
+        </ul>
+        <ul v-else class="nav-list">
+          <li class="nav-item">
+            <a @click="logout">Deconnexion</a>
           </li>
         </ul>
       </nav>
@@ -82,13 +79,28 @@
 </template>
 
 <script>
+const axios = require("axios");
+
 export default {
+  props: ["session"],
   data: () => ({
     isBurgerActive: false
   }),
   methods: {
     toggle() {
       this.isBurgerActive = !this.isBurgerActive;
+    },
+    logout: () => {
+      axios
+        .get("/api/user/logout")
+        .then(function(response) {
+          return response;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+
+      this.$route.router.push("Home");
     }
   }
 };

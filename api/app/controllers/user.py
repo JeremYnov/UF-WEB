@@ -1,10 +1,17 @@
-from flask import Blueprint, request, jsonify
-from flask_login import LoginManager, login_user, current_user, logout_user
+from flask import Blueprint, request, jsonify, redirect, url_for
+from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from ..config.database import db
 from ..models.user import User
 
 user = Blueprint('user', __name__, url_prefix='/api/user')
+
+
+@user.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return jsonify(session=False, success=True, message='Deconnexion')
 
 
 @user.route('/signup',  methods=['POST'])
@@ -38,5 +45,38 @@ def signup():
                 db.session.commit()
 
                 return jsonify(success=True, message="votre compte a été créer")
+
+    return jsonify()
+
+
+@user.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'GET':
+        if current_user.is_authenticated:
+            return jsonify(session=True)
+        else:
+            return jsonify(session=False)
+
+    if request.method == 'POST':
+        mail = request.form.get('mail')
+        password = request.form.get('password')
+
+        if not(mail) or not(password):
+            return jsonify(session=False, success=False, message="Information imcomplaite")
+
+        else:
+
+            user = User.query.filter_by(mail=mail).first()
+
+            if not(user):
+                return jsonify(session=False, success=False, message="le compte existe pas")
+
+            if check_password_hash(user.password, password):
+                login_user(user)
+
+                return jsonify(session=True, success=True, message="co")
+
+            else:
+                return jsonify(session=False, success=False, message="mot de passe incorrecte")
 
     return jsonify()
