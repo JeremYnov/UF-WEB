@@ -6,7 +6,7 @@
     </div>-->
 
     <navbar :session="session" />
-
+ <hero />
     <router-view />
 
     <footpage />
@@ -16,6 +16,7 @@
 <script>
 import navbar from "./components/layouts/navbar.vue";
 import footpage from "./components/layouts/footer.vue";
+import hero from "./components/hero/hero.vue";
 
 const axios = require("axios");
 
@@ -23,7 +24,8 @@ export default {
   name: "app",
   components: {
     footpage,
-    navbar
+    navbar,
+    hero
   },
   data: function() {
     return {
