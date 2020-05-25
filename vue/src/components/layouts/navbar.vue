@@ -28,7 +28,7 @@
       <div class="header-logo">
         <a href="/">
           <h1>EatYng</h1>
-        </a> 
+        </a>
       </div>
 
       <nav class="header-nav">
@@ -45,26 +45,33 @@
             <a href="#">Blog</a>
           </li>
         </ul>
-
       </nav>
       <nav class="header-nav">
         <ul class="nav-list">
-        <li class="nav-item left-item">
-          <a href="#">Inscription</a>
-          <ul class="sub-menu">
-            <li class="nav-item">
-            <a href="#">Blog</a>
+          <li class="nav-item left-item">
+            <a href="#">Inscription</a>
+            <ul class="sub-menu">
+              <li class="nav-item">
+                <a href="user/signup">Client</a>
+              </li>
+              <li class="nav-item">
+                <a href="/restaurant/signup">Restaurant</a>
+              </li>
+            </ul>
           </li>
-          <li class="nav-item">
-            <a href="#">Blog</a>
-          </li>
-          </ul>
-        </li>
 
-        <li class="nav-item">
-          <a href="#">Connexion</a>
-        </li>
-      </ul>
+          <li class="nav-item">
+            <a href="#">Connexion</a>
+            <ul class="sub-menu">
+              <li class="nav-item">
+                <a href="/user/login">Client</a>
+              </li>
+              <li class="nav-item">
+                <a href="/restaurant/login">Restaurant</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
       </nav>
 
       <div class="header-nav-wrapper" v-on:click="toggle()">
