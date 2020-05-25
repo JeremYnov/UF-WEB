@@ -12,8 +12,11 @@
         <p>Error {{ info.message }}</p>
       </div>
     </div>
+    <form @submit.prevent="logout" method="GET">
+      <button type="submit" class="submit-btn">deconnexion</button>
+    </form>
     <div class="form-container">
-      <form @submit.prevent="signup" action method="POST">
+      <form @submit.prevent="login" method="POST">
         <div class="form__group field">
           <input
             v-model="form.mail"
@@ -26,17 +29,17 @@
           <label for="mail" class="form__label">Adresse mail</label>
         </div>
 
-          <div class="form__group field">
-            <input
-              v-model="form.password"
-              type="password"
-              name="password"
-              class="form__field"
-              placeholder="Mot de passe"
-              required
-            />
-            <label for="password" class="form__label">Mot de passe</label>
-          </div>
+        <div class="form__group field">
+          <input
+            v-model="form.password"
+            type="password"
+            name="password"
+            class="form__field"
+            placeholder="Mot de passe"
+            required
+          />
+          <label for="password" class="form__label">Mot de passe</label>
+        </div>
 
         <div class="submit-btn-container">
           <button type="submit" class="submit-btn">Connexion</button>
@@ -54,12 +57,8 @@ export default {
   data: function() {
     return {
       form: {
-        // firstName: null,
-        // lastName: null,
-        // address: null,
         mail: null,
-        password: null,
-        // repassword: null
+        password: null
       },
       info: null,
       // windowHeight:0,
@@ -76,15 +75,11 @@ export default {
     window.removeEventListener("resize", this.handleResize);
   },
   methods: {
-    signup: async function() {
+    login: async function() {
       let bodyFormData = new FormData();
 
-    //   bodyFormData.set("firstName", this.form.firstName);
-    //   bodyFormData.set("lastName", this.form.lastName);
-    //   bodyFormData.set("address", this.form.address);
       bodyFormData.set("mail", this.form.mail);
       bodyFormData.set("password", this.form.password);
-    //   bodyFormData.set("repassword", this.form.repassword);
 
       const response = await axios
         .post("/api/user/login", bodyFormData, {
@@ -96,6 +91,23 @@ export default {
         .catch(function(error) {
           console.log(error);
         });
+
+      this.info = response.data;
+
+      if (response.data.session) {
+        this.$router.push("Home");
+      }
+    },
+    logout: async function() {
+      const response = await axios
+        .get("/api/user/logout")
+        .then(function(response) {
+          return response;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+
       this.info = response.data;
     },
 
