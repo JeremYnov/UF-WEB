@@ -13,12 +13,6 @@ restaurant = Blueprint('restaurant', __name__, url_prefix='/api/restaurant')
 @restaurant.route('/signup',  methods=['POST'])
 def signup():
 
-    print(request.method)
-    print(request.form)
-    print(request.files)
-    print(request.form.get('name'))
-    print(request.files.get('logo'))
-
     if request.method == 'POST':
         name = request.form.get('name')
         mail = request.form.get('mail')

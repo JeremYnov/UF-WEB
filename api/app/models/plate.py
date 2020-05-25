@@ -7,6 +7,8 @@ class Plate(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
+    type = db.Column(db.String(255), nullable=False)
+    content = db.Column(db.Text, nullable=False)
     picture = db.Column(db.String(255))
     unitPrice = db.Column(db.Float(), nullable=False)
 
@@ -14,8 +16,10 @@ class Plate(db.Model):
 
     plate_order_content = db.relationship('Order', secondary='order_content', backref=db.backref('plate', lazy='dynamic'))
 
-    def __init__(self, name, picture, unitPrice, id_restaurant):
+    def __init__(self, name, type, content, picture, unitPrice, id_restaurant):
         self.name = name
+        self.type = type
+        self.content = content
         self.picture = picture
         self.unitPrice = unitPrice
         self.id_restaurant = id_restaurant.id

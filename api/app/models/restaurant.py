@@ -8,6 +8,7 @@ class Restaurant(UserMixin, db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
+    category = db.Column(db.String(255), nullable=False)
     logo = db.Column(db.String(255))
     address = db.Column(db.String(255), nullable=False)
     mail = db.Column(db.String(255), nullable=False)
@@ -16,8 +17,9 @@ class Restaurant(UserMixin, db.Model):
     restaurant_plate = db.relationship('Plate', backref='restaurant', lazy='dynamic')
     restaurant_order = db.relationship('Order', backref='order', lazy='dynamic')
 
-    def __init__(self, name, logo, address, mail, password):
+    def __init__(self, name, category, logo, address, mail, password):
         self.name = name
+        self.category = category
         self.logo = logo
         self.address = address
         self.mail = mail
