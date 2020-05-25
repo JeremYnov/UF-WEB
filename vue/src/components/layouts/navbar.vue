@@ -52,13 +52,14 @@
             <a href="#">Inscription</a>
             <ul class="sub-menu">
               <li class="nav-item">
-                <a href="#">Blog</a>
+                <a href="user/signup">Client</a>
               </li>
               <li class="nav-item">
-                <a href="#">Blog</a>
+                <a href="/restaurant/signup">Restaurant</a>
               </li>
             </ul>
           </li>
+
           <li class="nav-item">
             <a href="#">Connexion</a>
           </li>
