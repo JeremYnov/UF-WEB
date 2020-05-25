@@ -7,7 +7,6 @@ class OrderContent(db.Model):
 
     quantity = db.Column(db.Integer, nullable=False)
     id_order = db.Column(db.Integer, db.ForeignKey('order.id'), primary_key=True)
-
     id_plate = db.Column(db.Integer, db.ForeignKey('plate.id'), primary_key=True)
 
     def __init__(self, quantity, id_order, id_plate):
