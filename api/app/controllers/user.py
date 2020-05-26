@@ -10,8 +10,11 @@ user = Blueprint('user', __name__, url_prefix='/api/user')
 @user.route("/logout")
 @login_required
 def logout():
-    logout_user()
-    return jsonify(session=False, success=True, message='Deconnexion')
+    if current_user.is_authenticated:
+        logout_user()
+        return jsonify(session=False, success=True, message='Deconnexion')
+    else:
+        return jsonify(session=False, success=False, message='Pas de compte connecter')
 
 
 @user.route('/signup',  methods=['POST'])

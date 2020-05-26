@@ -1,4 +1,5 @@
 <script>
+import router from "../../router";
 const axios = require("axios");
 
 export default {
@@ -17,7 +18,7 @@ export default {
       });
 
     localStorage.setItem("session", response.data.session);
-
+    router.push("/");
     location.reload();
   }
 };

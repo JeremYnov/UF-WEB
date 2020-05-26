@@ -48,7 +48,9 @@
 </template>
 
 <script>
-const axios = require("axios");
+import router from "../../router";
+import axios from "axios";
+// const axios = require("axios");
 
 export default {
   name: "UserLogin",
@@ -92,10 +94,8 @@ export default {
 
       this.info = response.data;
 
-      console.log(response.data);
-
       localStorage.setItem("session", response.data.session);
-
+      router.push("/");
       location.reload();
     },
     handleResize() {
