@@ -18,10 +18,11 @@ def signup():
         mail = request.form.get('mail')
         logo = request.files.get('logo')
         address = request.form.get('address')
+        category = request.form.get('category')
         password = request.form.get('password')
         repassword = request.form.get('repassword')
 
-        if not(name) or not(mail) or not(logo) or not(address) or not(password) or not(repassword):
+        if not(name) or not(mail) or not(logo) or not(address) or not(category) or not(password) or not(repassword):
             return jsonify(success=False, message='il manque des info')
 
         else:
@@ -38,7 +39,7 @@ def signup():
                 if allowed_image(logo.filename):
                     if logo.mimetype == 'image/png' or logo.mimetype == 'image/jpg' or logo.mimetype == 'image/jpeg':
 
-                        newRestaurant = Restaurant(name, logo.filename, address, mail, generate_password_hash(password, method="pbkdf2:sha256", salt_length=8))
+                        newRestaurant = Restaurant(name, category, logo.filename, address, mail, generate_password_hash(password, method="pbkdf2:sha256", salt_length=8))
 
                         db.session.add(newRestaurant)
                         db.session.commit()
@@ -56,6 +57,39 @@ def signup():
 
                 else:
                     return jsonify(success=False, message="Le fichier n'a pas la bonne extension")
+
+    return jsonify()
+
+
+@restaurant.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'GET':
+        if current_user.is_authenticated:
+            return jsonify(session=True)
+        else:
+            return jsonify(session=False)
+
+    if request.method == 'POST':
+        mail = request.form.get('mail')
+        password = request.form.get('password')
+
+        if not(mail) or not(password):
+            return jsonify(session=False, success=False, message="Information imcomplaite")
+
+        else:
+
+            restaurant = Restaurant.query.filter_by(mail=mail).first()
+
+            if not(restaurant):
+                return jsonify(session=False, success=False, message="le compte existe pas")
+
+            if check_password_hash(restaurant.password, password):
+                login_user(restaurant)
+
+                return jsonify(session=True, success=True, message="co")
+
+            else:
+                return jsonify(session=False, success=False, message="mot de passe incorrecte")
 
     return jsonify()
 

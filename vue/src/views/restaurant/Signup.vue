@@ -61,7 +61,7 @@
           </div>
 
           <div class="form__group field">
-            <input type="file" id="file" />
+            <input @change="previewFiles" type="file" id="file" required />
             <label for="file">Choisir un fichier...</label>
           </div>
         </div>
@@ -77,17 +77,32 @@
           />
           <label for="address" class="form__label">Adresse</label>
         </div>
+        <div class="grid50-50">
+          <div class="form__group field">
+            <input
+              v-model="form.mail"
+              type="email"
+              name="mail"
+              class="form__field"
+              placeholder="Adresse mail"
+              required
+            />
+            <label for="mail" class="form__label">Adresse mail</label>
+          </div>
 
-        <div class="form__group field">
-          <input
-            v-model="form.mail"
-            type="email"
-            name="mail"
-            class="form__field"
-            placeholder="Adresse mail"
-            required
-          />
-          <label for="mail" class="form__label">Adresse mail</label>
+          <div class="form__group field">
+            <select v-model="form.category" name="category" id="category" required>
+              <option disabled>Choisissez</option>
+              <option>Fast food</option>
+              <option>Burger</option>
+              <option>Pizza</option>
+              <option>Sushi</option>
+              <option>Asiatique</option>
+              <option>Japonais</option>
+            </select>
+
+            <label for="category" class="form__label">Categorie</label>
+          </div>
         </div>
 
         <div class="grid50-50">
@@ -135,6 +150,7 @@ export default {
         logo: null,
         address: null,
         mail: null,
+        category: null,
         password: null,
         repassword: null
       },
@@ -157,6 +173,7 @@ export default {
       bodyFormData.set("logo", this.form.logo);
       bodyFormData.set("address", this.form.address);
       bodyFormData.set("mail", this.form.mail);
+      bodyFormData.set("category", this.form.category);
       bodyFormData.set("password", this.form.password);
       bodyFormData.set("repassword", this.form.repassword);
 
@@ -179,6 +196,7 @@ export default {
     previewFiles: function(event) {
       console.log(event.target.files[0]);
       this.form.logo = event.target.files[0];
+      console.log(this.form.logo);
     },
     handleResize() {
       this.windowHeight = window.innerHeight;
