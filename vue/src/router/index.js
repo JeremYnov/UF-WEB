@@ -13,13 +13,7 @@ const routes = [
 	{
 		path      : '/about',
 		name      : 'About',
-		// route level code-splitting
-		// this generates a separate chunk (about.[hash].js) for this route
-		// which is lazy-loaded when the route is visited.
-		component : () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
-		meta      : {
-			requiresAuth : true
-		}
+		component : () => import('../views/About.vue')
 	},
 	{
 		path      : '/user/signup',
@@ -39,18 +33,18 @@ const routes = [
 			requiresAuth : true
 		}
 	},
-	{
-		path      : '/admin/signup',
-		name      : 'AdminSignup',
-		component : () => import('../views/admin/Signup.vue')
-	},
+	// {
+	// 	path      : '/admin/signup',
+	// 	name      : 'AdminSignup',
+	// 	component : () => import('../views/admin/Signup.vue')
+	// },
 	{
 		path      : '/restaurant/signup',
 		name      : 'RestaurantSignup',
 		component : () => import('../views/restaurant/Signup.vue')
 	},
 	{
-		path      : '/error/404',
+		path      : '*',
 		name      : 'Error404',
 		component : () => import('../views/error/404.vue')
 	}
@@ -64,13 +58,30 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
 	if (to.matched.some((record) => record.meta.requiresAuth)) {
-		if (localStorage.getItem('session') == true) {
+		console.log('aaaaaa');
+		console.log(JSON.parse(localStorage.getItem('session')));
+
+		if (JSON.parse(localStorage.getItem('session'))) {
+			console.log('bbbbbb');
+
 			next();
 		} else {
+			console.log('cccccc');
+
 			next({ name: 'UserLogin' });
 		}
 	} else {
-		next();
+		if (JSON.parse(localStorage.getItem('session'))) {
+			if (to.name == 'UserLogin') {
+				next({ name: 'About' });
+			} else if (to.name == 'UserSignup') {
+				next({ name: 'About' });
+			} else {
+				next();
+			}
+		} else {
+			next();
+		}
 	}
 });
 
