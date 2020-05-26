@@ -1,12 +1,9 @@
 <template>
-  <section class="error-404" v-bind:style="{ height: screenHeight + 'px' , 'padding-top' : headerHeight + 'px'}">
+  <section class="error-404" v-bind:style="{ height: screenHeight + 'px'}">
     <div class="bg-purple">
       <div class="stars">
         <div class="central-body">
           <img class="image-404" src="http://salehriaz.com/404Page/img/404.svg" width="300px" />
-          <div class="submit-btn-container">
-          <button type="submit" class="submit-btn">Retourner à l'accueil</button>
-        </div>
         </div>
         <div class="objects">
           <img class="object_rocket" src="http://salehriaz.com/404Page/img/rocket.svg" width="40px" />
@@ -43,9 +40,6 @@
 export default {
   data: function() {
     return {
-      // windowHeight:0,
-      headerHeight : 0,
-      // footerHeight: 0,
       screenHeight: 0
     };
   },
