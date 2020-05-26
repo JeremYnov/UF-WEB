@@ -1,6 +1,6 @@
 <template>
   <div class="home-container">
-      <Hero />
+    <Hero />
     <section class="our-selection">
       <h2 class="section-title">Notre selection</h2>
       <div class="grid33-33-33">
@@ -47,11 +47,35 @@
 // import HelloWorld from "@/components/HelloWorld.vue";
 import Hero from "@/components/hero/hero.vue";
 
+import axios from "axios";
+
 export default {
   name: "Home",
   components: {
     // HelloWorld,
     Hero
+  },
+  data() {
+    return {
+      selectRestaurant: null
+    };
+  },
+  mounted() {
+    this.getSelection();
+  },
+  methods: {
+    async getSelection() {
+      const response = await axios
+        .get("/api/restaurant/select/restaurant")
+        .then(function(response) {
+          return response;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+
+      this.selectRestaurant = response.data.results;
+    }
   }
 };
 </script>

@@ -1,6 +1,6 @@
 import os
 
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, send_file, send_from_directory, url_for
 from flask_login import LoginManager, login_user, current_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
@@ -92,6 +92,42 @@ def login():
                 return jsonify(session=False, success=False, message="mot de passe incorrecte")
 
     return jsonify()
+
+
+@restaurant.route('/select/restaurant')
+def selectRestaurant():
+
+    restaurants = Restaurant.query.filter_by(selection=1).all()
+    arrayRestaurant = []
+
+    for restaurant in restaurants:
+
+        arrayRestaurant.append({
+            'id': restaurant.id,
+            'name': restaurant.name,
+            'category': restaurant.category,
+            'logo': {
+                'url': request.url_root + 'api/restaurant/' + str(restaurant.id) + '/logo/' + restaurant.logo,
+                'name': restaurant.logo
+            },
+            'address': restaurant.address,
+            'mail': restaurant.mail,
+            'selection': True if restaurant.selection == 1 else False
+        })
+
+    results = arrayRestaurant
+    message = 'Voici la selection des restaurants'
+    success = True
+
+    return jsonify(success=success, message=message, results=results)
+
+
+@restaurant.route('/<int:id>/logo/<logo>', methods=['GET'])
+def getImage(id, logo):
+    filename = str(logo)
+    uploads_dir = '../uploads/' + str(id) + '/logo/'
+
+    return send_file(os.path.join(uploads_dir, filename))
 
 
 def allowed_image(filename):
