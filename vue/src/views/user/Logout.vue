@@ -4,20 +4,12 @@ const axios = require("axios");
 
 export default {
   name: "UserLogout",
-  data: () => {
-    return {};
-  },
-  mounted: async () => {
-    const response = await axios
-      .get("/api/user/logout")
-      .then(function(response) {
-        return response;
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+  mounted: () => {
+    axios.get("/api/user/logout").catch(function(error) {
+      console.log(error);
+    });
 
-    localStorage.setItem("session", response.data.session);
+    localStorage.removeItem("session");
     router.push("/");
     location.reload();
   }
