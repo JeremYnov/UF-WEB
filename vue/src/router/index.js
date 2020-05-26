@@ -50,6 +50,11 @@ const routes = [
 		component : () => import('../views/restaurant/Signup.vue')
 	},
 	{
+		path      : '/restaurant/login',
+		name      : 'RestaurantLogin',
+		component : () => import('../views/restaurant/Login.vue')
+	},
+	{
 		path      : '/error/404',
 		name      : 'Error404',
 		component : () => import('../views/error/404.vue')

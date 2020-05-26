@@ -73,7 +73,7 @@
                   <router-link :to="{ name: 'UserLogin'}">Client</router-link>
                 </li>
                 <li class="nav-item">
-                  <router-link :to="{ name: 'UserLogin'}">Restaurant</router-link>
+                  <router-link :to="{ name: 'RestaurantLogin'}">Restaurant</router-link>
                 </li>
               </ul>
             </li>

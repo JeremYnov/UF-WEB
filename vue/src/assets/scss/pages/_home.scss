@@ -1,0 +1,19 @@
+.our-selection{
+    padding: 0 100px;
+    .section-title{
+        font-weight: 500;
+        font-size: 26px;
+        margin: 25px;
+    }
+    .grid33-33-33{
+        @include grid(3,1em,1em);
+
+        .presentation-card-container{
+            width: 100%;
+            .card-image{
+                width: 100%;
+            }
+        }
+
+    }
+}

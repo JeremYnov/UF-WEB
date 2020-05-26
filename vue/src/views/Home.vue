@@ -1,8 +1,44 @@
 <template>
-  <div class="home">
-    <!-- <img alt="Vue logo" src="../assets/logo.png" /> -->
-    <!-- <HelloWorld msg="Welcome to Your Vue.js App" /> -->
-    <Hero />
+  <div class="home-container">
+      <Hero />
+    <section class="our-selection">
+      <h2 class="section-title">Notre selection</h2>
+      <div class="grid33-33-33">
+        <div class="presentation-card-container">
+          <div class="card-image">
+            <img
+              src="https://cdn-food.konbini.com/images/files/2017/06/capture-decran-2017-06-15-a-11.43.30.jpg?webp="
+              alt
+            />
+          </div>
+          <div class="card-title"></div>
+          <div class="card-note"></div>
+          <div class="card-category"></div>
+        </div>
+        <div class="presentation-card-container">
+          <div class="card-image">
+            <img
+              src="https://cdn-food.konbini.com/images/files/2017/06/capture-decran-2017-06-15-a-11.43.30.jpg?webp="
+              alt
+            />
+          </div>
+          <div class="card-title"></div>
+          <div class="card-note"></div>
+          <div class="card-category"></div>
+        </div>
+        <div class="presentation-card-container">
+          <div class="card-image">
+            <img
+              src="https://cdn-food.konbini.com/images/files/2017/06/capture-decran-2017-06-15-a-11.43.30.jpg?webp="
+              alt
+            />
+          </div>
+          <div class="card-title"></div>
+          <div class="card-note"></div>
+          <div class="card-category"></div>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 

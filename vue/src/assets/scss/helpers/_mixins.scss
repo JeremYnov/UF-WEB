@@ -1,6 +1,6 @@
 @mixin grid($repeat,$row-gap,$column-gap) {
     display: grid;
-    grid-template-columns: repeat($repeat,1fr);
+    grid-template-columns: repeat($repeat, 1fr);
     column-gap: $column-gap;
     row-gap: $row-gap;
 }
