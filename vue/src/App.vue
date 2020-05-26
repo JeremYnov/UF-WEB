@@ -6,7 +6,7 @@
     </div>-->
 
     <navbar :session="session" />
-      <hero />
+    <hero />
     <router-view />
 
     <footpage />
@@ -24,30 +24,6 @@ export default {
     footpage,
     navbar,
     hero
-  },
-  data: function() {
-    return {
-      session: null
-    };
-  },
-  created: function() {
-    this.getSession();
-  },
-  methods: {
-    getSession: async function() {
-      const response = await axios
-        .get("/api/user/login")
-        .then(function(response) {
-          return response;
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
-
-      this.session = response.data.session;
-
-      console.log(this.session);
-    }
   }
 };
 </script>
