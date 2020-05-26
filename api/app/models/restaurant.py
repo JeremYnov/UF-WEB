@@ -8,11 +8,12 @@ class Restaurant(UserMixin, db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
-    category = db.Column(db.String(255), nullable=False)
-    logo = db.Column(db.String(255))
+    category = db.Column(db.String(255), nullable=False)  # Fast food, Burger, Pizza, Sushi, Asiatique, Japonais
+    logo = db.Column(db.String(255), nullable=False)
     address = db.Column(db.String(255), nullable=False)
-    mail = db.Column(db.String(255), nullable=False)
+    mail = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
+    selection = db.Column(db.Boolean, default=False, nullable=False)
 
     restaurant_plate = db.relationship('Plate', backref='restaurant', lazy='dynamic')
     restaurant_order = db.relationship('Order', backref='order', lazy='dynamic')
