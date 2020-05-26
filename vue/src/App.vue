@@ -1,13 +1,9 @@
 <template>
-  <div id="app">
-    <!-- <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>-->
+  <div id="app" >
 
-    <navbar :session="session" />
-    <hero />
-    <router-view />
+    <navbar />
+
+    <router-view v-bind:style="{ 'padding-top': headerHeight + 'px' }" />
 
     <footpage />
   </div>
@@ -16,14 +12,40 @@
 <script>
 import navbar from "./components/layouts/navbar.vue";
 import footpage from "./components/layouts/footer.vue";
-import hero from "./components/hero/hero.vue";
 
 export default {
   name: "app",
   components: {
     footpage,
     navbar,
-    hero
-  }
+  },
+
+  data: function() {
+    return {
+      headerHeight : 0,
+    };
+  },
+  // created() {
+  //   window.addEventListener("resize", this.handleResize);
+    
+  // },
+  // destroyed() {
+  //   window.removeEventListener("resize", this.handleResize);
+  // },
+  mounted(){
+    this.handleResize();
+  },
+  methods: {
+    handleResize() {
+      // this.windowHeight = window.innerHeight;
+      this.headerHeight = document.querySelector(".header-main").clientHeight;
+      // this.footerHeight = document.querySelector("footer").clientHeight;
+      // this.screenHeight =
+      //   this.windowHeight - (this.headerHeight + this.footerHeight);
+    }
+  },
+
 };
 </script>
+
+  
