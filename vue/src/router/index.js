@@ -49,7 +49,7 @@ const routes = [
 		component : () => import('../views/restaurant/Login.vue')
 	},
 	{
-		path      : '/error/404',
+		// path      : '/error/404',
 		path      : '*',
 		name      : 'Error404',
 		component : () => import('../views/error/404.vue')
