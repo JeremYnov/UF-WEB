@@ -1,8 +1,13 @@
 <template>
   <div class="home-container">
-      <Hero />
-    
-    <RestaurantCard />
+    <Hero />
+
+    <section class="our-selection">
+      <h2 class="section-title">Notre selection</h2>
+      <div class="grid33-33-33">
+        <RestaurantCard v-for="restaurant in lastRestaurant" :key="restaurant"/>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -19,7 +24,7 @@ export default {
   components: {
     // HelloWorld,
     Hero,
-    RestaurantCard,
+    RestaurantCard
   },
   data() {
     return {
@@ -42,6 +47,7 @@ export default {
           console.log(error);
         });
 
+      
       this.selectRestaurant = response.data.results;
     },
     async getLastRestaurant() {
