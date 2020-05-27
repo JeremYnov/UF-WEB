@@ -7,9 +7,9 @@ class Plate(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
-    type = db.Column(db.String(255), nullable=False)
-    content = db.Column(db.Text, nullable=False)
-    picture = db.Column(db.String(255))
+    type = db.Column(db.String(255), nullable=False)  # menu, boisson, dessert, plat
+    content = db.Column(db.Text)
+    picture = db.Column(db.String(255), default='default.png')
     unitPrice = db.Column(db.Float(), nullable=False)
 
     id_restaurant = db.Column(db.Integer, db.ForeignKey('restaurant.id'), nullable=False)

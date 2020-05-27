@@ -49,7 +49,6 @@ const routes = [
 		component : () => import('../views/restaurant/Login.vue')
 	},
 	{
-		// path      : '/error/404',
 		path      : '*',
 		name      : 'Error404',
 		component : () => import('../views/error/404.vue')
@@ -64,16 +63,9 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
 	if (to.matched.some((record) => record.meta.requiresAuth)) {
-		console.log('aaaaaa');
-		console.log(JSON.parse(localStorage.getItem('session')));
-
 		if (JSON.parse(localStorage.getItem('session'))) {
-			console.log('bbbbbb');
-
 			next();
 		} else {
-			console.log('cccccc');
-
 			next({ name: 'UserLogin' });
 		}
 	} else {
