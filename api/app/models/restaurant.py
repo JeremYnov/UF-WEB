@@ -1,4 +1,5 @@
 from flask_login import UserMixin
+from datetime import datetime, timedelta
 from ..config.database import db
 from ..models import order, plate
 
@@ -14,6 +15,7 @@ class Restaurant(UserMixin, db.Model):
     mail = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
     selection = db.Column(db.Boolean, default=False, nullable=False)
+    creation = db.Column(db.DateTime, default=datetime.now(), nullable=False)
 
     restaurant_plate = db.relationship('Plate', backref='restaurant', lazy='dynamic')
     restaurant_order = db.relationship('Order', backref='order', lazy='dynamic')
