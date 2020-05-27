@@ -94,8 +94,8 @@ def login():
     return jsonify()
 
 
-@restaurant.route('/select/restaurant')
-def selectRestaurant():
+@restaurant.route('/selection')
+def getSelectRestaurant():
 
     restaurants = Restaurant.query.filter_by(selection=1).all()
     arrayRestaurant = []
@@ -112,6 +112,36 @@ def selectRestaurant():
             },
             'address': restaurant.address,
             'mail': restaurant.mail,
+            'creation': restaurant.creation,
+            'selection': True if restaurant.selection == 1 else False
+        })
+
+    results = arrayRestaurant
+    message = 'Voici la selection des restaurants'
+    success = True
+
+    return jsonify(success=success, message=message, results=results)
+
+
+@restaurant.route('/last')
+def getLastRestaurant():
+
+    restaurants = Restaurant.query.order_by(Restaurant.creation.desc()).limit(6).all()
+    arrayRestaurant = []
+
+    for restaurant in restaurants:
+
+        arrayRestaurant.append({
+            'id': restaurant.id,
+            'name': restaurant.name,
+            'category': restaurant.category,
+            'logo': {
+                'url': request.url_root + 'api/restaurant/' + str(restaurant.id) + '/logo/' + restaurant.logo,
+                'name': restaurant.logo
+            },
+            'address': restaurant.address,
+            'mail': restaurant.mail,
+            'creation': restaurant.creation,
             'selection': True if restaurant.selection == 1 else False
         })
 
