@@ -2,10 +2,32 @@
   <div class="home-container">
     <Hero />
 
-    <section class="our-selection">
-      <h2 class="section-title">Notre selection</h2>
-      <div class="grid33-33-33">
-        <RestaurantCard v-for="restaurant in lastRestaurant" :key="restaurant"/>
+    <section class="selection" id="our-selection">
+      <h2 class="selection-title">Notre selection</h2>
+      <RestaurantCard :restaurants="selectRestaurant" />
+    </section>
+
+    <section class="toscew toscew-1">
+      <div class="toscew-content right">
+        <h1>
+          Vos restaurants préférés
+          <br />
+          <span>sont sur EatYng</span>
+        </h1>
+      </div>
+    </section>
+
+    <section class="selection" id="last-selection">
+      <h2 class="selection-title">Les derniers arrivants</h2>
+      <RestaurantCard :restaurants="lastRestaurant" />
+    </section>
+    <section class="toscew toscew-2">
+      <div class="toscew-content left">
+        <h1>
+          Des plats gourmands 
+          <br />
+          <span>disponibles en 2 clics</span>
+        </h1>
       </div>
     </section>
   </div>
@@ -47,7 +69,6 @@ export default {
           console.log(error);
         });
 
-      
       this.selectRestaurant = response.data.results;
     },
     async getLastRestaurant() {
