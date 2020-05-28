@@ -122,6 +122,34 @@ def getSelectRestaurant():
 
     return jsonify(success=success, message=message, results=results)
 
+@restaurant.route('/allRestaurant')
+def getAllRestaurant():
+
+    restaurants = Restaurant.query.all()
+    arrayRestaurant = []
+
+    for restaurant in restaurants:
+
+        arrayRestaurant.append({
+            'id': restaurant.id,
+            'name': restaurant.name,
+            'category': restaurant.category,
+            'logo': {
+                'url': request.url_root + 'api/restaurant/' + str(restaurant.id) + '/logo/' + restaurant.logo,
+                'name': restaurant.logo
+            },
+            'address': restaurant.address,
+            'mail': restaurant.mail,
+            'creation': restaurant.creation
+            # 'selection': True if restaurant.selection == 1 else False
+        })
+
+    results = arrayRestaurant
+    message = "Voici l'ensemble des restaurants"
+    success = True
+
+    return jsonify(success=success, message=message, results=results)
+
 
 @restaurant.route('/last')
 def getLastRestaurant():
