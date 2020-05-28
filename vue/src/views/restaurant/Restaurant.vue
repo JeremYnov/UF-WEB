@@ -7,16 +7,11 @@
 export default {
   data: function() {
     return {
-      id: ""
+      id: 0
     };
   },
   mounted: function() {
-    this.id = window.location.href;
-    this.id = this.id.split("restaurant/");
-    // console.log(this.id)
-    // this.id = this.id[this.id.length - 1];
-    this.id = Number(this.id[1]);
-    // console.log(this.id)
+      this.id = this.$route.params.id
   }
 };
 </script>
