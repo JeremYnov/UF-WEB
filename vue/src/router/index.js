@@ -53,11 +53,11 @@ const routes = [
 		name      : 'Restaurants',
 		component : () => import('../views/restaurant/Restaurants.vue')
 	},
-	// {
-	// 	path      : '/restaurant/:id',
-	// 	name      : 'Restaurant',
-	// 	component : () => import('../views/restaurant/Restaurant.vue')
-	// },
+	{
+		path      : '/restaurant/:id',
+		name      : 'Restaurant',
+		component : () => import('../views/restaurant/Restaurant.vue')
+	},
 	{
 		path      : '*',
 		name      : 'Error404',

@@ -6,10 +6,10 @@
     font-size: 26px;
     margin: 25px;
   }
+}
 
-  .grid33-33-33 {
-    @include grid(3, 1em, 1em);
-  }
+.grid33-33-33 {
+  @include grid(3, 1em, 1em);
 }
 
 
@@ -67,6 +67,10 @@
   &.toscew-2{
     background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("https://cdn.pixabay.com/photo/2016/05/21/14/04/food-1406879_1280.jpg");
   }
+
+  &.toscew-3{
+    background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url("https://cdn.pixabay.com/photo/2016/11/18/15/31/cooking-1835369_1280.jpg");
+  }
   margin: 25px 100px;
   cursor: default;
   // width: 100%;
@@ -84,6 +88,13 @@
 
     &.left {
       left: 10%;
+    }
+
+    &.center {
+      // left: 10%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
 
     text-align: center;

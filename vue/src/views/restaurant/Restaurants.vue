@@ -1,6 +1,15 @@
 <template>
   <section class="restaurant-presentation">
-    <div class="restaurant-container">
+    <section class="toscew toscew-3">
+      <div class="toscew-content center">
+        <h1>
+          Tous les restaurants
+          <br />
+          <span>disponibles sur EatYng</span>
+        </h1>
+      </div>
+    </section>
+    <div class="container wrapper">
       <!-- <div v-for="restaurant in allRestaurant" :key="restaurant.id"> -->
         <RestaurantCard :restaurants="allRestaurant" />
         <!-- <h1>{{restaurant.name}}</h1> -->
@@ -47,6 +56,4 @@ export default {
 };
 </script>
 
-<style lang="scss">
-@import "../../assets/scss/main.scss";
-</style>
+

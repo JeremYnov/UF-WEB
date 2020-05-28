@@ -35,7 +35,7 @@
         <nav class="header-nav">
           <ul class="nav-list">
             <li class="nav-item">
-              <a href="/">Restaurant</a>
+              <router-link :to="{ name: 'Restaurants'}">Restaurants</router-link>
             </li>
 
             <li class="nav-item middle-item">
@@ -105,7 +105,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-@import "../../assets/scss/main.scss";
-</style>
