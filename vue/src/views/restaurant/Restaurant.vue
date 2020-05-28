@@ -1,6 +1,15 @@
 <template>
   <div class="restaurant">
-    <h1>{{restaurant.name}}</h1>
+    <div
+      class="restaurant-hero"
+      v-bind:style="{ 'background-image': 'linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),'+'url(' + restaurant.logo.url + ')' }"
+    >
+      <div class="restaurant-hero-content">
+        <h1>{{restaurant.name}}</h1>
+        <p>{{restaurant.address}}</p>
+        <p>{{restaurant.category}}</p>
+      </div>
+    </div>
   </div>
 </template>
 <script>
