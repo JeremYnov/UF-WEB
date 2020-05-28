@@ -6,6 +6,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from ..config.database import db
 from ..models.restaurant import Restaurant
+from ..models.plate import Plate
 
 restaurant = Blueprint('restaurant', __name__, url_prefix='/api/restaurant')
 
@@ -122,6 +123,7 @@ def getSelectRestaurant():
 
     return jsonify(success=success, message=message, results=results)
 
+
 @restaurant.route('/allRestaurant')
 def getAllRestaurant():
 
@@ -180,10 +182,61 @@ def getLastRestaurant():
     return jsonify(success=success, message=message, results=results)
 
 
+@restaurant.route('/<int:id>/plates')
+def getRestaurantPlate(id):
+
+    restaurant = Restaurant.query.get(int(id))
+    plates = Plate.query.filter_by(id_restaurant=1).all()
+    arrayPlates = []
+
+    for plate in plates:
+
+        arrayPlates.append({
+            'id': plate.id,
+            'name': plate.name,
+            'type': plate.type,
+            'picture': {
+                'url': request.url_root + 'api/restaurant/' + str(restaurant.id) + '/plates/' + str(plate.id) + '/' + plate.picture,
+                'name': plate.picture
+            },
+            'content': plate.content,
+            'unitPrice': plate.unitPrice,
+            'id_restaurant': plate.id_restaurant
+        })
+
+    results = {
+        'id': restaurant.id,
+        'name': restaurant.name,
+        'category': restaurant.category,
+        'logo': {
+            'url': request.url_root + 'api/restaurant/' + str(restaurant.id) + '/logo/' + restaurant.logo,
+            'name': restaurant.logo
+        },
+        'address': restaurant.address,
+        'mail': restaurant.mail,
+        'creation': restaurant.creation,
+        'selection': True if restaurant.selection == 1 else False,
+        'plates': arrayPlates
+    }
+
+    message = 'Voici la liste des menu du restaurant'
+    success = True
+
+    return jsonify(success=success, message=message, results=results)
+
+
 @restaurant.route('/<int:id>/logo/<logo>', methods=['GET'])
-def getImage(id, logo):
+def getImageRestaurant(id, logo):
     filename = str(logo)
     uploads_dir = '../uploads/' + str(id) + '/logo/'
+
+    return send_file(os.path.join(uploads_dir, filename))
+
+
+@restaurant.route('/<int:idRestaurant>/plates/<int:idPlate>/<image>', methods=['GET'])
+def getImagePlate(idRestaurant, idPlate, image):
+    filename = str(image)
+    uploads_dir = '../uploads/' + str(idRestaurant) + '/plates/' + str(idPlate) + '/'
 
     return send_file(os.path.join(uploads_dir, filename))
 
