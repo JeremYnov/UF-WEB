@@ -83,3 +83,28 @@ def login():
                 return jsonify(session=False, success=False, message="mot de passe incorrecte")
 
     return jsonify()
+
+
+@user.route('/profile')
+def getProfile():
+    if current_user.is_authenticated:
+        results = {
+            'id': current_user.id,
+            'firstName': current_user.firstName,
+            'lastName': current_user.lastName,
+            'address': current_user.address,
+            'mail': current_user.mail,
+            'balance': current_user.balance
+        }
+
+        message = "Voici le profil de l'utilisateur connecter"
+        success = True
+
+    else:
+
+        message = "L'utilisateur n'est pas connecter"
+        success = False
+
+        return jsonify(success=success, message=message)
+
+    return jsonify(success=success, message=message, results=results)
