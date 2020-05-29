@@ -11,8 +11,15 @@
     </section>
     <div class="container wrapper">
       <!-- <div v-for="restaurant in allRestaurant" :key="restaurant.id"> -->
-        <RestaurantCard :restaurants="allRestaurant" />
-        <!-- <h1>{{restaurant.name}}</h1> -->
+      <button @click="getCategoryRestaurant('pizza')">Pizza</button>
+      <button @click="getCategoryRestaurant('fast food')">Fast food</button>
+      <button @click="getCategoryRestaurant('sushi')">Sushi</button>
+      <button @click="getCategoryRestaurant('asiatique')">Asiatique</button>
+      <button @click="getCategoryRestaurant('burger')">Burger</button>
+      <button @click="getCategoryRestaurant('japonais')">Japonais</button>
+
+      <RestaurantCard :restaurants="allRestaurant" />
+      <!-- <h1>{{restaurant.name}}</h1> -->
       <!-- </div> -->
     </div>
   </section>
@@ -40,7 +47,7 @@ export default {
   methods: {
     async getAllRestaurant() {
       const response = await axios
-        .get("/api/restaurant/allRestaurant")
+        .get("/api/restaurant/all")
         .then(function(response) {
           return response;
         })
@@ -49,10 +56,20 @@ export default {
         });
 
       this.allRestaurant = response.data.results;
-      console.log(this.allRestaurant)
     },
-  }
+    async getCategoryRestaurant(category) {
+      const response = await axios
+        .get("/api/restaurant/category/" + category)
+        .then(function(response) {
+          return response;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
 
+      this.allRestaurant = response.data.results;
+    }
+  }
 };
 </script>
 
