@@ -108,3 +108,74 @@ def getProfile():
         return jsonify(success=success, message=message)
 
     return jsonify(success=success, message=message, results=results)
+
+
+@user.route('/profile/update', methods=['POST'],)
+def updateProfile():
+    if request.method == 'POST':
+
+        if current_user.is_authenticated:
+            user = User.query.get(current_user.id)
+            type = request.form.get('type')
+
+            if type == 'password':
+                newPassword = request.form.get('newPassword')
+                repassword = request.form.get('repassword')
+
+                if newPassword:
+                    if newPassword == repassword:
+                        user.password = generate_password_hash(newPassword, method="pbkdf2:sha256", salt_length=8)
+
+                        message = "le mot de passe à bien été modifier"
+                        success = True
+
+                    else:
+                        message = "le mot de passe n'est pas le meme sur les deux champs"
+                        success = False
+
+                else:
+                    message = "le champ du mot de passe est vide"
+                    success = False
+
+            else:
+                firstName = request.form.get('firstName')
+                lastName = request.form.get('lastName')
+                address = request.form.get('address')
+
+                args = []
+
+                if firstName and user.firstName != firstName:
+                    user.firstName = firstName
+                    args.append("le prénom")
+
+                if lastName and user.lastName != lastName:
+                    user.lastName = lastName
+                    args.append("le nom")
+
+                if address and user.address != address:
+                    user.address = address
+                    args.append("l'adresse")
+
+                if len(args) == 3:
+                    message = args[0] + ', ' + args[1] + ', ' + args[2] + ' ont été modifier'
+                    success = True
+
+                elif len(args) == 2:
+                    message = args[0] + ', ' + args[1] + ' ont été modifier'
+                    success = True
+
+                elif len(args) == 1:
+                    message = args[0] + ' a été modifier'
+                    success = True
+
+                else:
+                    message = 'tout les champs sont vide'
+                    success = False
+
+            db.session.commit()
+
+        else:
+            message = "L'utilisateur n'est pas connecter"
+            success = False
+
+    return jsonify(success=success, message=message)
