@@ -15,14 +15,14 @@
     <section class="menu">
       <div class="grid33-33-33">
         <div class="plates" v-for="plate in plates" :key="plate.id">
-          {{plate}}
+          <!-- {{plate}} -->
           <div class="plate-container">
             <div class="plate-image">
               <img v-bind:src="plate.picture.url" alt />
             </div>
             <div class="plate-informations">
               <h2>{{plate.name}}</h2>
-              <p>{{plate.content}}</p>
+              <p class="plate-content">{{plate.content}}</p>
               <p>{{plate.unitPrice}}</p>
             </div>
           </div>
@@ -39,10 +39,12 @@
 import axios from "axios";
 
 export default {
+  
   data: function() {
     return {
       restaurant: null,
-      plates: null
+      plates: null,
+      
     };
   },
   mounted: function() {

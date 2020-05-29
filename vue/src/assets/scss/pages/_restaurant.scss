@@ -30,3 +30,15 @@
         }
     }
 }
+
+.plate-container{
+    display: flex;
+    // height: 150px;
+    width: 100%;
+    .plate-image{
+        img{
+            height: 150px;
+        }
+    }
+
+}
