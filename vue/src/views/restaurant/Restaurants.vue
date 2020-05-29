@@ -11,12 +11,38 @@
     </section>
     <div class="container wrapper">
       <!-- <div v-for="restaurant in allRestaurant" :key="restaurant.id"> -->
-      <button @click="getCategoryRestaurant('pizza')">Pizza</button>
-      <button @click="getCategoryRestaurant('fast food')">Fast food</button>
-      <button @click="getCategoryRestaurant('sushi')">Sushi</button>
-      <button @click="getCategoryRestaurant('asiatique')">Asiatique</button>
-      <button @click="getCategoryRestaurant('burger')">Burger</button>
-      <button @click="getCategoryRestaurant('japonais')">Japonais</button>
+      <div class="filter-container">
+        <button @click="getCategoryRestaurant('pizza')" class="category-button category-pizza">
+          <div class="category-name">
+            Pizza
+          </div>
+        </button>
+        <button @click="getCategoryRestaurant('fast food')" class="category-button category-fast-food">
+          <div class="category-name">
+            Fast-Food
+          </div>
+        </button>
+        <button @click="getCategoryRestaurant('sushi')" class="category-button category-sushi">
+          <div class="category-name">
+            Sushi
+          </div>
+        </button>
+        <button @click="getCategoryRestaurant('asiatique')" class="category-button category-asiatique">
+          <div class="category-name">
+            Asiatique
+          </div>
+        </button>
+        <button @click="getCategoryRestaurant('burger')" class="category-button category-burger">
+          <div class="category-name">
+            Burger
+          </div>
+        </button>
+        <button @click="getCategoryRestaurant('japonais')" class="category-button category-japonais">
+          <div class="category-name">
+            Japonais
+          </div>
+        </button>
+      </div>
 
       <RestaurantCard :restaurants="allRestaurant" />
       <!-- <h1>{{restaurant.name}}</h1> -->
@@ -72,5 +98,3 @@ export default {
   }
 };
 </script>
-
-

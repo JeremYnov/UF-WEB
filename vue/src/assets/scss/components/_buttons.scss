@@ -43,3 +43,56 @@
         }
     }
 }
+.filter-container{
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 25px ;
+}
+.category-button{
+    &.category-pizza{
+        background-image: url('https://cdn.pixabay.com/photo/2017/01/03/11/33/pizza-1949183_1280.jpg');
+    }
+    &.category-sushi{
+        background-image: url('https://cdn.pixabay.com/photo/2017/10/15/11/41/sushi-2853382_1280.jpg');
+    }
+    &.category-fast-food{
+        background-image: url('https://cdn.pixabay.com/photo/2020/05/26/19/44/hamburger-5224523_1280.jpg');
+    }
+    &.category-burger{
+        background-image: url('https://cdn.pixabay.com/photo/2019/11/09/17/02/burger-4614022_1280.jpg');
+    }
+    &.category-japonais{
+        background-image: url('https://cdn.pixabay.com/photo/2013/12/02/07/20/japanese-food-222255_1280.jpg');
+    }
+    &.category-asiatique{
+        background-image: url('https://cdn.pixabay.com/photo/2017/06/09/11/08/ramen-2386540_960_720.jpg');
+    }
+
+    
+    background: none;
+    border: none;
+    overflow: hidden;
+    height: 120px;
+    width: 120px;
+    border-radius: 50%;
+    background-image: url('https://cdn.pixabay.com/photo/2017/01/03/11/33/pizza-1949183_1280.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    outline: none;
+    cursor: pointer;
+    
+    .category-name{
+        background-color: rgba(255, 255, 255, 0.616);
+        background-blend-mode: color-dodge;
+        width: 100%;
+        font-weight: 600;
+        padding: 5px 0;
+        font-size: 1.4em;
+
+    }
+    &:focus{
+        border: none;
+    }
+}
