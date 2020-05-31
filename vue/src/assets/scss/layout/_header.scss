@@ -225,7 +225,7 @@ header {
     background: #4e4e4e65;
     opacity: 0;
     z-index: -1;
-    transition: 0.6s;
+    // transition: 0.6s;
 
     &.is-open {
         z-index: 9999;

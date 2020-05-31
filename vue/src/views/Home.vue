@@ -3,7 +3,7 @@
     <Hero />
 
     <section class="selection" id="our-selection">
-      <h2 class="selection-title">Notre selection</h2>
+      <h2 class="section-title">Notre selection</h2>
       <RestaurantCard :restaurants="selectRestaurant" />
     </section>
 
@@ -18,7 +18,7 @@
     </section>
 
     <section class="selection" id="last-selection">
-      <h2 class="selection-title">Les derniers arrivants</h2>
+      <h2 class="section-title">Les derniers arrivants</h2>
       <RestaurantCard :restaurants="lastRestaurant" />
     </section>
     <section class="toscew toscew-2">

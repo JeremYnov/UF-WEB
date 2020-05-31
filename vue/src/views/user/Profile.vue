@@ -1,5 +1,25 @@
 <template>
-  <div></div>
+  <section class="profile">
+    <div
+      class="hero"
+      v-bind:style="{
+        'background-image':
+          'linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),' +
+          'url(https://cdn.pixabay.com/photo/2016/04/19/17/07/eat-1339061_1280.jpg)',
+      }"
+    >
+      <div class="hero-content">
+        <h1 class>{{ user.lastName }} <span class="last-name">{{user.firstName}}</span> </h1>
+        <p>{{ user.address }}</p>
+        <p class="restaurant-address">{{ user.mail }}</p>
+        <div class="restaurant-category">
+          <p>Solde : {{ user.balance}}€ </p>
+        </div>
+      </div>
+    </div>
+    <h2 class="section-title">Commandes en cours</h2>
+    <h2 class="section-title">Historiques des commandes</h2>
+  </section>
 </template>
 
 <script>
@@ -8,7 +28,7 @@ import axios from "axios";
 export default {
   data: function() {
     return {
-      user: null
+      user: null,
     };
   },
   mounted: function() {
@@ -28,7 +48,7 @@ export default {
         });
 
       this.user = response.data.results;
-    }
-  }
+    },
+  },
 };
 </script>

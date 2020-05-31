@@ -1,7 +1,7 @@
 <template>
   <div class="restaurant">
-    <div class="restaurant-hero" v-bind:style="{ 'background-image': 'linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),' + 'url(' + restaurant.logo.url + ')' }">
-      <div class="restaurant-hero-content">
+    <div class="hero" v-bind:style="{ 'background-image': 'linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),' + 'url(' + restaurant.logo.url + ')' }">
+      <div class="hero-content">
         <h1 class>{{ restaurant.name }}</h1>
         <p class="restaurant-address">{{ restaurant.address }}</p>
         <div class="restaurant-category">
@@ -10,16 +10,31 @@
       </div>
     </div>
     <section class="menu">
+
+      <div class="overlay" v-bind:class="{ 'is-open' : platePopupActive }" v-on:click="toggle()"></div>
+
       <div class="grid33-33-33 container">
         <div class="plates" v-for="plate in plates" :key="plate.id">
-          <div class="plate-container">
+          <div class="plate-container" v-on:click="toggle(), getPlate(plate.name,plate.content,plate.picture.url,plate.unitPrice)">
             <div class="plate-image">
               <img v-bind:src="plate.picture.url" alt />
             </div>
             <div class="plate-informations">
-              <h2>{{ plate.name }}</h2>
+              <h2 class="plate-name">{{ plate.name }}</h2>
               <p class="plate-content" v-if='plate.content != null'>{{ plate.content | truncate(90)}}</p>
               <p>{{ plate.unitPrice }}€</p>
+            </div>
+          </div>
+
+          <div class="plate-popup" v-if="platePopupActive" v-bind:class="{ 'is-active' : platePopupActive }">
+            <div class="plate-image">
+              <img v-bind:src="onlyOnePlate.image" alt />
+            </div>
+            <div class="plate-informations">
+              <h2 class="plate-name">{{ onlyOnePlate.name }}</h2>
+              <p class="plate-content">{{ onlyOnePlate.content}}</p>
+              <button class="add-to-cart-button" v-on:click="toggle()">Ajouter au panier ({{ onlyOnePlate.unitPrice }}€)</button>
+              <!-- <p>{{ onlyOnePlate.unitPrice }}€</p> -->
             </div>
           </div>
           <!-- <p v-if="plate.type == 'Menu'">Menu : {{plate.name}}</p>
@@ -38,7 +53,9 @@ export default {
   data: function() {
     return {
       restaurant: null,
-      plates: null
+      plates: null,
+      onlyOnePlate:null,
+      platePopupActive:false,
     };
   },
 
@@ -46,6 +63,9 @@ export default {
     this.getRestaurantPlate();
   },
   methods: {
+    toggle(){
+      this.platePopupActive = !this.platePopupActive;
+    },
     async getRestaurantPlate() {
       const response = await axios
         .get("/api/restaurant/" + this.$route.params.id + "/plates")
@@ -70,11 +90,19 @@ export default {
       };
 
       this.plates = response.data.results.plates;
-    }
+    },
+    getPlate(name,content,image,unitPrice,){
+        this.onlyOnePlate = {
+          name : name,
+          content : content,
+          image : image,
+          unitPrice : unitPrice,
+        }
+    },
   },
   filters: {
     truncate: function(value, limit) {
-      console.log(value)
+      // console.log(value)
       if (value.length > limit) {
         value = value.substring(0, limit - 3) + "...";
       }

@@ -89,3 +89,41 @@ $ani-delay: 1s;
         opacity: 0;
     }
 }
+
+
+.hero{
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    height: calc(50vh - 55px);
+    margin-bottom: 20px;
+
+    .hero-content{
+        position: absolute;
+        top: 50%;
+        left: 20%;
+        transform: translate(-50%, -50%);
+        border: 9px solid $darkGreen;
+        background-color: white;
+        padding: 30px;
+        
+        h1{
+            font-size: 2em;
+            font-weight: 500;
+            text-transform: capitalize;
+            .last-name{
+                text-transform: uppercase;;
+            }
+        }
+        .restaurant-address{
+            font-size: 1em;
+            padding-bottom: 20px;
+        }
+        .restaurant-category{
+            padding-top: 10px;
+            text-align: center;
+            border-top: 0.1px solid gray;
+        }
+    }
+}
