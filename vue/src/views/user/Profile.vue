@@ -1,5 +1,5 @@
 <template>
-  <section class="profile">
+  <section class="profile" v-bind:style="[resize  ? {height: screenHeight + 'px'} : {height: 'auto'}]">
     <div
       class="hero"
       v-bind:style="{
@@ -18,6 +18,7 @@
       </div>
     </div>
     <h2 class="section-title">Commandes en cours</h2>
+    <!-- <div style="height:1500px"></div> -->
     <h2 class="section-title">Historiques des commandes</h2>
   </section>
 </template>
@@ -29,17 +30,17 @@ export default {
   data: function() {
     return {
       user: null,
+      screenHeight: 0,
+      resize : false,
     };
   },
-  mounted: function() {
-    this.getProfile();
-  },
+  
   methods: {
     async getProfile() {
       const response = await axios
         .get("/api/user/profile")
         .then(function(response) {
-          console.log(response);
+          // console.log(response);
 
           return response;
         })
@@ -49,6 +50,30 @@ export default {
 
       this.user = response.data.results;
     },
+     handleResize() {
+      this.windowHeight = window.innerHeight;
+      this.pageHeight = document.querySelector(".header-main").clientHeight;;
+      console.log("HEIGHT OF MY PAGE "+this.pageHeight);
+      
+      this.headerHeight = document.querySelector(".header-main").clientHeight;
+      this.footerHeight = document.querySelector("footer").clientHeight;
+      this.screenHeight =
+        this.windowHeight - (this.headerHeight + this.footerHeight);
+        console.log("WINDOW HEIGHT :"+this.windowHeight + "SCREEN HEIGHT :"+this.screenHeight)
+        if(this.windowHeight > this.pageHeight ){
+          this.resize = true
+          console.log(this.resize);
+          
+        }else if(this.windowHeight < this.pageHeight){
+          this.resize = false
+          console.log(this.resize);
+        }
+        console.log(this.resize);
+    }
+  },
+  mounted: function() {
+    this.getProfile();
+    this.handleResize();
   },
 };
 </script>

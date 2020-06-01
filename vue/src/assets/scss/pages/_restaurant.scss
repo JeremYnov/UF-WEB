@@ -12,11 +12,13 @@
 .plate-container{
     display: flex;
     width: 100%;
-    height: 150px;
+    // height: 150px;
     background: $backgroundWhite;
     border: 0.1px solid rgb(206, 206, 206);
     cursor: pointer;
     .plate-image{
+        display: flex;
+        align-items: center;
         img{
             height: 150px;
         }
@@ -50,6 +52,8 @@
     width: 50%;
     z-index: 9999;
     .plate-image{
+        display: flex;
+        align-items: center;
         img{
             height: 300px;
             width: 300px;

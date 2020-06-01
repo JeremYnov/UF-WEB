@@ -52,7 +52,7 @@
 </template>
 <script>
 import axios from "axios";
-import RestaurantCard from "@/components/restaurant-card.vue";
+import RestaurantCard from "@/components/card/restaurant-card.vue";
 
 export default {
   name: "Restaurants",

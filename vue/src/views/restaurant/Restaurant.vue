@@ -1,6 +1,6 @@
 <template>
   <div class="restaurant">
-    <div class="hero" v-bind:style="{ 'background-image': 'linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),' + 'url(' + restaurant.logo.url + ')' }">
+    <!-- <div class="hero" v-bind:style="{ 'background-image': 'linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),' + 'url(' + restaurant.logo.url + ')' }">
       <div class="hero-content">
         <h1 class>{{ restaurant.name }}</h1>
         <p class="restaurant-address">{{ restaurant.address }}</p>
@@ -8,11 +8,12 @@
           <p>{{ restaurant.category }}</p>
         </div>
       </div>
-    </div>
+    </div> -->
+
+    <RestaurantHero :restaurantInfos="this.restaurant"/>
+
     <section class="menu">
-
       <div class="overlay" v-bind:class="{ 'is-open' : platePopupActive }" v-on:click="toggle()"></div>
-
       <div class="grid33-33-33 container">
         <div class="plates" v-for="plate in plates" :key="plate.id">
           <div class="plate-container" v-on:click="toggle(), getPlate(plate.name,plate.content,plate.picture.url,plate.unitPrice)">
@@ -34,7 +35,6 @@
               <h2 class="plate-name">{{ onlyOnePlate.name }}</h2>
               <p class="plate-content">{{ onlyOnePlate.content}}</p>
               <button class="add-to-cart-button" v-on:click="toggle()">Ajouter au panier ({{ onlyOnePlate.unitPrice }}€)</button>
-              <!-- <p>{{ onlyOnePlate.unitPrice }}€</p> -->
             </div>
           </div>
           <!-- <p v-if="plate.type == 'Menu'">Menu : {{plate.name}}</p>
@@ -48,8 +48,11 @@
 </template>
 <script>
 import axios from "axios";
-
+import RestaurantHero from "@/components/hero/restaurant-hero.vue";
 export default {
+  components: {
+    RestaurantHero,
+  },
   data: function() {
     return {
       restaurant: null,

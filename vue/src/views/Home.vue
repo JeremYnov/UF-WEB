@@ -36,8 +36,8 @@
 <script>
 // @ is an alias to /src
 // import HelloWorld from "@/components/HelloWorld.vue";
-import Hero from "@/components/hero/hero.vue";
-import RestaurantCard from "@/components/restaurant-card.vue";
+import Hero from "@/components/hero/home-hero.vue";
+import RestaurantCard from "@/components/card/restaurant-card.vue";
 
 import axios from "axios";
 
