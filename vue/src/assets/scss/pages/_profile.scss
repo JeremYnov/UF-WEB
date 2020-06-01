@@ -1,0 +1,17 @@
+.edit-profile-popup{
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    // height: 80%;
+    padding: 50px;
+    background: $backgroundWhite;
+    box-shadow: $shadow;
+    width: 50%;
+    z-index: 9999;
+    
+    &.is-active{
+        display: block;
+    }
+}

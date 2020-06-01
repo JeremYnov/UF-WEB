@@ -97,12 +97,12 @@ def getProfile():
             'balance': current_user.balance
         }
 
-        message = "Voici le profil de l'utilisateur connecter"
+        message = "Voici le profil de l'utilisateur connecté"
         success = True
 
     else:
 
-        message = "L'utilisateur n'est pas connecter"
+        message = "L'utilisateur n'est pas connecté"
         success = False
 
         return jsonify(success=success, message=message)
@@ -126,7 +126,7 @@ def updateProfile():
                     if newPassword == repassword:
                         user.password = generate_password_hash(newPassword, method="pbkdf2:sha256", salt_length=8)
 
-                        message = "le mot de passe à bien été modifier"
+                        message = "le mot de passe à bien été modifié"
                         success = True
 
                     else:
@@ -157,19 +157,19 @@ def updateProfile():
                     args.append("l'adresse")
 
                 if len(args) == 3:
-                    message = args[0] + ', ' + args[1] + ', ' + args[2] + ' ont été modifier'
+                    message = args[0] + ', ' + args[1] + ', ' + args[2] + ' ont été modifié'
                     success = True
 
                 elif len(args) == 2:
-                    message = args[0] + ', ' + args[1] + ' ont été modifier'
+                    message = args[0] + ', ' + args[1] + ' ont été modifié'
                     success = True
 
                 elif len(args) == 1:
-                    message = args[0] + ' a été modifier'
+                    message = args[0] + ' a été modifié'
                     success = True
 
                 else:
-                    message = 'tout les champs sont vide'
+                    message = 'tous les champs sont vide'
                     success = False
 
             db.session.commit()

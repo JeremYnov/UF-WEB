@@ -10,37 +10,83 @@
       </div>
     </div> -->
 
-    <RestaurantHero :restaurantInfos="this.restaurant"/>
+    <RestaurantHero :restaurantInfos="this.restaurant" />
 
     <section class="menu">
-      <div class="overlay" v-bind:class="{ 'is-open' : platePopupActive }" v-on:click="toggle()"></div>
+      <div class="submit-btn-container">
+        <button class="submit-btn" v-on:click="toggleAddPlate()">
+          Ajouter un plat
+        </button>
+        <button class="submit-btn" v-on:click="toggleEditInformations()">
+          Modifier les informations
+        </button>
+      </div>
+      <div
+        class="overlay"
+        v-bind:class="{ 'is-open': closeThePopup }"
+        v-on:click="closePopup()"
+      ></div>
       <div class="grid33-33-33 container">
         <div class="plates" v-for="plate in plates" :key="plate.id">
-          <div class="plate-container" v-on:click="toggle(), getPlate(plate.name,plate.content,plate.picture.url,plate.unitPrice)">
+          <div
+            class="plate-container"
+            v-on:click="
+              togglePlateInformations(),
+                getPlate(
+                  plate.name,
+                  plate.content,
+                  plate.picture.url,
+                  plate.unitPrice
+                )
+            "
+          >
             <div class="plate-image">
               <img v-bind:src="plate.picture.url" alt />
             </div>
             <div class="plate-informations">
               <h2 class="plate-name">{{ plate.name }}</h2>
-              <p class="plate-content" v-if='plate.content != null'>{{ plate.content | truncate(90)}}</p>
+              <p class="plate-content" v-if="plate.content != null">
+                {{ plate.content | truncate(90) }}
+              </p>
               <p>{{ plate.unitPrice }}€</p>
             </div>
           </div>
 
-          <div class="plate-popup" v-if="platePopupActive" v-bind:class="{ 'is-active' : platePopupActive }">
+          <div
+            class="plate-popup"
+            v-if="platePopupActive"
+            v-bind:class="{ 'is-active': platePopupActive }"
+          >
             <div class="plate-image">
               <img v-bind:src="onlyOnePlate.image" alt />
             </div>
             <div class="plate-informations">
               <h2 class="plate-name">{{ onlyOnePlate.name }}</h2>
-              <p class="plate-content">{{ onlyOnePlate.content}}</p>
-              <button class="add-to-cart-button" v-on:click="toggle()">Ajouter au panier ({{ onlyOnePlate.unitPrice }}€)</button>
+              <p class="plate-content">{{ onlyOnePlate.content }}</p>
+              <button
+                class="add-to-cart-button"
+                v-on:click="togglePlateInformations()"
+              >
+                Ajouter au panier ({{ onlyOnePlate.unitPrice }}€)
+              </button>
             </div>
           </div>
-          <!-- <p v-if="plate.type == 'Menu'">Menu : {{plate.name}}</p>
-          <p v-if="plate.type == 'Plate'">Plat : {{plate.name}}</p>
-          <p v-if="plate.type == 'Dessert'">Dessert : {{plate.name}}</p>
-          <p v-if="plate.type == 'Boisson'">Boisson : {{plate.name}}</p> -->
+
+          <div
+            class="add-plate-popup"
+            v-if="addPlatePopupActive"
+            v-bind:class="{ 'is-active': addPlatePopupActive }"
+          >
+            TEST
+          </div>
+
+          <div
+            class="add-plate-popup"
+            v-if="editInformationsPopupActive"
+            v-bind:class="{ 'is-active': editInformationsPopupActive }"
+          >
+            TEST
+          </div>
         </div>
       </div>
     </section>
@@ -57,8 +103,11 @@ export default {
     return {
       restaurant: null,
       plates: null,
-      onlyOnePlate:null,
-      platePopupActive:false,
+      onlyOnePlate: null,
+      platePopupActive: false,
+      addPlatePopupActive: false,
+      editInformationsPopupActive: false,
+      closeThePopup: false,
     };
   },
 
@@ -66,8 +115,27 @@ export default {
     this.getRestaurantPlate();
   },
   methods: {
-    toggle(){
+    toggleAddPlate() {
+      this.addPlatePopupActive = !this.addPlatePopupActive;
+      this.closeThePopup = !this.closeThePopup;
+    },
+    togglePlateInformations() {
       this.platePopupActive = !this.platePopupActive;
+      this.closeThePopup = !this.closeThePopup;
+    },
+    toggleEditInformations() {
+      this.editInformationsPopupActive = !this.editInformationsPopupActive;
+      this.closeThePopup = !this.closeThePopup;
+    },
+    closePopup() {
+      this.closeThePopup = !this.closeThePopup;
+      if (this.platePopupActive == true) {
+        this.platePopupActive = !this.platePopupActive;
+      } else if (this.addPlatePopupActive == true) {
+        this.addPlatePopupActive = !this.addPlatePopupActive;
+      } else if (this.editInformationsPopupActive == true) {
+        this.editInformationsPopupActive = !this.editInformationsPopupActive;
+      }
     },
     async getRestaurantPlate() {
       const response = await axios
@@ -84,23 +152,23 @@ export default {
         category: response.data.results.category,
         logo: {
           url: response.data.results.logo.url,
-          name: response.data.results.logo.name
+          name: response.data.results.logo.name,
         },
         address: response.data.results.address,
         mail: response.data.results.mail,
         creation: response.data.results.creation,
-        selection: response.data.results.selection
+        selection: response.data.results.selection,
       };
 
       this.plates = response.data.results.plates;
     },
-    getPlate(name,content,image,unitPrice,){
-        this.onlyOnePlate = {
-          name : name,
-          content : content,
-          image : image,
-          unitPrice : unitPrice,
-        }
+    getPlate(name, content, image, unitPrice) {
+      this.onlyOnePlate = {
+        name: name,
+        content: content,
+        image: image,
+        unitPrice: unitPrice,
+      };
     },
   },
   filters: {
@@ -110,7 +178,7 @@ export default {
         value = value.substring(0, limit - 3) + "...";
       }
       return value;
-    }
+    },
   },
 };
 </script>
