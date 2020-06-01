@@ -11,7 +11,7 @@ from ..models.plate import Plate
 restaurant = Blueprint('restaurant', __name__, url_prefix='/api/restaurant')
 
 
-@restaurant.route('/signup',  methods=['POST'])
+@restaurant.route('/signup', methods=['POST'])
 def signup():
 
     if request.method == 'POST':
@@ -220,7 +220,7 @@ def getLastRestaurant():
 def getRestaurantPlate(id):
 
     restaurant = Restaurant.query.get(int(id))
-    plates = Plate.query.filter_by(id_restaurant=1).all()
+    plates = Plate.query.filter_by(id_restaurant=id).all()
     arrayPlates = []
 
     for plate in plates:
@@ -273,6 +273,66 @@ def getImagePlate(idRestaurant, idPlate, image):
     uploads_dir = '../uploads/' + str(idRestaurant) + '/plates/' + str(idPlate) + '/'
 
     return send_file(os.path.join(uploads_dir, filename))
+
+
+@restaurant.route('/add/new/plate', methods=['POST'])
+def setNewPlate():
+    if request.method == 'POST':
+        if current_user.is_authenticated:
+            restaurant = Restaurant.query.get(current_user.id)
+
+            if restaurant:
+                name = request.form.get('name')
+                type = request.form.get('type')
+                content = request.form.get('content')
+                unitPrice = request.form.get('price')
+                picture = request.files.get('picture')
+
+                if name and type and unitPrice and picture:
+                    if allowed_image(picture.filename):
+                        if picture.mimetype == 'image/png' or picture.mimetype == 'image/jpg' or picture.mimetype == 'image/jpeg':
+
+                            if type != 'Boisson' and content:
+                                newPlate = Plate(name, type, content, picture.filename, unitPrice, restaurant)
+
+                            elif type == 'Boisson':
+                                newPlate = Plate(name, type, None, picture.filename, unitPrice, restaurant)
+
+                            else:
+                                return jsonify(success=False, message="le plate a besoin d'une description")
+
+                            db.session.add(newPlate)
+                            db.session.commit()
+
+                            filename = secure_filename(picture.filename)
+                            uploads_dir = 'uploads/' + str(restaurant.id) + '/plates/' + str(newPlate.id) + '/'
+                            os.makedirs(uploads_dir, exist_ok=True)
+                            picture.save(os.path.join(uploads_dir, filename))
+
+                            success = True
+                            message = "le palte a été créer"
+
+                        else:
+                            success = False
+                            message = "Le fichier n'est pas une image"
+
+                    else:
+                        success = False
+                        message = "Le fichier n'a pas la bonne extension"
+
+                else:
+                    success = False
+                    message = "il manque des info"
+
+            else:
+                success = False
+                message = "vous etes pas connecter avec le bon utilisateur"
+
+        else:
+            success = False
+            message = "vous etes pas connecter"
+
+    return jsonify(success=success, message=message)
 
 
 def allowed_image(filename):
