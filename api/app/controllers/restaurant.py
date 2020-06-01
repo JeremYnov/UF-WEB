@@ -293,10 +293,10 @@ def setNewPlate():
                         if picture.mimetype == 'image/png' or picture.mimetype == 'image/jpg' or picture.mimetype == 'image/jpeg':
 
                             if type != 'Boisson' and content:
-                                newPlate = Plate(name, type, content, picture.filename, unitPrice, restaurant)
+                                newPlate = Plate(name, type, content, picture.filename, float(unitPrice), restaurant)
 
                             elif type == 'Boisson':
-                                newPlate = Plate(name, type, None, picture.filename, unitPrice, restaurant)
+                                newPlate = Plate(name, type, None, picture.filename, float(unitPrice), restaurant)
 
                             else:
                                 return jsonify(success=False, message="le plate a besoin d'une description")

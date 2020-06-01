@@ -72,7 +72,11 @@
             </div>
           </div>
 
-          <div
+        
+        </div>
+      </div>
+    </section>
+      <div
             class="add-plate-popup"
             v-if="addPlatePopupActive"
             v-bind:class="{ 'is-active': addPlatePopupActive }"
@@ -116,7 +120,6 @@
                   name="description"
                   class="form__field"
                   placeholder="Description"
-                  required
                 />
                 <label for="description" class="form__label">Description</label>
               </div>
@@ -134,7 +137,7 @@
                 <div class="form__group field">
                   <input
                     v-model="form.unitPrice"
-                    type="number"
+                    type="text"
                     name="unitPrice"
                     class="form__field"
                     placeholder="Prix Unitaire"
@@ -159,11 +162,9 @@
           >
             TEST
           </div>
-        </div>
-      </div>
-    </section>
   </div>
 </template>
+
 <script>
 import axios from "axios";
 import RestaurantHero from "@/components/hero/restaurant-hero.vue";
@@ -244,19 +245,19 @@ export default {
     getPlate(name, content, image, unitPrice) {
       this.onlyOnePlate = {
         name: name,
-        content: content,
+        description: content,
         image: image,
         unitPrice: unitPrice,
       };
     },
-    signup: async function() {
+    setNewPlate: async function() {
       let bodyFormData = new FormData();
 
       bodyFormData.set("name", this.form.name);
       bodyFormData.set("type", this.form.type);
-      bodyFormData.set("description", this.form.description);
-      bodyFormData.set("image", this.form.image);
-      bodyFormData.set("unitPrice", this.form.unitPrice);
+      bodyFormData.set("content", this.form.description);
+      bodyFormData.set("picture", this.form.image);
+      bodyFormData.set("price", this.form.unitPrice);
 
       const response = await axios
         .post("/api/restaurant/add/new/plate", bodyFormData, {
@@ -273,11 +274,10 @@ export default {
         });
 
       this.info = response.data;
+      location.reload();
     },
     previewFiles: function(event) {
-      console.log(event.target.files[0]);
       this.form.image = event.target.files[0];
-      console.log(this.form.image);
     },
   },
   filters: {
