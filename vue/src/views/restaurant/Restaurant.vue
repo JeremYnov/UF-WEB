@@ -77,7 +77,79 @@
             v-if="addPlatePopupActive"
             v-bind:class="{ 'is-active': addPlatePopupActive }"
           >
-            TEST
+            <div class="add-plate-title">
+              <h2>Ajouter un plat</h2>
+            </div>
+            <form @submit.prevent="setNewPlate" action method="POST">
+              <div class="grid50-50">
+                <div class="form__group field">
+                  <input
+                    v-model="form.name"
+                    type="text"
+                    name="name"
+                    class="form__field"
+                    placeholder="Nom"
+                    required
+                  />
+                  <label for="name" class="form__label">Nom</label>
+                </div>
+                <div class="form__group field">
+                  <select
+                    v-model="form.type"
+                    name="type"
+                    required
+                  >
+                    <option disabled>Choisissez</option>
+                    <option>Menu</option>
+                    <option>Plat</option>
+                    <option>Boisson</option>
+                    <option>Déssert</option>
+                  </select>
+                  <label for="type" class="form__label">Type de plat</label>
+                </div>
+              </div>
+
+              <div class="form__group field">
+                <textarea
+                  v-model="form.description"
+                  type="text"
+                  name="description"
+                  class="form__field"
+                  placeholder="Description"
+                  required
+                />
+                <label for="description" class="form__label">Description</label>
+              </div>
+
+              <div class="grid50-50">
+                <div class="form__group field">
+                  <input
+                    @change="previewFiles"
+                    type="file"
+                    id="file"
+                    required
+                  />
+                  <label for="file">Choisir un fichier...</label>
+                </div>
+                <div class="form__group field">
+                  <input
+                    v-model="form.unitPrice"
+                    type="number"
+                    name="unitPrice"
+                    class="form__field"
+                    placeholder="Prix Unitaire"
+                    required
+                  />
+                  <label for="name" class="form__label">Prix Unitaire</label>
+                </div>
+              </div>
+
+              <div class="submit-btn-container">
+                <button type="submit" class="submit-btn">
+                  Valider
+                </button>
+              </div>
+            </form>
           </div>
 
           <div
@@ -108,6 +180,13 @@ export default {
       addPlatePopupActive: false,
       editInformationsPopupActive: false,
       closeThePopup: false,
+      form: {
+        name: null,
+        type: null,
+        description: null,
+        unitPrice: null,
+        image: null,
+      },
     };
   },
 
@@ -169,6 +248,36 @@ export default {
         image: image,
         unitPrice: unitPrice,
       };
+    },
+    signup: async function() {
+      let bodyFormData = new FormData();
+
+      bodyFormData.set("name", this.form.name);
+      bodyFormData.set("type", this.form.type);
+      bodyFormData.set("description", this.form.description);
+      bodyFormData.set("image", this.form.image);
+      bodyFormData.set("unitPrice", this.form.unitPrice);
+
+      const response = await axios
+        .post("/api/restaurant/add/new/plate", bodyFormData, {
+          headers: {
+            "Content-Type":
+              "application/x-www-form-urlencoded; multipart/form-data",
+          },
+        })
+        .then(function(response) {
+          return response;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+
+      this.info = response.data;
+    },
+    previewFiles: function(event) {
+      console.log(event.target.files[0]);
+      this.form.image = event.target.files[0];
+      console.log(this.form.image);
     },
   },
   filters: {
