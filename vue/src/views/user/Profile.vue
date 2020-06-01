@@ -83,7 +83,7 @@
           <label for="address" class="form__label">{{user.address}}</label>
         </div>
 
-        <div class="form__group field">
+        <!-- <div class="form__group field">
           <input
             v-model="form.mail"
             type="email"
@@ -92,7 +92,7 @@
             placeholder="Adresse mail"
           />
           <label for="mail" class="form__label">{{user.mail}}</label>
-        </div>
+        </div> -->
 
         <!-- <div class="grid50-50">
           <div class="form__group field">
@@ -141,10 +141,9 @@ export default {
       editProfilePopupActive: false,
       closeThePopup: false,
       form:{
-        firstName: null,
-        lastName: null,
-        address: null,
-        mail: null,
+        firstName: "",
+        lastName: "",
+        address: ""
       }
     };
   },
@@ -180,11 +179,9 @@ export default {
       bodyFormData.set("firstName", this.form.firstName);
       bodyFormData.set("lastName", this.form.lastName);
       bodyFormData.set("address", this.form.address);
-      bodyFormData.set("mail", this.form.mail);
-      // bodyFormData.set("password", this.form.password);
 
       const response = await axios
-        .post("/api/profile/update", bodyFormData, {
+        .post("/api/user/profile/update", bodyFormData, {
           headers: { "Content-Type": "application/x-www-form-urlencoded" }
         })
         .then(function(response) {
