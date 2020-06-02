@@ -5,6 +5,7 @@
     <router-view v-bind:style="{ 'padding-top': headerHeight + 'px' }" />
 
     <footpage />
+    <script type="application/javascript" src="https://kit.fontawesome.com/c3feb606cd.js" crossorigin="anonymous"></script>
   </div>
 </template>
 

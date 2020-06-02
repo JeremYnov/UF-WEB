@@ -47,6 +47,11 @@ const routes = [
 	// 	component : () => import('../views/admin/Signup.vue')
 	// },
 	{
+		path      : '/restaurant/dashboard',
+		name      : 'RestaurantDashboard',
+		component : () => import('../views/restaurant/Dashboard.vue')
+	},
+	{
 		path      : '/restaurant/signup',
 		name      : 'RestaurantSignup',
 		component : () => import('../views/restaurant/Signup.vue')
@@ -66,6 +71,7 @@ const routes = [
 		name      : 'Restaurant',
 		component : () => import('../views/restaurant/Restaurant.vue')
 	},
+	
 	{
 		path      : '*',
 		name      : 'Error404',
