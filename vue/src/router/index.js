@@ -11,11 +11,6 @@ const routes = [
 		component : Home
 	},
 	{
-		path      : '/about',
-		name      : 'About',
-		component : () => import('../views/About.vue')
-	},
-	{
 		path      : '/user/signup',
 		name      : 'UserSignup',
 		component : () => import('../views/user/Signup.vue')
@@ -71,7 +66,11 @@ const routes = [
 		name      : 'Restaurant',
 		component : () => import('../views/restaurant/Restaurant.vue')
 	},
-	
+	{
+		path      : '/cart',
+		name      : 'ShoppingCart',
+		component : () => import('../views/Shopping-cart.vue')
+	},
 	{
 		path      : '*',
 		name      : 'Error404',

@@ -59,13 +59,17 @@
         <nav class="header-nav">
           <ul v-if="session" class="header-nav-list">
             <li class="header-nav-item shopping-cart-item">
-              <img src="../../assets/icons/icons8-panier-80.png" alt="" />
+              <router-link :to="{ name: 'ShoppingCart' }">
+                <img src="../../assets/icons/icons8-panier-80.png" alt="" />
+              </router-link>
             </li>
             <li class="header-nav-item profile-item">
               <img src="../../assets/icons/icons8-compte-test-80.png" alt="" />
               <ul class="sub-menu">
                 <li class="header-nav-item">
-                  <router-link :to="{ name: 'UserProfile' }">Profil</router-link>
+                  <router-link :to="{ name: 'UserProfile' }"
+                    >Profil</router-link
+                  >
                 </li>
                 <li class="header-nav-item">
                   <router-link :to="{ name: 'UserLogout' }"

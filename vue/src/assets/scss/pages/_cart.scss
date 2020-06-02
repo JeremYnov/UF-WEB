@@ -1,0 +1,105 @@
+.part-container {
+    display: flex;
+    padding: 0 50px;
+
+    .left-part {
+        width: 60%;
+        margin-right: 20px;
+
+        .cart-plate-container {
+            border-right: 0.1px solid rgb(201, 201, 201);
+            .cart-plate {
+                display: flex;
+                margin: 0 20px;
+                padding: 20px 0;
+                border-bottom: 0.1px solid rgb(201, 201, 201);
+
+                .cart-plate-image {
+                    img {
+                        height: 100px;
+                        width: 100px;
+                    }
+                }
+
+                .plate-summary-container {
+                    padding: 0 10px;
+                }
+            }
+        }
+
+    }
+
+    .right-part {
+        width: 40%;
+
+        .order-summary-container {
+            margin: 0 20px;
+            padding: 10px 0;
+
+            .order-summary {
+                padding: 10px 0;
+            }
+
+            .total {
+                border-top: 0.1px solid rgb(201, 201, 201);
+                padding: 10px 0;
+            }
+        }
+    }
+}
+
+.grid80-20 {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 2fr 1fr;
+    row-gap: 0.5rem;
+    column-gap: 1rem;
+}
+
+
+
+/* Remove IE arrow */
+
+/* Custom Select */
+.select {
+    position: relative;
+    display: flex;
+    width: 150px;
+    height: 2em;
+    line-height: 2;
+    background: $backgroundWhite;
+    overflow: hidden;
+    border-radius: .25em;
+
+    select {
+        appearance: none;
+        outline: 0;
+        box-shadow: none;
+        border: 0 !important;
+        background: $backgroundWhite;
+        background-image: none;
+        flex: 1;
+        padding: 0 .5em;
+        color: $textColor;
+        font-size: 1.1em;
+        cursor: pointer;
+
+        &::-ms-expand {
+            display: none;
+        }
+    }
+
+    &:after {
+        content: '\25BC';
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 0 1em;
+        background: $backgroundWhite;
+        cursor: pointer;
+        pointer-events: none;
+        -webkit-transition: .25s all ease;
+        -o-transition: .25s all ease;
+        transition: .25s all ease;
+    }
+}

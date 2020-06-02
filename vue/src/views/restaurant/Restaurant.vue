@@ -144,13 +144,13 @@ export default {
       // addPlatePopupActive: false,
       editInformationsPopupActive: false,
       closeThePopup: false,
-      form: {
-        name: null,
-        type: null,
-        description: null,
-        unitPrice: null,
-        image: null
-      },
+      // form: {
+      //   name: null,
+      //   type: null,
+      //   description: null,
+      //   unitPrice: null,
+      //   image: null
+      // },
       order: null
     };
   },
@@ -252,35 +252,6 @@ export default {
         unitPrice: unitPrice
       };
     },
-    setNewPlate: async function() {
-      let bodyFormData = new FormData();
-
-      bodyFormData.set("name", this.form.name);
-      bodyFormData.set("type", this.form.type);
-      bodyFormData.set("content", this.form.description);
-      bodyFormData.set("picture", this.form.image);
-      bodyFormData.set("price", this.form.unitPrice);
-
-      const response = await axios
-        .post("/api/restaurant/add/new/plate", bodyFormData, {
-          headers: {
-            "Content-Type":
-              "application/x-www-form-urlencoded; multipart/form-data"
-          }
-        })
-        .then(function(response) {
-          return response;
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
-
-      this.info = response.data;
-      location.reload();
-    },
-    previewFiles: function(event) {
-      this.form.image = event.target.files[0];
-    }
   },
   filters: {
     truncate: function(value, limit) {

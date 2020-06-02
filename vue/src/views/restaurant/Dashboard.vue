@@ -81,7 +81,7 @@
         </div>
 
         <div class="submit-btn-container">
-          <button type="submit" class="submit-btn">
+          <button type="submit" class="submit-btn" v-on:click="closePopup()">
             Valider
           </button>
         </div>
@@ -100,6 +100,7 @@
   </section>
 </template>
 <script>
+import axios from "axios";
 import Plates from "@/components/table/plates-table.vue";
 import InProgressOrder from "@/components/table/in-progress-table.vue";
 import OrdersPlaces from "@/components/table/orders-places-table.vue";
@@ -142,6 +143,32 @@ export default {
     },
     previewFiles: function(event) {
       this.form.image = event.target.files[0];
+    },
+     setNewPlate: async function() {
+      let bodyFormData = new FormData();
+
+      bodyFormData.set("name", this.form.name);
+      bodyFormData.set("type", this.form.type);
+      bodyFormData.set("content", this.form.description);
+      bodyFormData.set("picture", this.form.image);
+      bodyFormData.set("price", this.form.unitPrice);
+
+      const response = await axios
+        .post("/api/restaurant/add/new/plate", bodyFormData, {
+          headers: {
+            "Content-Type":
+              "application/x-www-form-urlencoded; multipart/form-data"
+          }
+        })
+        .then(function(response) {
+          return response;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+
+      this.info = response.data;
+      location.reload();
     },
   },
 };
