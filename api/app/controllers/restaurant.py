@@ -433,6 +433,31 @@ def setUpdatePlate(id):
     return jsonify(success=success, message=message)
 
 
+@restaurant.route('/delete/plate/<int:id>', methods=['POST'])
+def setDeletePlate(id):
+    if request.method == 'POST':
+        if current_user.is_authenticated:
+            plate = Plate.query.get(id)
+            restaurant = Restaurant.query.get(current_user.id)
+
+            if restaurant:
+                db.session.delete(plate)
+                db.session.commit()
+
+                success = True
+                message = "le plat a été supprimer"
+
+            else:
+                success = False
+                message = "vous etes pas connecter avec le bon utilisateur"
+
+        else:
+            success = False
+            message = "vous etes pas connecter"
+
+    return jsonify(success=success, message=message)
+
+
 @restaurant.route('/update/profile', methods=['POST'])
 def setUpdateRestaurant():
     if request.method == 'POST':
