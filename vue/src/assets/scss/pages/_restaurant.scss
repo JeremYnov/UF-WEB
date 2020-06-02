@@ -11,6 +11,10 @@
 .restaurant{
     background: white;
     border: 0.1px solid rgb(230, 230, 230);
+    
+    &:hover{
+        text-decoration: none;
+    }
 }
 
 

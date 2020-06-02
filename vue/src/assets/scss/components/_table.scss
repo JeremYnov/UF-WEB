@@ -1,0 +1,67 @@
+table {
+    tbody {
+
+        // tr{
+        td {
+            vertical-align: middle;
+            img{
+                height: 80px;
+                width: 80px;
+            }
+            &.modification-row {
+                display: flex;
+                border-top: none;
+            }
+
+            button {
+                background: none;
+                outline: none;
+                border: none;
+                margin: 5px;
+                height: 40px;
+                width: 40px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 10px;
+
+
+                &.edit-button {
+                    background-color: $clearGreen;
+
+                    i.edit {
+                        color: white;
+                    }
+                    &:hover{
+                        background-color: white;
+                        border: 5px solid $clearGreen;
+                        i.edit {
+                            color: $clearGreen;
+                        }
+                    }
+                }
+
+                &.delete-button {
+                    background-color: red;
+
+                    i.delete {
+                        color: white;
+                    }
+
+                    &:hover{
+                        background-color: white;
+                        border: 5px solid red;
+                        i.delete {
+                            color: red;
+                        }
+                    }
+                }
+
+
+            }
+
+        }
+
+        // }
+    }
+}

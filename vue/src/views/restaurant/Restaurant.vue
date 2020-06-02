@@ -1,26 +1,8 @@
 <template>
   <div class="restaurant">
-    <!-- <div class="hero" v-bind:style="{ 'background-image': 'linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),' + 'url(' + restaurant.logo.url + ')' }">
-      <div class="hero-content">
-        <h1 class>{{ restaurant.name }}</h1>
-        <p class="restaurant-address">{{ restaurant.address }}</p>
-        <div class="restaurant-category">
-          <p>{{ restaurant.category }}</p>
-        </div>
-      </div>
-    </div> -->
-
     <RestaurantHero :restaurantInfos="this.restaurant" />
 
     <section class="menu">
-      <div class="submit-btn-container">
-        <button class="submit-btn" v-on:click="toggleAddPlate()">
-          Ajouter un plat
-        </button>
-        <button class="submit-btn" v-on:click="toggleEditInformations()">
-          Modifier les informations
-        </button>
-      </div>
       <div
         class="overlay"
         v-bind:class="{ 'is-open': closeThePopup }"
@@ -31,7 +13,7 @@
           <div
             class="plate-container"
             v-on:click="
-              togglePlateInformations(),
+              togglePlateInformations(),scrollToTop(),
                 getPlate(
                   plate.name,
                   plate.content,
@@ -71,12 +53,10 @@
               </button>
             </div>
           </div>
-
-        
         </div>
       </div>
     </section>
-      <div
+    <!-- <div
             class="add-plate-popup"
             v-if="addPlatePopupActive"
             v-bind:class="{ 'is-active': addPlatePopupActive }"
@@ -153,15 +133,15 @@
                 </button>
               </div>
             </form>
-          </div>
+          </div> -->
 
-          <div
+    <!-- <div
             class="add-plate-popup"
             v-if="editInformationsPopupActive"
             v-bind:class="{ 'is-active': editInformationsPopupActive }"
           >
             TEST
-          </div>
+          </div> -->
   </div>
 </template>
 
@@ -178,7 +158,7 @@ export default {
       plates: null,
       onlyOnePlate: null,
       platePopupActive: false,
-      addPlatePopupActive: false,
+      // addPlatePopupActive: false,
       editInformationsPopupActive: false,
       closeThePopup: false,
       form: {
@@ -195,9 +175,12 @@ export default {
     this.getRestaurantPlate();
   },
   methods: {
-    toggleAddPlate() {
-      this.addPlatePopupActive = !this.addPlatePopupActive;
-      this.closeThePopup = !this.closeThePopup;
+    // toggleAddPlate() {
+    //   this.addPlatePopupActive = !this.addPlatePopupActive;
+    //   this.closeThePopup = !this.closeThePopup;
+    // },
+    scrollToTop() {
+      window.scrollTo(0, 0);
     },
     togglePlateInformations() {
       this.platePopupActive = !this.platePopupActive;

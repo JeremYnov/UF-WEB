@@ -27,6 +27,12 @@ header {
 
         a {
             color: $textColor;
+            &:hover{
+                text-decoration: none;
+            }
+            h1{
+                margin: 0 !important;
+            }
         }
     }
 
