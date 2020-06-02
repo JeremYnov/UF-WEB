@@ -133,6 +133,7 @@
 import axios from "axios";
 
 export default {
+ name: "UserProfile",
   data: function() {
     return {
       user: null,
