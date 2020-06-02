@@ -8,24 +8,16 @@
           <p>{{ restaurant.category }}</p>
         </div>
       </div>
-    </div> -->
+    </div>-->
 
-    <RestaurantHero :restaurantInfos="this.restaurant" />
+    <RestaurantHero :restaurantInfos="restaurant" />
 
     <section class="menu">
       <div class="submit-btn-container">
-        <button class="submit-btn" v-on:click="toggleAddPlate()">
-          Ajouter un plat
-        </button>
-        <button class="submit-btn" v-on:click="toggleEditInformations()">
-          Modifier les informations
-        </button>
+        <button class="submit-btn" v-on:click="toggleAddPlate()">Ajouter un plat</button>
+        <button class="submit-btn" v-on:click="toggleEditInformations()">Modifier les informations</button>
       </div>
-      <div
-        class="overlay"
-        v-bind:class="{ 'is-open': closeThePopup }"
-        v-on:click="closePopup()"
-      ></div>
+      <div class="overlay" v-bind:class="{ 'is-open': closeThePopup }" v-on:click="closePopup()"></div>
       <div class="grid33-33-33 container">
         <div class="plates" v-for="plate in plates" :key="plate.id">
           <div
@@ -33,6 +25,7 @@
             v-on:click="
               togglePlateInformations(),
                 getPlate(
+                  plate.id,
                   plate.name,
                   plate.content,
                   plate.picture.url,
@@ -45,123 +38,106 @@
             </div>
             <div class="plate-informations">
               <h2 class="plate-name">{{ plate.name }}</h2>
-              <p class="plate-content" v-if="plate.content != null">
-                {{ plate.content | truncate(90) }}
-              </p>
+              <p
+                class="plate-content"
+                v-if="plate.content != null"
+              >{{ plate.content | truncate(90) }}</p>
               <p>{{ plate.unitPrice }}€</p>
             </div>
           </div>
-
-          <div
-            class="plate-popup"
-            v-if="platePopupActive"
-            v-bind:class="{ 'is-active': platePopupActive }"
-          >
-            <div class="plate-image">
-              <img v-bind:src="onlyOnePlate.image" alt />
-            </div>
-            <div class="plate-informations">
-              <h2 class="plate-name">{{ onlyOnePlate.name }}</h2>
-              <p class="plate-content">{{ onlyOnePlate.content }}</p>
-              <button
-                class="add-to-cart-button"
-                v-on:click="togglePlateInformations()"
-              >
-                Ajouter au panier ({{ onlyOnePlate.unitPrice }}€)
-              </button>
-            </div>
-          </div>
-
-        
         </div>
       </div>
     </section>
-      <div
-            class="add-plate-popup"
-            v-if="addPlatePopupActive"
-            v-bind:class="{ 'is-active': addPlatePopupActive }"
-          >
-            <div class="add-plate-title">
-              <h2>Ajouter un plat</h2>
-            </div>
-            <form @submit.prevent="setNewPlate" action method="POST">
-              <div class="grid50-50">
-                <div class="form__group field">
-                  <input
-                    v-model="form.name"
-                    type="text"
-                    name="name"
-                    class="form__field"
-                    placeholder="Nom"
-                    required
-                  />
-                  <label for="name" class="form__label">Nom</label>
-                </div>
-                <div class="form__group field">
-                  <select
-                    v-model="form.type"
-                    name="type"
-                    required
-                  >
-                    <option disabled>Choisissez</option>
-                    <option>Menu</option>
-                    <option>Plat</option>
-                    <option>Boisson</option>
-                    <option>Déssert</option>
-                  </select>
-                  <label for="type" class="form__label">Type de plat</label>
-                </div>
-              </div>
-
-              <div class="form__group field">
-                <textarea
-                  v-model="form.description"
-                  type="text"
-                  name="description"
-                  class="form__field"
-                  placeholder="Description"
-                />
-                <label for="description" class="form__label">Description</label>
-              </div>
-
-              <div class="grid50-50">
-                <div class="form__group field">
-                  <input
-                    @change="previewFiles"
-                    type="file"
-                    id="file"
-                    required
-                  />
-                  <label for="file">Choisir un fichier...</label>
-                </div>
-                <div class="form__group field">
-                  <input
-                    v-model="form.unitPrice"
-                    type="text"
-                    name="unitPrice"
-                    class="form__field"
-                    placeholder="Prix Unitaire"
-                    required
-                  />
-                  <label for="name" class="form__label">Prix Unitaire</label>
-                </div>
-              </div>
-
-              <div class="submit-btn-container">
-                <button type="submit" class="submit-btn">
-                  Valider
-                </button>
-              </div>
-            </form>
+    <div
+      class="plate-popup"
+      v-if="platePopupActive"
+      v-bind:class="{ 'is-active': platePopupActive }"
+    >
+      <div class="plate-image">
+        <img v-bind:src="onlyOnePlate.image" alt />
+      </div>
+      <div class="plate-informations">
+        <h2 class="plate-name">{{ onlyOnePlate.name }}</h2>
+        <p class="plate-content">{{ onlyOnePlate.content }}</p>
+        <button
+          class="add-to-cart-button"
+          v-on:click="togglePlateInformations(), addShoppingCart(onlyOnePlate)"
+        >Ajouter au panier ({{ onlyOnePlate.unitPrice }}€)</button>
+      </div>
+    </div>
+    <div
+      class="add-plate-popup"
+      v-if="addPlatePopupActive"
+      v-bind:class="{ 'is-active': addPlatePopupActive }"
+    >
+      <div class="add-plate-title">
+        <h2>Ajouter un plat</h2>
+      </div>
+      <form @submit.prevent="setNewPlate" action method="POST">
+        <div class="grid50-50">
+          <div class="form__group field">
+            <input
+              v-model="form.name"
+              type="text"
+              name="name"
+              class="form__field"
+              placeholder="Nom"
+              required
+            />
+            <label for="name" class="form__label">Nom</label>
           </div>
-
-          <div
-            class="add-plate-popup"
-            v-if="editInformationsPopupActive"
-            v-bind:class="{ 'is-active': editInformationsPopupActive }"
-          >
-            TEST
+          <div class="form__group field">
+            <select v-model="form.type" name="type" required>
+              <option disabled>Choisissez</option>
+              <option>Menu</option>
+              <option>Plat</option>
+              <option>Boisson</option>
+              <option>Déssert</option>
+            </select>
+            <label for="type" class="form__label">Type de plat</label>
           </div>
+        </div>
+
+        <div class="form__group field">
+          <textarea
+            v-model="form.description"
+            type="text"
+            name="description"
+            class="form__field"
+            placeholder="Description"
+          />
+          <label for="description" class="form__label">Description</label>
+        </div>
+
+        <div class="grid50-50">
+          <div class="form__group field">
+            <input @change="previewFiles" type="file" id="file" required />
+            <label for="file">Choisir un fichier...</label>
+          </div>
+          <div class="form__group field">
+            <input
+              v-model="form.unitPrice"
+              type="text"
+              name="unitPrice"
+              class="form__field"
+              placeholder="Prix Unitaire"
+              required
+            />
+            <label for="name" class="form__label">Prix Unitaire</label>
+          </div>
+        </div>
+
+        <div class="submit-btn-container">
+          <button type="submit" class="submit-btn">Valider</button>
+        </div>
+      </form>
+    </div>
+
+    <div
+      class="add-plate-popup"
+      v-if="editInformationsPopupActive"
+      v-bind:class="{ 'is-active': editInformationsPopupActive }"
+    >TEST</div>
   </div>
 </template>
 
@@ -170,7 +146,7 @@ import axios from "axios";
 import RestaurantHero from "@/components/hero/restaurant-hero.vue";
 export default {
   components: {
-    RestaurantHero,
+    RestaurantHero
   },
   data: function() {
     return {
@@ -186,15 +162,49 @@ export default {
         type: null,
         description: null,
         unitPrice: null,
-        image: null,
+        image: null
       },
+      order: null
     };
   },
 
-  mounted: function() {
-    this.getRestaurantPlate();
+  mounted: async function() {
+    await this.getRestaurantPlate();
+
+    this.order = {
+      idRestaurant: this.restaurant.id,
+      idUser: 1,
+      orderContent: []
+    };
   },
   methods: {
+    addShoppingCart(plate) {
+      let similar = false;
+
+      if (this.order.orderContent.length != 0) {
+        this.order.orderContent.forEach(element => {
+          if (element.id == plate.id) {
+            similar = true;
+          } else {
+            similar = false;
+          }
+        });
+      }
+
+      if (!similar) {
+        this.order.orderContent.push({
+          id: plate.id,
+          price: plate.unitPrice,
+          quantity: 1
+        });
+      }
+
+      this.saveShoppingCart(this.order);
+    },
+    saveShoppingCart(params) {
+      const parsed = JSON.stringify(params);
+      localStorage.setItem("order", parsed);
+    },
     toggleAddPlate() {
       this.addPlatePopupActive = !this.addPlatePopupActive;
       this.closeThePopup = !this.closeThePopup;
@@ -226,28 +236,30 @@ export default {
         .catch(function(error) {
           console.log(error);
         });
+
       this.restaurant = {
         id: response.data.results.id,
         name: response.data.results.name,
         category: response.data.results.category,
         logo: {
           url: response.data.results.logo.url,
-          name: response.data.results.logo.name,
+          name: response.data.results.logo.name
         },
         address: response.data.results.address,
         mail: response.data.results.mail,
         creation: response.data.results.creation,
-        selection: response.data.results.selection,
+        selection: response.data.results.selection
       };
 
       this.plates = response.data.results.plates;
     },
-    getPlate(name, content, image, unitPrice) {
+    getPlate(id, name, content, image, unitPrice) {
       this.onlyOnePlate = {
+        id: id,
         name: name,
         description: content,
         image: image,
-        unitPrice: unitPrice,
+        unitPrice: unitPrice
       };
     },
     setNewPlate: async function() {
@@ -263,8 +275,8 @@ export default {
         .post("/api/restaurant/add/new/plate", bodyFormData, {
           headers: {
             "Content-Type":
-              "application/x-www-form-urlencoded; multipart/form-data",
-          },
+              "application/x-www-form-urlencoded; multipart/form-data"
+          }
         })
         .then(function(response) {
           return response;
@@ -278,7 +290,7 @@ export default {
     },
     previewFiles: function(event) {
       this.form.image = event.target.files[0];
-    },
+    }
   },
   filters: {
     truncate: function(value, limit) {
@@ -287,7 +299,7 @@ export default {
         value = value.substring(0, limit - 3) + "...";
       }
       return value;
-    },
-  },
+    }
+  }
 };
 </script>

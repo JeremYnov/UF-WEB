@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from ..config.database import db
 from ..models import user, restaurant, orderContent, plate
 
@@ -7,6 +8,8 @@ class Order(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     total = db.Column(db.String(255), nullable=False)
+    creation_date = db.Column(db.DateTime, default=datetime.now(), nullable=False)
+    delivery_date = db.Column(db.DateTime, default=datetime.now() + timedelta(hours=1), nullable=False)
 
     id_restaurant = db.Column(db.Integer, db.ForeignKey('restaurant.id'), nullable=False)
     id_user = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)

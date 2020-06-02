@@ -349,9 +349,6 @@ def setUpdatePlate(id):
                 unitPrice = request.form.get('price')
                 picture = request.files.get('picture')
 
-                print(name)
-                print(picture)
-
                 args = []
 
                 if picture and plate.picture != picture.filename:

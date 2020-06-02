@@ -10,6 +10,8 @@ from .settings import Config
 from .controllers.user import user
 from .controllers.admin import admin
 from .controllers.restaurant import restaurant
+from .controllers.order import order
+
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -34,3 +36,4 @@ def load_user(id):
 app.register_blueprint(user)
 app.register_blueprint(admin)
 app.register_blueprint(restaurant)
+app.register_blueprint(order)
