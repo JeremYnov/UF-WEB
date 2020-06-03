@@ -77,7 +77,17 @@ def login():
             if check_password_hash(user.password, password):
                 login_user(user)
 
-                return jsonify(session=True, success=True, message="co")
+                print(current_user)
+
+                session = {
+                    "session": True,
+                    "user": {
+                        "role": "member",
+                        "id": int(user.id)
+                    }
+                }
+
+                return jsonify(session=session, success=True, message="co")
 
             else:
                 return jsonify(session=False, success=False, message="mot de passe incorrecte")

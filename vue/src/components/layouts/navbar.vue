@@ -1,9 +1,6 @@
 <template>
   <div>
-    <div
-      class="nav-responsive"
-      v-bind:class="{ 'nav-transition': isBurgerActive }"
-    >
+    <div class="nav-responsive" v-bind:class="{ 'nav-transition': isBurgerActive }">
       <ul class="header-nav-list">
         <li class="header-nav-item">
           <a href="#">Home</a>
@@ -25,11 +22,7 @@
       </ul>
     </div>
 
-    <div
-      class="overlay"
-      v-bind:class="{ 'is-open': isBurgerActive }"
-      v-on:click="toggle()"
-    ></div>
+    <div class="overlay" v-bind:class="{ 'is-open': isBurgerActive }" v-on:click="toggle()"></div>
 
     <header>
       <div class="header-main">
@@ -42,39 +35,35 @@
         <nav class="header-nav">
           <ul class="header-nav-list">
             <li class="header-nav-item">
-              <router-link :to="{ name: 'Restaurants' }"
-                >Restaurants</router-link
-              >
+              <router-link :to="{ name: 'Restaurants' }">Restaurants</router-link>
             </li>
-
             <!-- <li class="header-nav-item middle-item">
               <a href="/about">About</a>
             </li>
 
             <li class="header-nav-item">
               <a href="#">Blog</a>
-            </li> -->
+            </li>-->
           </ul>
         </nav>
         <nav class="header-nav">
           <ul v-if="session" class="header-nav-list">
             <li class="header-nav-item shopping-cart-item">
               <router-link :to="{ name: 'ShoppingCart' }">
-                <img src="../../assets/icons/icons8-panier-80.png" alt="" />
+                <img src="../../assets/icons/icons8-panier-80.png" alt />
               </router-link>
             </li>
             <li class="header-nav-item profile-item">
-              <img src="../../assets/icons/icons8-compte-test-80.png" alt="" />
+              <img src="../../assets/icons/icons8-compte-test-80.png" alt />
               <ul class="sub-menu">
-                <li class="header-nav-item">
-                  <router-link :to="{ name: 'UserProfile' }"
-                    >Profil</router-link
-                  >
+                <li v-if="role == 'restaurant'" class="header-nav-item">
+                  <router-link :to="{ name: 'RestaurantDashboard' }">Dashboard</router-link>
+                </li>
+                <li v-else class="header-nav-item">
+                  <router-link :to="{ name: 'UserProfile' }">Profil</router-link>
                 </li>
                 <li class="header-nav-item">
-                  <router-link :to="{ name: 'UserLogout' }"
-                    >Déconnexion</router-link
-                  >
+                  <router-link :to="{ name: 'UserLogout' }">Déconnexion</router-link>
                 </li>
               </ul>
             </li>
@@ -87,9 +76,7 @@
                   <router-link :to="{ name: 'UserSignup' }">Client</router-link>
                 </li>
                 <li class="header-nav-item">
-                  <router-link :to="{ name: 'RestaurantSignup' }"
-                    >Restaurant</router-link
-                  >
+                  <router-link :to="{ name: 'RestaurantSignup' }">Restaurant</router-link>
                 </li>
               </ul>
             </li>
@@ -101,9 +88,7 @@
                   <router-link :to="{ name: 'UserLogin' }">Client</router-link>
                 </li>
                 <li class="header-nav-item">
-                  <router-link :to="{ name: 'RestaurantLogin' }"
-                    >Restaurant</router-link
-                  >
+                  <router-link :to="{ name: 'RestaurantLogin' }">Restaurant</router-link>
                 </li>
               </ul>
             </li>
@@ -111,10 +96,7 @@
         </nav>
 
         <div class="header-nav-wrapper" v-on:click="toggle()">
-          <div
-            class="header-nav-burger"
-            v-bind:class="{ 'is-animate': isBurgerActive }"
-          ></div>
+          <div class="header-nav-burger" v-bind:class="{ 'is-animate': isBurgerActive }"></div>
         </div>
       </div>
     </header>
@@ -126,15 +108,22 @@ export default {
   // props: ["session"],
   data: () => {
     return {
-      session: JSON.parse(localStorage.getItem("session")),
-      isBurgerActive: false,
+      session: "",
+      role: "",
+      isBurgerActive: false
     };
   },
-
+  mounted: function() {
+    this.getSession();
+  },
   methods: {
     toggle() {
       this.isBurgerActive = !this.isBurgerActive;
     },
-  },
+    getSession() {
+      this.session = JSON.parse(localStorage.getItem("session")).session;
+      this.role = JSON.parse(localStorage.getItem("session")).user.role;
+    }
+  }
 };
 </script>

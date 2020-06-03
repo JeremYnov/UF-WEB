@@ -1,10 +1,5 @@
 <template>
-  <div
-    class="add-plate-popup"
-    v-if="popupActive"
-    v-bind:class="{ 'is-active': popupActive }"
-  >
- 
+  <div class="add-plate-popup" v-if="popupActive" v-bind:class="{ 'is-active': popupActive }">
     <div class="add-plate-title">
       <h2>Ajouter un plat</h2>
     </div>
@@ -64,9 +59,7 @@
       </div>
 
       <div class="submit-btn-container">
-        <button type="submit" class="submit-btn" v-on:click="$emit('closeOverlay',false) && $emit('closePopup',false)">
-          Valider
-        </button>
+        <button type="submit" class="submit-btn">Valider</button>
       </div>
     </form>
   </div>
@@ -76,7 +69,7 @@
 import axios from "axios";
 export default {
   props: {
-    popupActive: null,
+    popupActive: null
   },
   data: function() {
     return {
@@ -85,8 +78,8 @@ export default {
         type: null,
         description: null,
         unitPrice: null,
-        image: null,
-      },
+        image: null
+      }
     };
   },
   methods: {
@@ -106,8 +99,8 @@ export default {
         .post("/api/restaurant/add/new/plate", bodyFormData, {
           headers: {
             "Content-Type":
-              "application/x-www-form-urlencoded; multipart/form-data",
-          },
+              "application/x-www-form-urlencoded; multipart/form-data"
+          }
         })
         .then(function(response) {
           return response;
@@ -117,9 +110,11 @@ export default {
         });
 
       this.info = response.data;
+      this.$emit("closeOverlay", false);
+      this.$emit("closePopup", false);
       location.reload();
-    },
-  },
+    }
+  }
 };
 </script>
 
