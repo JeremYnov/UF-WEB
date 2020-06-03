@@ -1,4 +1,5 @@
 import json
+from datetime import datetime, timedelta
 from flask import Blueprint, request, jsonify
 from flask_login import LoginManager, login_user, current_user
 from ..config.database import db
@@ -13,28 +14,6 @@ order = Blueprint('order', __name__, url_prefix='/api/order')
 
 @order.route('/add', methods=['POST'])
 def setAddOrder():
-    {
-        "idRestaurant": 1,
-        "idUser": 1,
-        "orderContent": [
-            {
-                "id": 1,
-                "price": 3,
-                "quantity": 2
-            },
-            {
-                "id": 2,
-                "price": 3,
-                "quantity": 1
-            },
-            {
-                "id": 3,
-                "price": 3.5,
-                "quantity": 2
-            }
-        ]
-    }
-
     if request.method == 'POST':
         if current_user.is_authenticated:
 
@@ -68,5 +47,90 @@ def setAddOrder():
         else:
             success = False
             message = "vous etes pas connecter"
+
+    return jsonify(success=success, message=message)
+
+
+@order.route('/progress')
+def getOrderInProgress():
+    if current_user.is_authenticated:
+        orderInProgress = Order.query.filter_by(id_restaurant=current_user.id).filter(Order.delivery_date > datetime.now()).all()
+
+        if orderInProgress:
+            arrayOrderInProgress = []
+            for order in orderInProgress:
+
+                user = User.query.get(order.id_user)
+                arrayOrderInProgress.append(
+                    {
+                        "id": order.id,
+                        "total": float(order.total),
+                        "restaurant": order.id_restaurant,
+                        "user": {
+                            "id": user.id,
+                            "name": user.lastName + ' ' + user.firstName,
+                            "address": user.address,
+                            "mail": user.mail
+                        }
+                    }
+                )
+
+            results = arrayOrderInProgress
+            message = "les commande en cours"
+            success = True
+
+        else:
+            results = None
+            message = "il ny a pas de commande en cours"
+            success = False
+
+        return jsonify(success=success, message=message, results=results)
+
+    else:
+        success = False
+        message = "vous etes pas connecter"
+
+    return jsonify(success=success, message=message)
+
+
+@order.route('/historic')
+def getOrderHistoric():
+    if current_user.is_authenticated:
+        orderHistorics = Order.query.filter_by(id_restaurant=current_user.id).filter(Order.delivery_date < datetime.now()).all()
+
+        if orderHistorics:
+            arrayOrderHistorics = []
+
+            for order in orderHistorics:
+                user = User.query.get(order.id_user)
+                arrayOrderHistorics.append(
+                    {
+                        "id": order.id,
+                        "total": float(order.total),
+                        "restaurant": order.id_restaurant,
+                        "creationDate": order.creation_date.strftime("%m/%d/%Y"),
+                        "user": {
+                            "id": user.id,
+                            "name": user.lastName + ' ' + user.firstName,
+                            "address": user.address,
+                            "mail": user.mail
+                        }
+                    }
+                )
+
+            results = arrayOrderHistorics
+            message = "les commande en cours"
+            success = True
+
+        else:
+            results = None
+            message = "il ny a pas de commande en cours"
+            success = False
+
+        return jsonify(success=success, message=message, results=results)
+
+    else:
+        success = False
+        message = "vous etes pas connecter"
 
     return jsonify(success=success, message=message)
