@@ -4,7 +4,7 @@
       <h2>Modifier les informations</h2>
     </div>
 
-    <form @submit.prevent="setUpdateProfile" action method="POST">
+    <form @submit.prevent="setUpdateProfile" method="POST">
       <div class="form__group field">
         <input
           v-model="form.name"
@@ -70,10 +70,14 @@ export default {
   data: function() {
     return {
       form: {
-        name: this.restaurant.name,
-        category: this.restaurant.category,
-        address: this.restaurant.address,
-        image: ""
+        // name: this.restaurant.name,
+        // category: this.restaurant.category,
+        // address: this.restaurant.address,
+        // image: "",
+        name: null,
+        category: null,
+        address: null,
+        image: null,
       }
     };
   },

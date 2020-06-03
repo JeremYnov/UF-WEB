@@ -29,7 +29,7 @@
                 class="plate-content"
                 v-if="plate.content != null"
               >{{ plate.content | truncate(90) }}</p>
-              <p>{{ plate.unitPrice }}€</p>
+              <p class="plate-price">{{ plate.unitPrice }}€</p>
             </div>
           </div>
         </div>

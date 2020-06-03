@@ -1,11 +1,13 @@
 <template>
   <section class="dashboard">
+    
     <div class="overlay" v-bind:class="{ 'is-open': closeThePopup }" v-on:click="closePopup()"></div>
 
     <div class="submit-btn-container">
       <button class="submit-btn" v-on:click="toggleAddPlate()">Ajouter un plat</button>
       <button class="submit-btn" v-on:click="toggleEditInformations()">Modifier les informations</button>
     </div>
+
     <div class="submit-btn-container">
       <button class="submit-btn" v-on:click="chosenTable = 1">
         Liste des plats
@@ -17,6 +19,7 @@
         Historique des commandes
       </button>
     </div>
+
     <div class="container">
       <Plates v-if="chosenTable == 1" :plates="plates" v-on:openPopup="editPlatePopupActive = $event"  v-on:openOverlay="closeThePopup = $event" v-on:plateId="plateId = $event"/>
       <InProgressOrder v-if="chosenTable == 2" />

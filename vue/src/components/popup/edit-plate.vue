@@ -5,7 +5,7 @@
     v-bind:class="{ 'is-active': popupActive }"
   >
     <div class="add-plate-title">
-      <h2>Ajouter un plat</h2>
+      <h2>Modifier le plat</h2>
     </div>
 
     <form @submit.prevent="setUpdatePlate" action method="POST">
