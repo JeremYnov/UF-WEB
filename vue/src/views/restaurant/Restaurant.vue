@@ -13,6 +13,7 @@
                 getPlate(
                   plate.id,
                   plate.name,
+                  plate.type,
                   plate.content,
                   plate.picture.url,
                   plate.unitPrice
@@ -160,7 +161,7 @@ export default {
 
     this.order = {
       idRestaurant: this.restaurant.id,
-      idUser: 1,
+      // idUser: JSON.parse(localStorage.getItem("session")).user.id,
       orderContent: []
     };
   },
@@ -182,6 +183,9 @@ export default {
         this.order.orderContent.push({
           id: plate.id,
           price: plate.unitPrice,
+          name: plate.name,
+          type: plate.type,
+          image: plate.image,
           quantity: 1
         });
       }
@@ -243,15 +247,16 @@ export default {
 
       this.plates = response.data.results.plates;
     },
-    getPlate(id, name, content, image, unitPrice) {
+    getPlate(id, name, type, content, image, unitPrice) {
       this.onlyOnePlate = {
         id: id,
         name: name,
+        type: type,
         description: content,
         image: image,
         unitPrice: unitPrice
       };
-    },
+    }
   },
   filters: {
     truncate: function(value, limit) {

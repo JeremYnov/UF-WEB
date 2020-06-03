@@ -46,7 +46,7 @@
 import axios from "axios";
 export default {
   props: {
-    plates: null,
+    plates: null
   },
   filters: {
     truncate: function(value, limit) {
@@ -54,7 +54,7 @@ export default {
         value = value.substring(0, limit - 3) + "...";
       }
       return value;
-    },
+    }
   },
   methods: {
     scrollToTop() {
@@ -65,9 +65,8 @@ export default {
       const response = axios
         .post("/api/restaurant/delete/plate/" + id, {
           headers: {
-            "Content-Type":
-              "application/x-www-form-urlencoded; multipart/form-data",
-          },
+            "Content-Type": "application/x-www-form-urlencoded"
+          }
         })
         .then(function(response) {
           return response;
@@ -77,8 +76,8 @@ export default {
         });
 
       this.info = response.data;
-      // location.reload();
-    },
-  },
+      location.reload();
+    }
+  }
 };
 </script>

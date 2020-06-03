@@ -48,7 +48,7 @@
         </nav>
         <nav class="header-nav">
           <ul v-if="session" class="header-nav-list">
-            <li class="header-nav-item shopping-cart-item">
+            <li v-if="role == 'member'" class="header-nav-item shopping-cart-item">
               <router-link :to="{ name: 'ShoppingCart' }">
                 <img src="../../assets/icons/icons8-panier-80.png" alt />
               </router-link>

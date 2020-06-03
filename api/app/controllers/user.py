@@ -7,6 +7,12 @@ from ..models.user import User
 user = Blueprint('user', __name__, url_prefix='/api/user')
 
 
+@user.route("/session")
+@login_required
+def getSession():
+    return jsonify(results=current_user.id)
+
+
 @user.route("/logout")
 @login_required
 def logout():

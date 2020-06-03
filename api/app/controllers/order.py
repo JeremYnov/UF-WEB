@@ -20,29 +20,41 @@ def setAddOrder():
             order = request.form.get('order')
             order = json.loads(order)
 
-            idRestaurant = order['idRestaurant']
-            idUser = order['idUser']
+            idRestaurant = int(order['idRestaurant'])
+            idUser = int(order['idUser'])
             plates = order['orderContent']
 
-            restaurant = Restaurant.query.get(int(idRestaurant))
-            user = User.query.get(int(idUser))
-            total = 2.5
+            restaurant = Restaurant.query.get(idRestaurant)
+            user = current_user
 
-            for plate in plates:
-                total += float(plate['price'])
+            if user.id == idUser:
+                total = 2.5
+                for plate in plates:
+                    total += float(plate['price'])
 
-            order = Order(total, restaurant, user)
-            db.session.add(order)
-            db.session.commit()
+                if user.balance > total:
+                    user.balance -= total
 
-            for plate in plates:
-                getPlate = Plate.query.get(int(plate['id']))
-                orderContent = OrderContent(int(plate['quantity']), order, getPlate)
-                db.session.add(orderContent)
-                db.session.commit()
+                    order = Order(total, restaurant, user)
+                    db.session.add(order)
+                    db.session.commit()
 
-            success = True
-            message = "la commande a bien été pris en compte"
+                    for plate in plates:
+                        getPlate = Plate.query.get(int(plate['id']))
+                        orderContent = OrderContent(int(plate['quantity']), order, getPlate)
+                        db.session.add(orderContent)
+                        db.session.commit()
+
+                    success = True
+                    message = "la commande a bien été pris en compte"
+
+                else:
+                    success = False
+                    message = "votre compte n'a pas assez d'argent"
+
+            else:
+                success = False
+                message = " ce n'est pas le bon utilisateur"
 
         else:
             success = False
