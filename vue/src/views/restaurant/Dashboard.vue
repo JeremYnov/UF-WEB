@@ -31,12 +31,9 @@
       <OrdersPlaces v-if="chosenTable == 3" />
     </div>
 
-
-    
-    
-    <!-- <EditRestaurantPopup /> -->
     <AddPlatePopup :popupActive="addPlatePopupActive" v-on:closeOverlay="closeThePopup = $event" v-on:closePopup="addPlatePopupActive = $event"  />
-    <h3>{{popupActive}}</h3>
+    <EditRestaurantPopup :popupActive="editInformationsPopupActive" v-on:closeOverlay="closeThePopup = $event" v-on:closePopup="editInformationsPopupActive = $event"  />
+
 
   </section>
 </template>
@@ -45,14 +42,14 @@ import axios from "axios";
 import Plates from "@/components/table/plates-table.vue";
 import InProgressOrder from "@/components/table/in-progress-table.vue";
 import OrdersPlaces from "@/components/table/orders-places-table.vue";
-// import EditRestaurantPopup from "@/components/popup/edit-restaurant.vue";
+import EditRestaurantPopup from "@/components/popup/edit-restaurant.vue";
 import AddPlatePopup from "@/components/popup/add-plate.vue";
 export default {
   components: {
     Plates,
     InProgressOrder,
     OrdersPlaces,
-    // EditRestaurantPopup,
+    EditRestaurantPopup,
     AddPlatePopup,
   },
   data: function() {
@@ -61,13 +58,6 @@ export default {
       editInformationsPopupActive: false,
       closeThePopup: false,
       chosenTable: 1,
-      // form: {
-      //   name: null,
-      //   type: null,
-      //   description: null,
-      //   unitPrice: null,
-      //   image: null,
-      // },
     };
   },
   methods: {
