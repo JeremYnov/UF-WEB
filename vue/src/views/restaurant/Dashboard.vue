@@ -1,5 +1,11 @@
 <template>
   <section class="dashboard">
+    <div
+      class="overlay"
+      v-bind:class="{ 'is-open': closeThePopup }"
+      v-on:click="closePopup()"
+    ></div>
+    
     <div class="submit-btn-container">
       <button class="submit-btn" v-on:click="toggleAddPlate()">
         Ajouter un plat
@@ -9,105 +15,29 @@
       </button>
     </div>
     <div class="submit-btn-container">
-      <button class="submit-btn" v-on:click="chosenTable=1">
+      <button class="submit-btn" v-on:click="chosenTable = 1">
         Tableau 1
       </button>
-      <button class="submit-btn" v-on:click="chosenTable=2">
+      <button class="submit-btn" v-on:click="chosenTable = 2">
         Tableau 2
       </button>
-      <button class="submit-btn" v-on:click="chosenTable=3">
+      <button class="submit-btn" v-on:click="chosenTable = 3">
         Tableau 3
       </button>
     </div>
-    <div
-      class="overlay"
-      v-bind:class="{ 'is-open': closeThePopup }"
-      v-on:click="closePopup()"
-    ></div>
     <div class="container">
-      <Plates v-if="chosenTable == 1"/>
-      <InProgressOrder v-if="chosenTable == 2"/>
-      <OrdersPlaces v-if="chosenTable == 3"/>
-    </div>
-    <div
-      class="add-plate-popup"
-      v-if="addPlatePopupActive"
-      v-bind:class="{ 'is-active': addPlatePopupActive }"
-    >
-      <div class="add-plate-title">
-        <h2>Ajouter un plat</h2>
-      </div>
-      <form @submit.prevent="setNewPlate" action method="POST">
-        <div class="grid50-50">
-          <div class="form__group field">
-            <input
-              v-model="form.name"
-              type="text"
-              name="name"
-              class="form__field"
-              placeholder="Nom"
-              required
-            />
-            <label for="name" class="form__label">Nom</label>
-          </div>
-          <div class="form__group field">
-            <select v-model="form.type" name="type" required>
-              <option disabled>Choisissez</option>
-              <option>Menu</option>
-              <option>Plat</option>
-              <option>Boisson</option>
-              <option>Déssert</option>
-            </select>
-            <label for="type" class="form__label">Type de plat</label>
-          </div>
-        </div>
-
-        <div class="form__group field">
-          <textarea
-            v-model="form.description"
-            type="text"
-            name="description"
-            class="form__field"
-            placeholder="Description"
-          />
-          <label for="description" class="form__label">Description</label>
-        </div>
-
-        <div class="grid50-50">
-          <div class="form__group field">
-            <input @change="previewFiles" type="file" id="file" required />
-            <label for="file">Choisir un fichier...</label>
-          </div>
-          <div class="form__group field">
-            <input
-              v-model="form.unitPrice"
-              type="text"
-              name="unitPrice"
-              class="form__field"
-              placeholder="Prix Unitaire"
-              required
-            />
-            <label for="name" class="form__label">Prix Unitaire</label>
-          </div>
-        </div>
-
-        <div class="submit-btn-container">
-          <button type="submit" class="submit-btn" v-on:click="closePopup()">
-            Valider
-          </button>
-        </div>
-      </form>
+      <Plates v-if="chosenTable == 1" />
+      <InProgressOrder v-if="chosenTable == 2" />
+      <OrdersPlaces v-if="chosenTable == 3" />
     </div>
 
-    <div
-      class="add-plate-popup"
-      v-if="editInformationsPopupActive"
-      v-bind:class="{ 'is-active': editInformationsPopupActive }"
-    >
-      <div class="add-plate-title">
-        <h2>Modifier les informations du restaurant</h2>
-      </div>
-    </div>
+
+    
+    
+    <!-- <EditRestaurantPopup /> -->
+    <AddPlatePopup :popupActive="addPlatePopupActive" v-on:closeOverlay="closeThePopup = $event" v-on:closePopup="addPlatePopupActive = $event"  />
+    <h3>{{popupActive}}</h3>
+
   </section>
 </template>
 <script>
@@ -115,25 +45,29 @@ import axios from "axios";
 import Plates from "@/components/table/plates-table.vue";
 import InProgressOrder from "@/components/table/in-progress-table.vue";
 import OrdersPlaces from "@/components/table/orders-places-table.vue";
+// import EditRestaurantPopup from "@/components/popup/edit-restaurant.vue";
+import AddPlatePopup from "@/components/popup/add-plate.vue";
 export default {
   components: {
     Plates,
     InProgressOrder,
     OrdersPlaces,
+    // EditRestaurantPopup,
+    AddPlatePopup,
   },
   data: function() {
     return {
       addPlatePopupActive: false,
       editInformationsPopupActive: false,
       closeThePopup: false,
-      chosenTable : 1,
-      form: {
-        name: null,
-        type: null,
-        description: null,
-        unitPrice: null,
-        image: null,
-      },
+      chosenTable: 1,
+      // form: {
+      //   name: null,
+      //   type: null,
+      //   description: null,
+      //   unitPrice: null,
+      //   image: null,
+      // },
     };
   },
   methods: {
@@ -156,7 +90,7 @@ export default {
     previewFiles: function(event) {
       this.form.image = event.target.files[0];
     },
-     setNewPlate: async function() {
+    setNewPlate: async function() {
       let bodyFormData = new FormData();
 
       bodyFormData.set("name", this.form.name);
@@ -169,8 +103,8 @@ export default {
         .post("/api/restaurant/add/new/plate", bodyFormData, {
           headers: {
             "Content-Type":
-              "application/x-www-form-urlencoded; multipart/form-data"
-          }
+              "application/x-www-form-urlencoded; multipart/form-data",
+          },
         })
         .then(function(response) {
           return response;
