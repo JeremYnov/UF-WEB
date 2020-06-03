@@ -8,15 +8,26 @@
         Modifier les informations
       </button>
     </div>
+    <div class="submit-btn-container">
+      <button class="submit-btn" v-on:click="chosenTable=1">
+        Tableau 1
+      </button>
+      <button class="submit-btn" v-on:click="chosenTable=2">
+        Tableau 2
+      </button>
+      <button class="submit-btn" v-on:click="chosenTable=3">
+        Tableau 3
+      </button>
+    </div>
     <div
       class="overlay"
       v-bind:class="{ 'is-open': closeThePopup }"
       v-on:click="closePopup()"
     ></div>
     <div class="container">
-      <Plates />
-      <InProgressOrder />
-      <OrdersPlaces />
+      <Plates v-if="chosenTable == 1"/>
+      <InProgressOrder v-if="chosenTable == 2"/>
+      <OrdersPlaces v-if="chosenTable == 3"/>
     </div>
     <div
       class="add-plate-popup"
@@ -115,6 +126,7 @@ export default {
       addPlatePopupActive: false,
       editInformationsPopupActive: false,
       closeThePopup: false,
+      chosenTable : 1,
       form: {
         name: null,
         type: null,
