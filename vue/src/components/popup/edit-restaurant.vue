@@ -1,17 +1,13 @@
 <template>
-  <div
-    class="add-plate-popup"
-    v-if="popupActive"
-    v-bind:class="{ 'is-active': popupActive }"
-  >
+  <div class="add-plate-popup" v-if="popupActive" v-bind:class="{ 'is-active': popupActive }">
     <div class="add-plate-title">
       <h2>Modifier les informations</h2>
     </div>
 
-    <form @submit.prevent="setNewPlate" action method="POST">
+    <form @submit.prevent="setUpdateProfile" action method="POST">
       <div class="form__group field">
         <input
-          v-model="formModification.name"
+          v-model="form.name"
           type="text"
           name="name"
           class="form__field"
@@ -23,7 +19,7 @@
 
       <div class="form__group field">
         <input
-          v-model="formModification.address"
+          v-model="form.address"
           type="text"
           name="address"
           class="form__field"
@@ -39,7 +35,7 @@
         </div>
         <div class="form__group field">
           <select
-            v-model="formModification.category"
+            v-model="form.category"
             name="category"
             id="category"
             class="form-select"
@@ -58,15 +54,7 @@
       </div>
 
       <div class="submit-btn-container">
-        <button
-          type="submit"
-          class="submit-btn"
-          v-on:click="
-            $emit('closeOverlay', false) && $emit('closePopup', false)
-          "
-        >
-          Valider
-        </button>
+        <button type="submit" class="submit-btn">Valider</button>
       </div>
     </form>
   </div>
@@ -77,36 +65,36 @@ import axios from "axios";
 export default {
   props: {
     popupActive: null,
+    restaurant: null
   },
   data: function() {
     return {
-      formModification: {
-        name: null,
-        category: null,
-        address: null,
-        image: null,
-      },
+      form: {
+        name: this.restaurant.name,
+        category: this.restaurant.category,
+        address: this.restaurant.address,
+        image: ""
+      }
     };
   },
   methods: {
     previewFiles: function(event) {
       this.form.image = event.target.files[0];
     },
-    setNewPlate: async function() {
+    setUpdateProfile: async function() {
       let bodyFormData = new FormData();
 
       bodyFormData.set("name", this.form.name);
-      bodyFormData.set("type", this.form.type);
-      bodyFormData.set("content", this.form.description);
-      bodyFormData.set("picture", this.form.image);
-      bodyFormData.set("price", this.form.unitPrice);
+      bodyFormData.set("category", this.form.type);
+      bodyFormData.set("address", this.form.description);
+      bodyFormData.set("logo", this.form.image);
 
       const response = await axios
-        .post("/api/restaurant/add/new/plate", bodyFormData, {
+        .post("/api/restaurant/update/profile", bodyFormData, {
           headers: {
             "Content-Type":
-              "application/x-www-form-urlencoded; multipart/form-data",
-          },
+              "application/x-www-form-urlencoded; multipart/form-data"
+          }
         })
         .then(function(response) {
           return response;
@@ -116,8 +104,10 @@ export default {
         });
 
       this.info = response.data;
+      this.$emit("closeOverlay", false);
+      this.$emit("closePopup", false);
       location.reload();
-    },
-  },
+    }
+  }
 };
 </script>

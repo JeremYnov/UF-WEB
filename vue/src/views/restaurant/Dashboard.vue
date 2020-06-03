@@ -23,6 +23,7 @@
       v-on:closePopup="addPlatePopupActive = $event"
     />
     <EditRestaurantPopup
+      :restaurant="restaurant"
       :popupActive="editInformationsPopupActive"
       v-on:closeOverlay="closeThePopup = $event"
       v-on:closePopup="editInformationsPopupActive = $event"
