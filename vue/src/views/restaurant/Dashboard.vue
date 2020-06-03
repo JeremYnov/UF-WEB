@@ -18,7 +18,7 @@
       </button>
     </div>
     <div class="container">
-      <Plates v-if="chosenTable == 1" :plates="plates" />
+      <Plates v-if="chosenTable == 1" :plates="plates" v-on:openPopup="editPlatePopupActive = $event"  v-on:openOverlay="closeThePopup = $event" v-on:plateId="plateId = $event"/>
       <InProgressOrder v-if="chosenTable == 2" />
       <OrdersPlaces v-if="chosenTable == 3" />
     </div>
@@ -34,6 +34,12 @@
       v-on:closeOverlay="closeThePopup = $event"
       v-on:closePopup="editInformationsPopupActive = $event"
     />
+    <EditPlatePopup
+      :popupActive="editPlatePopupActive"
+      :plateId="plateId"
+      v-on:closeOverlay="closeThePopup = $event"
+      v-on:closePopup="editInformationsPopupActive = $event"
+    />
   </section>
 </template>
 <script>
@@ -43,20 +49,24 @@ import InProgressOrder from "@/components/table/in-progress-table.vue";
 import OrdersPlaces from "@/components/table/orders-places-table.vue";
 import EditRestaurantPopup from "@/components/popup/edit-restaurant.vue";
 import AddPlatePopup from "@/components/popup/add-plate.vue";
+import EditPlatePopup from "@/components/popup/edit-plate.vue";
 export default {
   components: {
     Plates,
     InProgressOrder,
     OrdersPlaces,
     EditRestaurantPopup,
-    AddPlatePopup
+    AddPlatePopup,
+    EditPlatePopup,
   },
   data: function() {
     return {
       restaurant: null,
       plates: null,
+      plateId : 0,
       addPlatePopupActive: false,
       editInformationsPopupActive: false,
+      editPlatePopupActive:false,
       closeThePopup: false,
       chosenTable: 1
     };
@@ -73,12 +83,18 @@ export default {
       this.editInformationsPopupActive = !this.editInformationsPopupActive;
       this.closeThePopup = !this.closeThePopup;
     },
+    toggleEditPlate() {
+      this.editPlatePopupActive = !this.editPlatePopupActive;
+      this.closeThePopup = !this.closeThePopup;
+    },
     closePopup() {
       this.closeThePopup = !this.closeThePopup;
       if (this.addPlatePopupActive == true) {
         this.addPlatePopupActive = !this.addPlatePopupActive;
       } else if (this.editInformationsPopupActive == true) {
         this.editInformationsPopupActive = !this.editInformationsPopupActive;
+      }else if(this.editPlatePopupActive == true ){
+        this.editPlatePopupActive = !this.editPlatePopupActive;
       }
     },
     // previewFiles: function(event) {

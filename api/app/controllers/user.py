@@ -65,14 +65,14 @@ def login():
         password = request.form.get('password')
 
         if not(mail) or not(password):
-            return jsonify(session=False, success=False, message="Information imcomplaite")
+            return jsonify(session=False, success=False, message="Informations incomplètes")
 
         else:
 
             user = User.query.filter_by(mail=mail).first()
 
             if not(user):
-                return jsonify(session=False, success=False, message="le compte existe pas")
+                return jsonify(session=False, success=False, message="Le compte n'existe pas")
 
             if check_password_hash(user.password, password):
                 login_user(user)
@@ -87,10 +87,10 @@ def login():
                     }
                 }
 
-                return jsonify(session=session, success=True, message="co")
+                return jsonify(session=session, success=True, message="Vous êtes connecté, vous allez être redirigé")
 
             else:
-                return jsonify(session=False, success=False, message="mot de passe incorrecte")
+                return jsonify(session=False, success=False, message="Mot de passe incorrect")
 
     return jsonify()
 

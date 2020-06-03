@@ -25,7 +25,7 @@ def signup():
         repassword = request.form.get('repassword')
 
         if not(name) or not(mail) or not(logo) or not(address) or not(category) or not(password) or not(repassword):
-            return jsonify(success=False, message='il manque des info')
+            return jsonify(success=False, message='Il manque des informations')
 
         else:
 
@@ -52,7 +52,7 @@ def signup():
                         os.makedirs(uploads_dir, exist_ok=True)
                         logo.save(os.path.join(uploads_dir, filename))
 
-                        return jsonify(success=True, message="votre compte a été créer")
+                        return jsonify(success=True, message="Votre compte a bien été créé")
 
                     else:
                         return jsonify(success=False, message="Le fichier n'est pas une image")
@@ -76,7 +76,7 @@ def login():
         password = request.form.get('password')
 
         if not(mail) or not(password):
-            return jsonify(session=False, success=False, message="Information imcomplaite")
+            return jsonify(session=False, success=False, message="Information imcomplète")
 
         else:
 
@@ -84,7 +84,7 @@ def login():
             user = User.query.filter_by(mail=mail).first()
 
             if not(restaurant):
-                return jsonify(session=False, success=False, message="le compte existe pas")
+                return jsonify(session=False, success=False, message="Le compte n'existe pas")
 
             if check_password_hash(restaurant.password, password):
                 login_user(restaurant)
@@ -102,7 +102,7 @@ def login():
                 return jsonify(session=session, success=True, message="co")
 
             else:
-                return jsonify(session=False, success=False, message="mot de passe incorrecte")
+                return jsonify(session=False, success=False, message="Mot de passe incorrecte")
 
     return jsonify()
 
@@ -189,10 +189,10 @@ def getCategoryRestaurant(category):
             })
 
         results = arrayRestaurant
-        message = "Voici l'ensemble des restaurants avec la categorie " + category
+        message = "Voici l'ensemble des restaurants avec la catégorie " + category
         success = True
     else:
-        message = "la categories " + category + " n'est pas reconnue"
+        message = "La catégorie " + category + " n'est pas reconnue"
         success = False
         return jsonify(success=success, message=message)
 
@@ -265,7 +265,7 @@ def getRestaurantPlate(id):
         'plates': arrayPlates
     }
 
-    message = 'Voici la liste des menu du restaurant'
+    message = 'Voici la liste des menus du restaurant'
     success = True
 
     return jsonify(success=success, message=message, results=results)
@@ -311,7 +311,7 @@ def setNewPlate():
                                 newPlate = Plate(name, type, None, picture.filename, float(unitPrice), restaurant)
 
                             else:
-                                return jsonify(success=False, message="le plate a besoin d'une description")
+                                return jsonify(success=False, message="Le plat a besoin d'une description")
 
                             db.session.add(newPlate)
                             db.session.commit()
@@ -338,7 +338,7 @@ def setNewPlate():
 
             else:
                 success = False
-                message = "vous etes pas connecter avec le bon utilisateur"
+                message = "Vous n'êtes pas connecté avec le bon utilisateur"
 
         else:
             success = False
@@ -397,7 +397,7 @@ def setUpdatePlate(id):
                         plate.type = type
 
                         if not(content):
-                            return jsonify(success=False, message="le plat à besoin d'une description")
+                            return jsonify(success=False, message="Le plat a besoin d'une description")
 
                     args.append("le type")
 
@@ -426,18 +426,18 @@ def setUpdatePlate(id):
                     success = True
 
                 else:
-                    message = 'tous les champs sont vide'
+                    message = 'Tous les champs sont vides'
                     success = False
 
                 db.session.commit()
 
             else:
                 success = False
-                message = "vous etes pas connecter avec le bon utilisateur"
+                message = "Vous n'êtes pas connecté avec le bon utilisateur"
 
         else:
             success = False
-            message = "vous etes pas connecter"
+            message = "Vous n'êtes pas connecté"
 
     return jsonify(success=success, message=message)
 
@@ -454,15 +454,15 @@ def setDeletePlate(id):
                 db.session.commit()
 
                 success = True
-                message = "le plat a été supprimer"
+                message = "Le plat a été supprimé"
 
             else:
                 success = False
-                message = "vous etes pas connecter avec le bon utilisateur"
+                message = "Vous n'êtes pas connecté avec le bon utilisateur"
 
         else:
             success = False
-            message = "vous etes pas connecter"
+            message = "Vous n'êtes pas connecté"
 
     return jsonify(success=success, message=message)
 
@@ -482,14 +482,14 @@ def setUpdateRestaurant():
                     if newPassword == repassword:
                         restaurant.password = generate_password_hash(newPassword, method="pbkdf2:sha256", salt_length=8)
                         print(restaurant.password)
-                        message = "le mot de passe à bien été modifié"
+                        message = "Le mot de passe à bien été modifié"
                         success = True
 
                     else:
-                        message = "le mot de passe n'est pas le meme sur les deux champs"
+                        message = "Le mot de passe n'est pas similaire sur les deux champs"
                         success = False
                 else:
-                    message = "le champ du mot de passe est vide"
+                    message = "Le champ du mot de passe est vide"
                     success = False
             else:
                 name = request.form.get('name')
@@ -547,14 +547,14 @@ def setUpdateRestaurant():
                     success = True
 
                 else:
-                    message = 'tous les champs sont vide'
+                    message = 'Tous les champs sont vides'
                     success = False
 
             db.session.commit()
 
         else:
             success = False
-            message = "vous etes pas connecter"
+            message = "Vous n'êtes pas connecté"
 
     return jsonify(success=success, message=message)
 
