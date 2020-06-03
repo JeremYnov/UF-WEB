@@ -14,7 +14,7 @@ def logout():
         logout_user()
         return jsonify(session=False, success=True, message='Deconnexion')
     else:
-        return jsonify(session=False, success=False, message='Pas de compte connecter')
+        return jsonify(session=False, success=False, message='Pas de compte connecté')
 
 
 @user.route('/signup',  methods=['POST'])
@@ -29,7 +29,7 @@ def signup():
         repassword = request.form.get('repassword')
 
         if not(firstName) or not(lastName) or not(address) or not(mail) or not(password) or not(repassword):
-            return jsonify(success=False, message='il manque des info')
+            return jsonify(success=False, message='Certaines informations ne sont pas remplies')
 
         else:
             searchUser = User.query.filter_by(mail=mail).first()
@@ -47,7 +47,7 @@ def signup():
                 db.session.add(newUser)
                 db.session.commit()
 
-                return jsonify(success=True, message="votre compte a été créer")
+                return jsonify(success=True, message="Votre compte a été créé")
 
     return jsonify()
 

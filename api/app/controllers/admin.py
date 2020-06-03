@@ -17,7 +17,7 @@ def signup():
         repassword = request.form.get('repassword')
 
         if not(userName) or not(mail) or not(password) or not(repassword):
-            return jsonify(success=False, message='il manque des info')
+            return jsonify(success=False, message='Certaines informations ne sont pas remplies')
 
         else:
             searchAdmin = Admin.query.filter_by(mail=mail).first()
@@ -35,6 +35,6 @@ def signup():
                 db.session.add(newAdmin)
                 db.session.commit()
 
-                return jsonify(success=True, message="votre compte a été créer")
+                return jsonify(success=True, message="Votre compte a été créé")
 
     return jsonify()

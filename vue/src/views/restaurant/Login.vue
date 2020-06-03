@@ -2,14 +2,15 @@
   <div class="login-wrapper" v-bind:style="{ height: screenHeight + 'px' }">
     <div class="login-title">
       <h2>Connexion</h2>
+      <p>(Restaurateur)</p>
     </div>
 
     <div v-if="info != null">
-      <div v-if="info.success">
-        <p>Success {{ info.message }}</p>
+      <div class="message-container" v-if="info.success">
+        <div class="success">{{ info.message }}</div>
       </div>
-      <div v-else>
-        <p>Error {{ info.message }}</p>
+      <div class="message-container" v-else>
+        <div class="error">{{ info.message }}</div>
       </div>
     </div>
 
@@ -58,10 +59,10 @@ export default {
     return {
       form: {
         mail: null,
-        password: null
+        password: null,
       },
       info: null,
-      screenHeight: 0
+      screenHeight: 0,
     };
   },
   created() {
@@ -80,7 +81,7 @@ export default {
 
       const response = await axios
         .post("/api/restaurant/login", bodyFormData, {
-          headers: { "Content-Type": "application/x-www-form-urlencoded" }
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
         })
         .then(function(response) {
           return response;
@@ -91,9 +92,11 @@ export default {
 
       this.info = response.data;
 
-      localStorage.setItem("session", response.data.session);
-      router.push("/");
-      location.reload();
+      if (this.info.success) {
+        localStorage.setItem("session", response.data.session);
+        router.push("/");
+        location.reload();
+      }
     },
     handleResize() {
       this.windowHeight = window.innerHeight;
@@ -101,7 +104,7 @@ export default {
       this.footerHeight = document.querySelector("footer").clientHeight;
       this.screenHeight =
         this.windowHeight - (this.headerHeight + this.footerHeight);
-    }
-  }
+    },
+  },
 };
 </script>

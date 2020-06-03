@@ -48,7 +48,7 @@
         <h2>Modifier le profil</h2>
       </div>
       <form @submit.prevent="updateProfile" method="POST">
-         <div class="grid50-50">
+        <div class="grid50-50">
           <div class="form__group field">
             <input
               v-model="form.firstName"
@@ -57,7 +57,9 @@
               class="form__field"
               placeholder="Prénom"
             />
-            <label for="firstName" class="form__label">{{user.firstName}}</label>
+            <label for="firstName" class="form__label">{{
+              user.firstName
+            }}</label>
           </div>
 
           <div class="form__group field">
@@ -68,7 +70,9 @@
               class="form__field"
               placeholder="Nom"
             />
-            <label for="lastName" class="form__label">{{user.lastName}}</label>
+            <label for="lastName" class="form__label">{{
+              user.lastName
+            }}</label>
           </div>
         </div>
 
@@ -80,7 +84,7 @@
             class="form__field"
             placeholder="Adresse"
           />
-          <label for="address" class="form__label">{{user.address}}</label>
+          <label for="address" class="form__label">{{ user.address }}</label>
         </div>
 
         <!-- <div class="form__group field">
@@ -148,7 +152,6 @@ export default {
       }
     };
   },
-
   methods: {
     toggleEditProfile() {
       this.editProfilePopupActive = !this.editProfilePopupActive;

@@ -310,7 +310,7 @@ def setNewPlate():
                             picture.save(os.path.join(uploads_dir, filename))
 
                             success = True
-                            message = "le palte a été créer"
+                            message = "Le plat a été créé"
 
                         else:
                             success = False
@@ -322,7 +322,7 @@ def setNewPlate():
 
                 else:
                     success = False
-                    message = "il manque des info"
+                    message = "Il manque des informations"
 
             else:
                 success = False
@@ -330,7 +330,7 @@ def setNewPlate():
 
         else:
             success = False
-            message = "vous etes pas connecter"
+            message = "Vous n'êtes pas connecté"
 
     return jsonify(success=success, message=message)
 

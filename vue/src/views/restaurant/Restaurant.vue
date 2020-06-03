@@ -44,7 +44,7 @@
       </div>
       <div class="plate-informations">
         <h2 class="plate-name">{{ onlyOnePlate.name }}</h2>
-        <p class="plate-content">{{ onlyOnePlate.content }}</p>
+        <p class="plate-content">{{ onlyOnePlate.description }}</p>
         <button
           class="add-to-cart-button"
           v-on:click="togglePlateInformations(), addShoppingCart(onlyOnePlate)"

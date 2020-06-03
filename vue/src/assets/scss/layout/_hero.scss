@@ -96,7 +96,8 @@ $ani-delay: 1s;
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
-    height: calc(50vh - 55px);
+    // height: calc(50vh - 55px);
+    height: 350px;
     margin-bottom: 20px;
 
     .hero-content{

@@ -47,13 +47,13 @@
               >
             </li>
 
-            <li class="header-nav-item middle-item">
+            <!-- <li class="header-nav-item middle-item">
               <a href="/about">About</a>
             </li>
 
             <li class="header-nav-item">
               <a href="#">Blog</a>
-            </li>
+            </li> -->
           </ul>
         </nav>
         <nav class="header-nav">

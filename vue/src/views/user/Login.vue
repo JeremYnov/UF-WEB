@@ -5,11 +5,11 @@
     </div>
 
     <div v-if="info != null">
-      <div v-if="info.success">
-        <p>Success {{ info.message }}</p>
+      <div class="message-container" v-if="info.success">
+        <div class="success">{{ info.message }}</div>
       </div>
-      <div v-else>
-        <p>Error {{ info.message }}</p>
+      <div class="message-container" v-else>
+        <div class="error">{{ info.message }}</div>
       </div>
     </div>
 
@@ -94,9 +94,16 @@ export default {
 
       this.info = response.data;
 
-      localStorage.setItem("session", response.data.session);
-      router.push("/");
-      location.reload();
+      console.log(this.info);
+      
+
+      if (this.info.success) {
+        localStorage.setItem("session", response.data.session);
+        router.push("/");
+        location.reload();
+      }
+
+      
     },
     handleResize() {
       this.windowHeight = window.innerHeight;
