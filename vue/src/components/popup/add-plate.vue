@@ -74,11 +74,11 @@ export default {
   data: function() {
     return {
       form: {
-        name: null,
-        type: null,
-        description: null,
-        unitPrice: null,
-        image: null
+        name: "",
+        type: "",
+        description: "",
+        unitPrice: "",
+        image: ""
       }
     };
   },
