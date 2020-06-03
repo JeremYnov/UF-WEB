@@ -7,9 +7,15 @@
       <button class="submit-btn" v-on:click="toggleEditInformations()">Modifier les informations</button>
     </div>
     <div class="submit-btn-container">
-      <button class="submit-btn" v-on:click="chosenTable = 1">Tableau 1</button>
-      <button class="submit-btn" v-on:click="chosenTable = 2">Tableau 2</button>
-      <button class="submit-btn" v-on:click="chosenTable = 3">Tableau 3</button>
+      <button class="submit-btn" v-on:click="chosenTable = 1">
+        Liste des plats
+      </button>
+      <button class="submit-btn" v-on:click="chosenTable = 2">
+        Commandes en cours
+      </button>
+      <button class="submit-btn" v-on:click="chosenTable = 3">
+        Historique des commandes
+      </button>
     </div>
     <div class="container">
       <Plates v-if="chosenTable == 1" :plates="plates" />
