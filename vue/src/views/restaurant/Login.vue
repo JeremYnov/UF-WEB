@@ -59,10 +59,10 @@ export default {
     return {
       form: {
         mail: null,
-        password: null,
+        password: null
       },
       info: null,
-      screenHeight: 0,
+      screenHeight: 0
     };
   },
   created() {
@@ -81,7 +81,7 @@ export default {
 
       const response = await axios
         .post("/api/restaurant/login", bodyFormData, {
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          headers: { "Content-Type": "application/x-www-form-urlencoded" }
         })
         .then(function(response) {
           return response;
@@ -93,9 +93,13 @@ export default {
       this.info = response.data;
 
       if (this.info.success) {
-        localStorage.setItem("session", response.data.session);
-        router.push("/");
-        location.reload();
+        const parsed = JSON.stringify(response.data.session);
+        localStorage.setItem("session", parsed);
+        // localStorage.setItem("session", response.data.session);
+        await setTimeout(() => {
+          router.push("/");
+          location.reload();
+        }, 2000);
       }
     },
     handleResize() {
@@ -104,7 +108,7 @@ export default {
       this.footerHeight = document.querySelector("footer").clientHeight;
       this.screenHeight =
         this.windowHeight - (this.headerHeight + this.footerHeight);
-    },
-  },
+    }
+  }
 };
 </script>

@@ -10,6 +10,7 @@ export default {
     });
 
     localStorage.removeItem("session");
+    localStorage.removeItem("order");
     router.push("/");
     location.reload();
   }

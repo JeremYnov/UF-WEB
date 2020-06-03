@@ -6,6 +6,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from ..config.database import db
 from ..models.restaurant import Restaurant
+from ..models.user import User
 from ..models.plate import Plate
 
 restaurant = Blueprint('restaurant', __name__, url_prefix='/api/restaurant')
@@ -80,6 +81,7 @@ def login():
         else:
 
             restaurant = Restaurant.query.filter_by(mail=mail).first()
+            user = User.query.filter_by(mail=mail).first()
 
             if not(restaurant):
                 return jsonify(session=False, success=False, message="le compte existe pas")
@@ -87,7 +89,17 @@ def login():
             if check_password_hash(restaurant.password, password):
                 login_user(restaurant)
 
-                return jsonify(session=True, success=True, message="co")
+                print(current_user)
+
+                session = {
+                    "session": True,
+                    "user": {
+                        "role": "restaurant",
+                        "id": int(restaurant.id)
+                    }
+                }
+
+                return jsonify(session=session, success=True, message="co")
 
             else:
                 return jsonify(session=False, success=False, message="mot de passe incorrecte")

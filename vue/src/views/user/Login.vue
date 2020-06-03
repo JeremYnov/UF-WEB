@@ -95,15 +95,14 @@ export default {
       this.info = response.data;
 
       console.log(this.info);
-      
 
       if (this.info.success) {
-        localStorage.setItem("session", response.data.session);
+        // localStorage.setItem("session", response.data.session);
+        const parsed = JSON.stringify(response.data.session);
+        localStorage.setItem("session", parsed);
         router.push("/");
         location.reload();
       }
-
-      
     },
     handleResize() {
       this.windowHeight = window.innerHeight;
