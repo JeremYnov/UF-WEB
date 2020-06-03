@@ -20,12 +20,20 @@
         <td v-if="plate.content != null">{{ plate.content | truncate(50) }}</td>
         <td v-else></td>
         <td>{{ plate.type }}</td>
-        <td>{{ plate.unitPrice }}</td>
+        <td>{{ plate.unitPrice }}€</td>
         <td class="modification-row">
-          <button class="edit-button">
+          <button
+            class="edit-button"
+            v-on:click="
+              scrollToTop(),
+                $emit('openPopup', true),
+                $emit('openOverlay', true),
+                $emit('plateId', plate.id)
+            "
+          >
             <i class="fas fa-edit edit"></i>
           </button>
-          <button class="delete-button">
+          <button class="delete-button" v-on:click="deletePlate(plate.id)">
             <i class="fa fa-trash delete"></i>
           </button>
         </td>
@@ -35,9 +43,10 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   props: {
-    plates: null
+    plates: null,
   },
   filters: {
     truncate: function(value, limit) {
@@ -45,7 +54,31 @@ export default {
         value = value.substring(0, limit - 3) + "...";
       }
       return value;
-    }
-  }
+    },
+  },
+  methods: {
+    scrollToTop() {
+      window.scrollTo(0, 0);
+    },
+    deletePlate(id) {
+      console.log("/api/restaurant/delete/plate/" + id);
+      const response = axios
+        .post("/api/restaurant/delete/plate/" + id, {
+          headers: {
+            "Content-Type":
+              "application/x-www-form-urlencoded; multipart/form-data",
+          },
+        })
+        .then(function(response) {
+          return response;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+
+      this.info = response.data;
+      // location.reload();
+    },
+  },
 };
 </script>
