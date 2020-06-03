@@ -16,13 +16,13 @@
     </div>
     <div class="submit-btn-container">
       <button class="submit-btn" v-on:click="chosenTable = 1">
-        Tableau 1
+        Liste des plats
       </button>
       <button class="submit-btn" v-on:click="chosenTable = 2">
-        Tableau 2
+        Commandes en cours
       </button>
       <button class="submit-btn" v-on:click="chosenTable = 3">
-        Tableau 3
+        Historique des commandes
       </button>
     </div>
     <div class="container">
