@@ -205,6 +205,7 @@ def getAllOrderHistoric():
                 {
                     "id": order.id,
                     "total": float(order.total),
+                    "deliveryDate": order.delivery_date.strftime("%m/%d/%Y"),
                     "restaurant": {
                         "id": restaurant.id,
                         "name": restaurant.name,
