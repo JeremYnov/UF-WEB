@@ -5,7 +5,7 @@
       resize ? { height: screenHeight + 'px' } : { height: 'auto' },
     ]"
   >
-    <div
+    <!-- <div
       class="hero"
       v-bind:style="{
         'background-image':
@@ -24,7 +24,9 @@
           <p>Solde : {{ user.balance }}€</p>
         </div>
       </div>
-    </div>
+    </div> -->
+
+    <ProfileHero :user="this.user" />
     <div class="submit-btn-container">
       <button class="submit-btn" v-on:click="toggleEditProfile()">
         Modifier les informations
@@ -135,9 +137,14 @@
 
 <script>
 import axios from "axios";
+import ProfileHero from "@/components/hero/profile-hero.vue";
+  
 
 export default {
- name: "UserProfile",
+  name: "UserProfile",
+  components: {
+    ProfileHero,
+  },
   data: function() {
     return {
       user: null,
@@ -145,11 +152,11 @@ export default {
       resize: false,
       editProfilePopupActive: false,
       closeThePopup: false,
-      form:{
+      form: {
         firstName: "",
         lastName: "",
-        address: ""
-      }
+        address: "",
+      },
     };
   },
   methods: {
@@ -186,7 +193,7 @@ export default {
 
       const response = await axios
         .post("/api/user/profile/update", bodyFormData, {
-          headers: { "Content-Type": "application/x-www-form-urlencoded" }
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
         })
         .then(function(response) {
           return response;

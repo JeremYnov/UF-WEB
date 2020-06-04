@@ -140,17 +140,18 @@ def updateProfile():
 
                 if newPassword:
                     if newPassword == repassword:
-                        user.password = generate_password_hash(newPassword, method="pbkdf2:sha256", salt_length=8)
+                        user.password = generate_password_hash(
+                            newPassword, method="pbkdf2:sha256", salt_length=8)
 
-                        message = "le mot de passe à bien été modifié"
+                        message = "Le mot de passe a bien été modifié"
                         success = True
 
                     else:
-                        message = "le mot de passe n'est pas le meme sur les deux champs"
+                        message = "Le mot de passe n'est pas similaire sur les deux champs"
                         success = False
 
                 else:
-                    message = "le champ du mot de passe est vide"
+                    message = "Le champ du mot de passe est vide"
                     success = False
 
             else:
@@ -173,7 +174,8 @@ def updateProfile():
                     args.append("l'adresse")
 
                 if len(args) == 3:
-                    message = args[0] + ', ' + args[1] + ', ' + args[2] + ' ont été modifié'
+                    message = args[0] + ', ' + args[1] + \
+                        ', ' + args[2] + ' ont été modifié'
                     success = True
 
                 elif len(args) == 2:
@@ -195,3 +197,26 @@ def updateProfile():
             success = False
 
     return jsonify(success=success, message=message)
+
+
+
+@user.route('/dashboard/profile/<int:id>')
+def getUserProfile(id):
+    
+    profile = User.query.get(int(id))
+    # profile = User.query.filter_by(id = id)
+    # print(profile)
+
+    results = {
+        'id': profile.id,
+        'firstName': profile.firstName,
+        'lastName': profile.lastName,
+        'address': profile.address,
+        'mail': profile.mail,
+        'balance': profile.balance
+    }
+
+    message = "Voici l'utilisateur recherché"
+    success = True
+
+    return jsonify(success=success, message=message, results=results)

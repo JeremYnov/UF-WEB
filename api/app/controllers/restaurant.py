@@ -572,3 +572,29 @@ def allowed_image(filename):
         return True
     else:
         return False
+
+@restaurant.route('/dashboard/restaurant/<int:id>')
+def getRestaurantProfile(id):
+    
+    restaurant = Restaurant.query.get(int(id))
+    # profile = User.query.filter_by(id = id)
+    # print(profile)
+
+    results = {
+        'id': restaurant.id,
+        'name': restaurant.name,
+        'category': restaurant.category,
+        'address': restaurant.address,
+        'mail': restaurant.mail,
+        'logo': {
+                'url': request.url_root + 'api/restaurant/' + str(restaurant.id) + '/logo/' + restaurant.logo,
+                'name': restaurant.logo
+            },
+        # 'logo': restaurant.logo,
+        'creation': restaurant.creation,
+    }
+
+    message = "Voici le restaurant recherché"
+    success = True
+
+    return jsonify(success=success, message=message, results=results)
