@@ -7,6 +7,7 @@ from ..models.admin import Admin
 from ..models.user import User
 from ..models.restaurant import Restaurant
 from ..models.order import Order
+from ..models.plate import Plate
 
 admin = Blueprint('admin', __name__, url_prefix='/api/admin')
 
@@ -274,6 +275,98 @@ def getMemberProfile(id):
         }
 
         message = "Voici le profil de l'utilisateur " + str(user.id)
+        success = True
+
+    else:
+
+        message = "L'utilisateur n'est pas connecté"
+        success = False
+
+        return jsonify(success=success, message=message)
+
+    return jsonify(success=success, message=message, results=results)
+
+
+@admin.route('/restaurant/<int:id>/dashboard')
+def getRestaurantDashboard(id):
+    if current_user.is_authenticated:
+        restaurant = Restaurant.query.get(id)
+        plates = Plate.query.filter_by(id_restaurant=restaurant.id).all()
+        ordersInProgress = Order.query.filter_by(id_restaurant=restaurant.id).filter(Order.delivery_date > datetime.now()).all()
+        ordersHistoric = Order.query.filter_by(id_restaurant=restaurant.id).filter(Order.delivery_date < datetime.now()).all()
+
+        arrayPlates = []
+        arrayOrdersInProgress = []
+        arrayOrdersHistoric = []
+
+        for order in ordersInProgress:
+            user = User.query.get(order.id_user)
+
+            arrayOrdersInProgress.append(
+                {
+                    "id": order.id,
+                    "total": float(order.total),
+                    "restaurant": order.id_restaurant,
+                    "creationDate": order.creation_date.strftime("%m/%d/%Y"),
+                    "user": {
+                        "id": user.id,
+                        "name": user.lastName + ' ' + user.firstName,
+                        "address": user.address,
+                        "mail": user.mail
+                    }
+                }
+            )
+
+        for order in ordersHistoric:
+            user = User.query.get(order.id_user)
+
+            arrayOrdersHistoric.append(
+                {
+                    "id": order.id,
+                    "total": float(order.total),
+                    "restaurant": order.id_restaurant,
+                    "creationDate": order.creation_date.strftime("%m/%d/%Y"),
+                    "user": {
+                        "id": user.id,
+                        "name": user.lastName + ' ' + user.firstName,
+                        "address": user.address,
+                        "mail": user.mail
+                    }
+                }
+            )
+
+        for plate in plates:
+            arrayPlates.append({
+                'id': plate.id,
+                'name': plate.name,
+                'type': plate.type,
+                'picture': {
+                    'url': request.url_root + 'api/restaurant/' + str(restaurant.id) + '/plates/' + str(plate.id) + '/' + plate.picture,
+                    'name': plate.picture
+                },
+                'content': plate.content,
+                'unitPrice': plate.unitPrice,
+                'id_restaurant': plate.id_restaurant
+            })
+
+        results = {
+            'id': restaurant.id,
+            'name': restaurant.name,
+            'category': restaurant.category,
+            'logo': {
+                'url': request.url_root + 'api/restaurant/' + str(restaurant.id) + '/logo/' + restaurant.logo,
+                'name': restaurant.logo
+            },
+            'address': restaurant.address,
+            'mail': restaurant.mail,
+            'creation': restaurant.creation,
+            'selection': True if restaurant.selection == 1 else False,
+            'plates': arrayPlates,
+            'ordersInProgress': arrayOrdersInProgress,
+            'ordersHistoric': arrayOrdersHistoric
+        }
+
+        message = "Voici le profil du restaurant " + str(restaurant.id)
         success = True
 
     else:
