@@ -15,7 +15,7 @@
         <td>{{ currentOrder.id }}</td>
         <td>{{ currentOrder.restaurant.name}}</td>
         <td>{{ currentOrder.restaurant.address | truncate(40)}}</td>
-        <td>{{ currentOrder.user.lastName}}</td>
+        <td>{{ currentOrder.user.name}}</td>
         <td>{{ currentOrder.user.mail}}</td>
         <td>{{ currentOrder.total}}€</td>
       </tr>
@@ -24,23 +24,21 @@
 </template>
 
 <script>
-// import axios from "axios";
+import axios from "axios";
 
 export default {
   data() {
     return {
-      currentOrder: null
+      currentOrders: null
     };
   },
-
   mounted() {
     this.getAllOrderInProgress();
   },
-
   methods: {
     async getAllOrderInProgress() {
       const response = await axios
-        .get("/api/restaurant/all")
+        .get("/api/admin/all/order/progress")
         .then(function(response) {
           return response;
         })
@@ -48,7 +46,7 @@ export default {
           console.log(error);
         });
 
-      this.currentOrder = response.data.results;
+      this.currentOrders = response.data.results;
     }
   }
 };

@@ -28,9 +28,9 @@
           >
             <i class="fas fa-edit edit"></i>
           </button>
-          <!-- <button class="delete-button" v-on:click="deletePlate(plate.id)">
+          <button class="delete-button" v-on:click="deletePlate(plate.id)">
             <i class="fa fa-trash delete"></i>
-          </button> -->
+          </button>
         </td>
       </tr>
     </tbody>
@@ -38,8 +38,13 @@
 </template>
 
 <script>
-// import axios from "axios";
+import axios from "axios";
 export default {
+  data() {
+    return {
+      users: null
+    };
+  },
   filters: {
     truncate: function(value, limit) {
       if (value.length > limit) {
@@ -48,28 +53,25 @@ export default {
       return value;
     }
   },
+  mounted() {
+    this.getAllMember();
+  },
   methods: {
     scrollToTop() {
       window.scrollTo(0, 0);
     },
-    // deletePlate(id) {
-    //   console.log("/api/restaurant/delete/plate/" + id);
-    //   const response = axios
-    //     .post("/api/restaurant/delete/plate/" + id, {
-    //       headers: {
-    //         "Content-Type": "application/x-www-form-urlencoded"
-    //       }
-    //     })
-    //     .then(function(response) {
-    //       return response;
-    //     })
-    //     .catch(function(error) {
-    //       console.log(error);
-    //     });
+    async getAllMember() {
+      const response = await axios
+        .get("/api/admin/list/member")
+        .then(function(response) {
+          return response;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
 
-    //   this.info = response.data;
-    //   location.reload();
-    // }
+      this.users = response.data.results;
+    }
   }
 };
 </script>
