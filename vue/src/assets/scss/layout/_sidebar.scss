@@ -1,12 +1,13 @@
 .sidebar-wrapper {
     display: flex;
+    min-height: 100vh;
 
     //   position: relative;
     .sidebar {
-        width: 220px;
+        width: 280px;
         background: #4b4276;
         padding: 30px 10px;
-        height: 100vh;
+        min-height: 100%;
 
         //   position: fixed;
         h2 {
