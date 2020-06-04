@@ -27,30 +27,29 @@
 import axios from "axios";
 
 export default {
-
   data() {
     return {
-    //   allRestaurant: null
+      currentOrder: null
     };
   },
 
-//   mounted() {
-//     this.getAllRestaurant();
-//   },
+  mounted() {
+    this.getAllOrderInProgress();
+  },
 
-//   methods: {
-//     async getAllRestaurant() {
-//       const response = await axios
-//         .get("/api/restaurant/all")
-//         .then(function(response) {
-//           return response;
-//         })
-//         .catch(function(error) {
-//           console.log(error);
-//         });
+  methods: {
+    async getAllOrderInProgress() {
+      const response = await axios
+        .get("/api/restaurant/all")
+        .then(function(response) {
+          return response;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
 
-//       this.allRestaurant = response.data.results;
-//     },
-//   }
+      this.currentOrder = response.data.results;
+    }
+  }
 };
 </script>
