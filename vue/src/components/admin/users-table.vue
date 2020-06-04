@@ -14,20 +14,19 @@
       <tr v-for="user in users" :key="user.id">
         <td>{{ user.firstName }}</td>
         <td>{{ user.lastName }}</td>
-        <td>{{ user.mail}}</td>
-        <td>{{ user.address | truncate(40)}}</td>
+        <td>{{ user.mail }}</td>
+        <td>{{ user.address | truncate(40) }}</td>
         <td class="modification-row">
-          <button
-            class="edit-button"
-            v-on:click="
-              scrollToTop(),
-                $emit('openPopup', true),
-                $emit('openOverlay', true),
-                $emit('UserId', user.id)
-            "
+          <router-link
+            v-bind:to="{
+              name: 'AdminUserDashboard',
+              params: { id: user.id },
+            }"
           >
-            <i class="fas fa-edit edit"></i>
-          </button>
+            <button class="edit-button">
+              <i class="fas fa-edit edit"></i>
+            </button>
+          </router-link>
           <button class="delete-button" v-on:click="deletePlate(plate.id)">
             <i class="fa fa-trash delete"></i>
           </button>
@@ -42,7 +41,7 @@ import axios from "axios";
 export default {
   data() {
     return {
-      users: null
+      users: null,
     };
   },
   filters: {
@@ -51,7 +50,7 @@ export default {
         value = value.substring(0, limit - 3) + "...";
       }
       return value;
-    }
+    },
   },
   mounted() {
     this.getAllMember();
@@ -71,7 +70,7 @@ export default {
         });
 
       this.users = response.data.results;
-    }
-  }
+    },
+  },
 };
 </script>

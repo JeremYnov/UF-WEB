@@ -16,6 +16,16 @@ const routes = [
 		component : () => import('../views/admin/Dashboard.vue')
 	},
 	{
+		path      : '/admin/restaurant/:id/dashboard',
+		name      : 'AdminRestaurantDashboard',
+		component : () => import('../views/admin/Restaurant-Dashboard.vue')
+	},
+	{
+		path      : '/admin/user/:id/dashboard',
+		name      : 'AdminUserDashboard',
+		component : () => import('../views/admin/User-Dashboard.vue')
+	},
+	{
 		path      : '/user/signup',
 		name      : 'UserSignup',
 		component : () => import('../views/user/Signup.vue')

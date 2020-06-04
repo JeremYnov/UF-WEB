@@ -13,21 +13,20 @@
     <tbody>
       <tr v-for="restaurant in allRestaurant" :key="restaurant.id">
         <td><img v-bind:src="restaurant.logo.url" class="image" /></td>
+
         <td>{{ restaurant.name }}</td>
         <td>{{ restaurant.category }}</td>
         <td>{{ restaurant.address | truncate(40) }}</td>
         <td class="modification-row">
-          <button
-            class="edit-button"
-            v-on:click="
-              scrollToTop(),
-                $emit('openPopup', true),
-                $emit('openOverlay', true),
-                $emit('plateId', plate.id)
-            "
+          <router-link
+            v-bind:to="{
+              name: 'AdminRestaurantDashboard', params:{id: restaurant.id}
+            }"
           >
-            <i class="fas fa-edit edit"></i>
-          </button>
+            <button class="edit-button">
+              <i class="fas fa-edit edit"></i>
+            </button>
+          </router-link>
           <button class="delete-button" v-on:click="deletePlate(plate.id)">
             <i class="fa fa-trash delete"></i>
           </button>
