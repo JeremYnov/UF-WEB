@@ -23,7 +23,7 @@
     <div class="container">
       <Plates v-if="chosenTable == 1" :plates="plates" v-on:openPopup="editPlatePopupActive = $event"  v-on:openOverlay="closeThePopup = $event" v-on:plateId="plateId = $event"/>
       <InProgressOrder v-if="chosenTable == 2" />
-      <OrdersPlaces v-if="chosenTable == 3" />
+      <OrdersPlaced v-if="chosenTable == 3" />
     </div>
 
     <AddPlatePopup
@@ -49,7 +49,7 @@
 import axios from "axios";
 import Plates from "@/components/table/plates-table.vue";
 import InProgressOrder from "@/components/table/in-progress-table.vue";
-import OrdersPlaces from "@/components/table/orders-places-table.vue";
+import OrdersPlaced from "@/components/table/orders-placed-table.vue";
 import EditRestaurantPopup from "@/components/popup/edit-restaurant.vue";
 import AddPlatePopup from "@/components/popup/add-plate.vue";
 import EditPlatePopup from "@/components/popup/edit-plate.vue";
@@ -57,7 +57,7 @@ export default {
   components: {
     Plates,
     InProgressOrder,
-    OrdersPlaces,
+    OrdersPlaced,
     EditRestaurantPopup,
     AddPlatePopup,
     EditPlatePopup,

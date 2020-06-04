@@ -14,8 +14,8 @@
       <tr v-for="restaurant in allRestaurant" :key="restaurant.id">
         <td><img v-bind:src="restaurant.logo.url" class="image" /></td>
         <td>{{ restaurant.name }}</td>
-        <td>{{ restaurant.category}}</td>
-        <td>{{ restaurant.address | truncate(40)}}</td>
+        <td>{{ restaurant.category }}</td>
+        <td>{{ restaurant.address | truncate(40) }}</td>
         <td class="modification-row">
           <button
             class="edit-button"
@@ -41,11 +41,18 @@
 import axios from "axios";
 
 export default {
-
   data() {
     return {
-      allRestaurant: null
+      allRestaurant: null,
     };
+  },
+  filters: {
+    truncate: function(value, limit) {
+      if (value.length > limit) {
+        value = value.substring(0, limit - 3) + "...";
+      }
+      return value;
+    },
   },
 
   mounted() {
@@ -65,6 +72,6 @@ export default {
 
       this.allRestaurant = response.data.results;
     },
-  }
+  },
 };
 </script>
