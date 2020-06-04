@@ -11,6 +11,11 @@ const routes = [
 		component : Home
 	},
 	{
+		path      : '/admin/dashboard',
+		name      : 'AdminDashboard',
+		component : () => import('../views/admin/Dashboard.vue')
+	},
+	{
 		path      : '/user/signup',
 		name      : 'UserSignup',
 		component : () => import('../views/user/Signup.vue')
@@ -36,11 +41,6 @@ const routes = [
 			requiresAuth : true
 		}
 	},
-	// {
-	// 	path      : '/admin/signup',
-	// 	name      : 'AdminSignup',
-	// 	component : () => import('../views/admin/Signup.vue')
-	// },
 	{
 		path      : '/restaurant/dashboard',
 		name      : 'RestaurantDashboard',
