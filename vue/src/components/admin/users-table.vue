@@ -40,9 +40,6 @@
 <script>
 // import axios from "axios";
 export default {
-  props: {
-    plates: null
-  },
   filters: {
     truncate: function(value, limit) {
       if (value.length > limit) {
