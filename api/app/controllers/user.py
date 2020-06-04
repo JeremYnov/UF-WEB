@@ -18,7 +18,7 @@ def getSession():
 def logout():
     if current_user.is_authenticated:
         logout_user()
-        return jsonify(session=False, success=True, message='Deconnexion')
+        return jsonify(session=False, success=True, message='Déconnexion')
     else:
         return jsonify(session=False, success=False, message='Pas de compte connecté')
 
@@ -185,13 +185,13 @@ def updateProfile():
                     success = True
 
                 else:
-                    message = 'tous les champs sont vide'
+                    message = 'Tous les champs sont vide'
                     success = False
 
             db.session.commit()
 
         else:
-            message = "L'utilisateur n'est pas connecter"
+            message = "L'utilisateur n'est pas connecté"
             success = False
 
     return jsonify(success=success, message=message)

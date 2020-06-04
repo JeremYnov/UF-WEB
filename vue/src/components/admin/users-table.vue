@@ -23,14 +23,14 @@
               scrollToTop(),
                 $emit('openPopup', true),
                 $emit('openOverlay', true),
-                $emit('plateId', plate.id)
+                $emit('UserId', user.id)
             "
           >
             <i class="fas fa-edit edit"></i>
           </button>
-          <button class="delete-button" v-on:click="deletePlate(plate.id)">
+          <!-- <button class="delete-button" v-on:click="deletePlate(plate.id)">
             <i class="fa fa-trash delete"></i>
-          </button>
+          </button> -->
         </td>
       </tr>
     </tbody>
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
 export default {
   props: {
     plates: null
@@ -55,29 +55,24 @@ export default {
     scrollToTop() {
       window.scrollTo(0, 0);
     },
-    deletePlate(id) {
-      console.log("/api/restaurant/delete/plate/" + id);
-      const response = axios
-        .post("/api/restaurant/delete/plate/" + id, {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-          }
-        })
-        .then(function(response) {
-          return response;
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
+    // deletePlate(id) {
+    //   console.log("/api/restaurant/delete/plate/" + id);
+    //   const response = axios
+    //     .post("/api/restaurant/delete/plate/" + id, {
+    //       headers: {
+    //         "Content-Type": "application/x-www-form-urlencoded"
+    //       }
+    //     })
+    //     .then(function(response) {
+    //       return response;
+    //     })
+    //     .catch(function(error) {
+    //       console.log(error);
+    //     });
 
-      this.info = response.data;
-      location.reload();
-    }
+    //   this.info = response.data;
+    //   location.reload();
+    // }
   }
 };
 </script>
-
-<style>
-@import url("https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css");
-@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
-</style>

@@ -99,7 +99,7 @@ def login():
                     }
                 }
 
-                return jsonify(session=session, success=True, message="co")
+                return jsonify(session=session, success=True, message="Vous êtes connecté, vous allez être redirigé")
 
             else:
                 return jsonify(session=False, success=False, message="Mot de passe incorrecte")
