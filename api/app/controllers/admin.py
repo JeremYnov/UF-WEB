@@ -239,14 +239,14 @@ def getDashboardData():
         restaurants = Restaurant.query.all()
         users = User.query.all()
         ordersInProgress = Order.query.filter(Order.delivery_date > datetime.now()).all()
-        ordersHistoric = Order.query.filter(Order.delivery_date < datetime.now()).all()
+        orders = Order.query.all()
 
         results = {
             "numberRestaurant": len(restaurants),
             "numberUser": len(users),
             "numberOrderInProgress": len(ordersInProgress),
-            "numberOrderHistoric": len(ordersHistoric),
-            "profit": (len(ordersHistoric) + len(ordersInProgress)) * 2.5,
+            "numberOrder": len(orders),
+            "profit": len(orders) * 2.5,
         }
         success = False
         message = "Liste des historique de commande"
