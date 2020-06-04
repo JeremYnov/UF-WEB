@@ -1,0 +1,70 @@
+<template>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Image</th>
+        <th scope="col">Nom</th>
+        <th scope="col">Catégorie</th>
+        <th scope="col">Adresse</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="restaurant in allRestaurant" :key="restaurant.id">
+        <td><img v-bind:src="restaurant.logo.url" class="image" /></td>
+        <td>{{ restaurant.name }}</td>
+        <td>{{ restaurant.category}}</td>
+        <td>{{ restaurant.address | truncate(40)}}</td>
+        <td class="modification-row">
+          <button
+            class="edit-button"
+            v-on:click="
+              scrollToTop(),
+                $emit('openPopup', true),
+                $emit('openOverlay', true),
+                $emit('plateId', plate.id)
+            "
+          >
+            <i class="fas fa-edit edit"></i>
+          </button>
+          <button class="delete-button" v-on:click="deletePlate(plate.id)">
+            <i class="fa fa-trash delete"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</template>
+
+<script>
+import axios from "axios";
+
+export default {
+
+  data() {
+    return {
+      allRestaurant: null
+    };
+  },
+
+  mounted() {
+    this.getAllRestaurant();
+  },
+
+  methods: {
+    async getAllRestaurant() {
+      const response = await axios
+        .get("/api/restaurant/all")
+        .then(function(response) {
+          return response;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+
+      this.allRestaurant = response.data.results;
+    },
+  }
+};
+</script>

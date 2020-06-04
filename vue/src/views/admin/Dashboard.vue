@@ -22,17 +22,21 @@
     <div class="main_content">
       <DashboardCards />
       <UsersTable />
+      <RestaurantsTable />
     </div>
   </div>
 </template>
 
 <script>
 import UsersTable from "@/components/admin/users-table.vue";
+import RestaurantsTable from "@/components/admin/restaurants-table.vue";
 import DashboardCards from "@/components/admin/cards.vue";
+
 export default {
   components: {
     DashboardCards,
     UsersTable,
+    RestaurantsTable,
   },
 };
 </script>
