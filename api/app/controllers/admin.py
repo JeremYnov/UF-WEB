@@ -1,7 +1,9 @@
+import os
 from datetime import datetime, timedelta
 from flask import Blueprint, request, jsonify
 from flask_login import LoginManager, login_user, current_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
 from ..config.database import db
 from ..models.admin import Admin
 from ..models.user import User
@@ -424,3 +426,184 @@ def getRestaurantDashboard(id):
         return jsonify(success=success, message=message)
 
     return jsonify(success=success, message=message, results=results)
+
+
+@admin.route('/member/<int:id>/update/profile', methods=['POST'])
+def setMemberUpdateProfile(id):
+    if request.method == 'POST':
+        if current_user.is_authenticated:
+            user = User.query.get(id)
+            type = request.form.get('type')
+
+            if type == 'password':
+                newPassword = request.form.get('newPassword')
+                repassword = request.form.get('repassword')
+
+                if newPassword:
+                    if newPassword == repassword:
+                        user.password = generate_password_hash(newPassword, method="pbkdf2:sha256", salt_length=8)
+
+                        message = "le mot de passe à bien été modifié"
+                        success = True
+
+                    else:
+                        message = "le mot de passe n'est pas le meme sur les deux champs"
+                        success = False
+
+                else:
+                    message = "le champ du mot de passe est vide"
+                    success = False
+
+            else:
+                firstName = request.form.get('firstName')
+                lastName = request.form.get('lastName')
+                address = request.form.get('address')
+
+                args = []
+
+                if firstName and user.firstName != firstName:
+                    user.firstName = firstName
+                    args.append("le prénom")
+
+                if lastName and user.lastName != lastName:
+                    user.lastName = lastName
+                    args.append("le nom")
+
+                if address and user.address != address:
+                    user.address = address
+                    args.append("l'adresse")
+
+                if len(args) == 3:
+                    message = args[0] + ', ' + args[1] + ', ' + args[2] + ' ont été modifié'
+                    success = True
+
+                elif len(args) == 2:
+                    message = args[0] + ', ' + args[1] + ' ont été modifié'
+                    success = True
+
+                elif len(args) == 1:
+                    message = args[0] + ' a été modifié'
+                    success = True
+
+                else:
+                    message = 'Tous les champs sont vide'
+                    success = False
+
+            db.session.commit()
+
+        else:
+            message = "L'utilisateur n'est pas connecté"
+            success = False
+
+    return jsonify(success=success, message=message)
+
+
+@admin.route('/restaurant/<int:id>/update/profile', methods=['POST'])
+def setRestaurantUpdateProfile(id):
+    if request.method == 'POST':
+        if current_user.is_authenticated:
+            restaurant = Restaurant.query.get(id)
+            type = request.form.get('type')
+
+            if type == 'password':
+                newPassword = request.form.get('newPassword')
+                repassword = request.form.get('repassword')
+
+                if newPassword:
+                    if newPassword == repassword:
+                        restaurant.password = generate_password_hash(newPassword, method="pbkdf2:sha256", salt_length=8)
+
+                        message = "Le mot de passe à bien été modifié"
+                        success = True
+
+                    else:
+                        message = "Le mot de passe n'est pas similaire sur les deux champs"
+                        success = False
+                else:
+                    message = "Le champ du mot de passe est vide"
+                    success = False
+            else:
+                name = request.form.get('name')
+                category = request.form.get('category')
+                address = request.form.get('address')
+                logo = request.files.get('logo')
+                print(request.form)
+                print(request.files)
+
+                print(name)
+
+                args = []
+
+                if logo and restaurant.logo != logo.filename:
+                    if allowed_image(logo.filename):
+                        if logo.mimetype == 'image/png' or logo.mimetype == 'image/jpg' or logo.mimetype == 'image/jpeg':
+
+                            filename = secure_filename(logo.filename)
+                            uploads_dir = 'uploads/' + str(restaurant.id) + '/logo/'
+
+                            os.makedirs(uploads_dir, exist_ok=True)
+                            logo.save(os.path.join(uploads_dir, filename))
+
+                            restaurant.logo = logo.filename
+                            args.append("le logo")
+
+                        else:
+                            return jsonify(success=False, message="Le fichier n'est pas une image")
+
+                    else:
+                        return jsonify(success=False, message="Le fichier n'a pas la bonne extension")
+
+                if name and restaurant.name != name:
+                    restaurant.name = name
+                    args.append("le nom")
+
+                if category and restaurant.category != category:
+                    restaurant.category = category
+                    args.append("la categorie")
+
+                if address and restaurant.address != address:
+                    restaurant.address = address
+                    args.append("l'adresse")
+
+                if len(args) == 4:
+                    message = args[0] + ', ' + args[1] + ', ' + args[2] + ', ' + args[3] + ' ont été modifié'
+                    success = True
+
+                elif len(args) == 3:
+                    message = args[0] + ', ' + args[1] + ', ' + args[2] + ' ont été modifié'
+                    success = True
+
+                elif len(args) == 2:
+                    message = args[0] + ', ' + args[1] + ' ont été modifié'
+                    success = True
+
+                elif len(args) == 1:
+                    message = args[0] + ' a été modifié'
+                    success = True
+
+                else:
+                    message = 'Tous les champs sont vides'
+                    success = False
+
+            db.session.commit()
+
+        else:
+            success = False
+            message = "Vous n'êtes pas connecté"
+
+    return jsonify(success=success, message=message)
+
+
+def allowed_image(filename):
+    # We only want files with a . in the filename
+    if not "." in filename:
+        return False
+
+    # Split the extension from the filename
+    ext = filename.rsplit(".", 1)[1]
+
+    # Check if the extension is in ALLOWED_IMAGE_EXTENSIONS
+    if ext.upper() in ["JPEG", "JPG", "PNG"]:
+        return True
+    else:
+        return False
