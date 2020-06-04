@@ -23,6 +23,8 @@
       <DashboardCards />
       <UsersTable />
       <RestaurantsTable />
+      <CurrentOrdersTable />
+      <HistoryOrdersTable />
     </div>
   </div>
 </template>
@@ -30,13 +32,18 @@
 <script>
 import UsersTable from "@/components/admin/users-table.vue";
 import RestaurantsTable from "@/components/admin/restaurants-table.vue";
+import CurrentOrdersTable from "@/components/admin/current-orders-table.vue";
 import DashboardCards from "@/components/admin/cards.vue";
+import HistoryOrdersTable from "@/components/admin/history-orders-table.vue";
+ 
 
 export default {
   components: {
     DashboardCards,
     UsersTable,
+    CurrentOrdersTable,
     RestaurantsTable,
+    HistoryOrdersTable,
   },
 };
 </script>

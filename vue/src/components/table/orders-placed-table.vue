@@ -17,7 +17,7 @@
         <td>{{ order.user.mail }}</td>
         <td>{{ order.user.address }}</td>
         <td>{{ order.creationDate }}</td>
-        <td>{{ order.total }}</td>
+        <td>{{ order.total }}€</td>
       </tr>
     </tbody>
   </table>

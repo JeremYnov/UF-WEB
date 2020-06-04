@@ -15,7 +15,7 @@
         <td>{{ inProgressOrder.user.name }}</td>
         <td>{{ inProgressOrder.user.mail }}</td>
         <td>{{ inProgressOrder.user.address }}</td>
-        <td>{{ inProgressOrder.total }}</td>
+        <td>{{ inProgressOrder.total }}€</td>
       </tr>
     </tbody>
   </table>
