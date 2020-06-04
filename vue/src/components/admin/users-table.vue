@@ -2,25 +2,20 @@
   <table class="table table-striped">
     <thead>
       <tr>
-        <th scope="col">Image</th>
-        <th scope="col">Nom du plat</th>
-        <th scope="col">Description</th>
-        <th scope="col">Type</th>
-        <th scope="col">Prix unitaire</th>
+        <th scope="col">Prénom</th>
+        <th scope="col">Nom</th>
+        <th scope="col">Adresse mail</th>
+        <th scope="col">Adresse</th>
         <th></th>
         <th></th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="plate in plates" :key="plate.id">
-        <td>
-          <img v-bind:src="plate.picture.url" alt />
-        </td>
-        <td>{{ plate.name }}</td>
-        <td v-if="plate.content != null">{{ plate.content | truncate(50) }}</td>
-        <td v-else></td>
-        <td>{{ plate.type }}</td>
-        <td>{{ plate.unitPrice }}€</td>
+      <tr v-for="user in users" :key="user.id">
+        <td>{{ user.firstName }}</td>
+        <td>{{ user.lastName }}</td>
+        <td>{{ user.mail}}</td>
+        <td>{{ user.address | truncate(40)}}</td>
         <td class="modification-row">
           <button
             class="edit-button"
@@ -82,4 +77,7 @@ export default {
 };
 </script>
 
-
+<style>
+@import url("https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
+</style>
