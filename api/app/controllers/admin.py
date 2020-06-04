@@ -265,13 +265,59 @@ def getDashboardData():
 def getMemberProfile(id):
     if current_user.is_authenticated:
         user = User.query.get(id)
+
+        ordersInProgress = Order.query.filter_by(id_user=user.id).filter(Order.delivery_date > datetime.now()).all()
+        ordersHistoric = Order.query.filter_by(id_user=user.id).filter(Order.delivery_date < datetime.now()).all()
+
+        arrayPlates = []
+        arrayOrdersInProgress = []
+        arrayOrdersHistoric = []
+
+        for order in ordersInProgress:
+            restaurant = Restaurant.query.get(order.id_user)
+
+            arrayOrdersInProgress.append(
+                {
+                    "id": order.id,
+                    "total": float(order.total),
+                    "restaurant": {
+                        "id": restaurant.id,
+                        "name": restaurant.name,
+                        "address": restaurant.address,
+                        "mail": restaurant.mail
+                    },
+                    "creationDate": order.creation_date.strftime("%m/%d/%Y"),
+                    "user": order.id_user
+                }
+            )
+
+        for order in ordersHistoric:
+            user = User.query.get(order.id_user)
+
+            arrayOrdersHistoric.append(
+                {
+                    "id": order.id,
+                    "total": float(order.total),
+                    "restaurant": {
+                        "id": restaurant.id,
+                        "name": restaurant.name,
+                        "address": restaurant.address,
+                        "mail": restaurant.mail
+                    },
+                    "creationDate": order.creation_date.strftime("%m/%d/%Y"),
+                    "user": order.id_user
+                }
+            )
+
         results = {
             'id': user.id,
             'firstName': user.firstName,
             'lastName': user.lastName,
             'address': user.address,
             'mail': user.mail,
-            'balance': user.balance
+            'balance': user.balance,
+            'ordersInProgress': arrayOrdersInProgress,
+            'ordersHistoric': arrayOrdersHistoric
         }
 
         message = "Voici le profil de l'utilisateur " + str(user.id)
