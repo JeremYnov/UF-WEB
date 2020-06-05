@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="role != 'admin'">
     <div class="nav-responsive" v-bind:class="{ 'nav-transition': isBurgerActive }">
       <ul class="header-nav-list">
         <li class="header-nav-item">
