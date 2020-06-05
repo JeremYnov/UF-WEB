@@ -1,5 +1,5 @@
 <template>
-  <div class="sidebar-wrapper" v-bind:style="{ height: screenHeight + 'px' }">
+  <div class="sidebar-wrapper" v-bind:style="{ 'min-height': screenHeight + 'px' }">
     <Sidebar />
     <div class="main_content">
       <DashboardCards />

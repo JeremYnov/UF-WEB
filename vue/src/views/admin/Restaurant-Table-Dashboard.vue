@@ -1,5 +1,5 @@
 <template>
-   <div class="sidebar-wrapper">
+   <div class="sidebar-wrapper" v-bind:style="{ 'min-height': screenHeight + 'px' }" >
     <Sidebar />
     <div class="main_content">
       <DashboardCards />
@@ -18,6 +18,26 @@ components: {
     RestaurantsTable,
     Sidebar
   },
+  data: function() {
+    return {
+      screenHeight: 0
+    };
+  },
+  created() {
+    window.addEventListener("resize", this.handleResize);
+    this.handleResize();
+  },
+  destroyed() {
+    window.removeEventListener("resize", this.handleResize);
+  },
+  methods: {
+    handleResize() {
+      this.windowHeight = window.innerHeight;
+      this.footerHeight = document.querySelector("footer").clientHeight;
+      this.screenHeight =
+        this.windowHeight -  this.footerHeight;
+    }
+  }
 }
 </script>
 

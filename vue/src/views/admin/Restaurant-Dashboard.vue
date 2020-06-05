@@ -1,9 +1,105 @@
 <template>
-  <div class="sidebar-wrapper">
+  <div class="sidebar-wrapper" v-if="restaurant != null">
+    <div class="overlay" v-bind:class="{ 'is-open': closeThePopup }" v-on:click="closePopup()"></div>
     <Sidebar />
     <div class="main_content">
+     
       <RestaurantHero :restaurantInfos="restaurant" />
+
+       <div class="submit-btn-container">
+        <button class="submit-btn" v-on:click="toggleAdminAddPlate()">
+          Ajouter un plat
+        </button>
+        <button class="submit-btn" v-on:click="toggleAdminEditInformations()">
+          Modifier les informations
+        </button>
+      </div>
+
+      <h2 class="section-title">Commandes en cours</h2>
+      <div
+        class="alert alert-warning"
+        role="alert"
+        v-if="restaurant.ordersInProgress.length == 0"
+      >
+        Aucune commande en cours
+      </div>
+      <table
+        class="table table-striped"
+        v-if="restaurant.ordersInProgress.length > 0"
+      >
+        <thead>
+          <tr>
+            <th scope="col">Commande N°</th>
+            <th scope="col">Restaurant</th>
+            <th scope="col">Adresse du restaurant</th>
+            <th scope="col">Client</th>
+            <th scope="col">Mail du client</th>
+            <th scope="col">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="currentOrder in restaurant.ordersInProgress"
+            :key="currentOrder.id"
+          >
+            <td>{{ currentOrder.id }}</td>
+            <td>{{ currentOrder.restaurant.name }}</td>
+            <td>{{ currentOrder.restaurant.address | truncate(40) }}</td>
+            <td>{{ restaurant.name }}</td>
+            <td>{{ restaurant.mail }}</td>
+            <td>{{ currentOrder.total }}€</td>
+          </tr>
+        </tbody>
+      </table>
+      <h2 class="section-title">Historiques des commandes</h2>
+      <div
+        class="alert alert-warning"
+        role="alert"
+        v-if="restaurant.ordersHistoric.length == 0"
+      >
+        Le restaurant n'a jamais effectué de commande
+      </div>
+      <table
+        class="table table-striped"
+        v-if="restaurant.ordersHistoric.length > 0"
+      >
+        <thead>
+          <tr>
+            <th scope="col">Commande N°</th>
+            <th scope="col">Restaurant</th>
+            <th scope="col">Adresse du restaurant</th>
+            <th scope="col">Client</th>
+            <th scope="col">Mail du client</th>
+            <th scope="col">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="historicOrder in restaurant.ordersHistoric"
+            :key="historicOrder.id"
+          >
+            <td>{{ historicOrder.id }}</td>
+            <td>{{ restaurant.name }}</td>
+            <td>{{ restaurant.address | truncate(40) }}</td>
+            <td>{{ historicOrder.user.name }}</td>
+            <td>{{ historicOrder.user.mail }}</td>
+            <td>{{ historicOrder.total }}€</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+
+    <AdminAddPlatePopup
+      :popupActive="addPlatePopupActive"
+      v-on:closeOverlay="closeThePopup = $event"
+      v-on:closePopup="addPlatePopupActive = $event"
+    />
+    <AdminEditRestaurantPopup
+      :restaurant="restaurant"
+      :popupActive="editInformationsPopupActive"
+      v-on:closeOverlay="closeThePopup = $event"
+      v-on:closePopup="editInformationsPopupActive = $event"
+    />
   </div>
 </template>
 
@@ -11,18 +107,49 @@
 import axios from "axios";
 import RestaurantHero from "@/components/hero/restaurant-hero.vue";
 import Sidebar from "@/components/layouts/sidebar.vue";
+import AdminEditRestaurantPopup from "@/components/admin/edit-restaurant-popup.vue";
+import AdminAddPlatePopup from "@/components/admin/add-plate-popup.vue";
 
 export default {
   components: {
     RestaurantHero,
     Sidebar,
+    AdminEditRestaurantPopup,
+    AdminAddPlatePopup
   },
   data: function() {
     return {
       restaurant: null,
+      editInformationsPopupActive: false,
+      addPlatePopupActive: false,
+      closeThePopup: false,
     };
   },
+  filters: {
+    truncate: function(value, limit) {
+      if (value.length > limit) {
+        value = value.substring(0, limit - 3) + "...";
+      }
+      return value;
+    },
+  },
   methods: {
+    toggleAdminAddPlate() {
+      this.addPlatePopupActive = !this.addPlatePopupActive;
+      this.closeThePopup = !this.closeThePopup;
+    },
+    toggleAdminEditInformations() {
+      this.editInformationsPopupActive = !this.editInformationsPopupActive;
+      this.closeThePopup = !this.closeThePopup;
+    },
+    closePopup() {
+      this.closeThePopup = !this.closeThePopup;
+      if (this.editInformationsPopupActive == true) {
+        this.editInformationsPopupActive = !this.editInformationsPopupActive;
+      } else if (this.addPlatePopupActive == true) {
+        this.addPlatePopupActive = !this.addPlatePopupActive;
+      }
+    },
     async getRestaurantDashboard() {
       const response = await axios
         .get("/api/admin/restaurant/" + this.$route.params.id + "/dashboard")
@@ -38,6 +165,7 @@ export default {
       this.restaurant = response.data.results;
     },
   },
+
   mounted: function() {
     this.getRestaurantDashboard();
   },
