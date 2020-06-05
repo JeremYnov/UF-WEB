@@ -522,6 +522,34 @@ def setMemberDelete(id):
     return jsonify(success=success, message=message)
 
 
+@admin.route('/restaurant/<int:id>/delete', methods=['POST'])
+def setRestaurantDelete(id):
+    if request.method == 'POST':
+        if current_user.is_authenticated:
+            restaurant = Restaurant.query.get(id)
+            plates = Plate.query.filter_by(id_restaurant=restaurant.id)
+
+            if restaurant:
+                for plate in restaurant.restaurant_plate:
+                    db.session.delete(plate)
+
+                db.session.delete(restaurant)
+                db.session.commit()
+
+                success = True
+                message = "Le restaurant a été supprimé"
+
+            else:
+                success = False
+                message = "Le restaurant n'est pas reconnue"
+
+        else:
+            message = "L'utilisateur n'est pas connecté"
+            success = False
+
+    return jsonify(success=success, message=message)
+
+
 @admin.route('/restaurant/<int:id>/update/profile', methods=['POST'])
 def setRestaurantUpdateProfile(id):
     if request.method == 'POST':
