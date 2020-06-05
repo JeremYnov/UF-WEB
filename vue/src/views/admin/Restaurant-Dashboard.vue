@@ -15,7 +15,7 @@
         </button>
       </div>
 
-      <h2 class="section-title">Commandes en cours</h2>
+      <!-- <h2 class="section-title">Commandes en cours</h2>
       <div
         class="alert alert-warning"
         role="alert"
@@ -50,43 +50,12 @@
             <td>{{ currentOrder.total }}€</td>
           </tr>
         </tbody>
-      </table>
-      <h2 class="section-title">Historiques des commandes</h2>
-      <div
-        class="alert alert-warning"
-        role="alert"
-        v-if="restaurant.ordersHistoric.length == 0"
-      >
-        Le restaurant n'a jamais effectué de commande
-      </div>
-      <table
-        class="table table-striped"
-        v-if="restaurant.ordersHistoric.length > 0"
-      >
-        <thead>
-          <tr>
-            <th scope="col">Commande N°</th>
-            <th scope="col">Restaurant</th>
-            <th scope="col">Adresse du restaurant</th>
-            <th scope="col">Client</th>
-            <th scope="col">Mail du client</th>
-            <th scope="col">Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            v-for="historicOrder in restaurant.ordersHistoric"
-            :key="historicOrder.id"
-          >
-            <td>{{ historicOrder.id }}</td>
-            <td>{{ restaurant.name }}</td>
-            <td>{{ restaurant.address | truncate(40) }}</td>
-            <td>{{ historicOrder.user.name }}</td>
-            <td>{{ historicOrder.user.mail }}</td>
-            <td>{{ historicOrder.total }}€</td>
-          </tr>
-        </tbody>
-      </table>
+      </table> -->
+
+      <CurrentOrdersTable :restaurant="restaurant"/>
+      <HistoryOrdersTable :restaurant="restaurant"/>
+      
+      <PlatesTable :plates="restaurant.plates"/>
     </div>
 
     <AdminAddPlatePopup
@@ -109,13 +78,19 @@ import RestaurantHero from "@/components/hero/restaurant-hero.vue";
 import Sidebar from "@/components/layouts/sidebar.vue";
 import AdminEditRestaurantPopup from "@/components/admin/edit-restaurant-popup.vue";
 import AdminAddPlatePopup from "@/components/admin/add-plate-popup.vue";
+import PlatesTable from "@/components/admin/restaurant/plates-table.vue";
+import CurrentOrdersTable from "@/components/admin/restaurant/current-orders-table.vue";
+import HistoryOrdersTable from "@/components/admin/restaurant/history-orders-table.vue";
 
 export default {
   components: {
     RestaurantHero,
     Sidebar,
     AdminEditRestaurantPopup,
-    AdminAddPlatePopup
+    AdminAddPlatePopup,
+    CurrentOrdersTable,
+    HistoryOrdersTable,
+    PlatesTable
   },
   data: function() {
     return {
@@ -125,14 +100,7 @@ export default {
       closeThePopup: false,
     };
   },
-  filters: {
-    truncate: function(value, limit) {
-      if (value.length > limit) {
-        value = value.substring(0, limit - 3) + "...";
-      }
-      return value;
-    },
-  },
+  
   methods: {
     toggleAdminAddPlate() {
       this.addPlatePopupActive = !this.addPlatePopupActive;
