@@ -637,6 +637,39 @@ def setRestaurantUpdateProfile(id):
     return jsonify(success=success, message=message)
 
 
+@admin.route('/restaurant/<int:idRestaurant>/delete/plate/<int:idPlate>')
+def setDeletePlate(idRestaurant, idPlate):
+    if current_user.is_authenticated:
+        plate = Plate.query.get(idPlate)
+        restaurant = Restaurant.query.get(idRestaurant)
+
+        if restaurant:
+            if plate:
+                if restaurant.id == plate.id_restaurant:
+                    db.session.delete(plate)
+                    db.session.commit()
+                    success = True
+                    message = "Le plat a été supprimé"
+
+                else:
+                    success = False
+                    message = "Le plat n'appartient pas au restaurant"
+
+            else:
+                success = False
+                message = "Le plat n'est pas reconnue"
+
+        else:
+            success = False
+            message = "Le restaurant n'est pas reconnue"
+
+    else:
+        success = False
+        message = "Vous n'êtes pas connecté"
+
+    return jsonify(success=success, message=message)
+
+
 def allowed_image(filename):
     # We only want files with a . in the filename
     if not "." in filename:
