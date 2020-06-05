@@ -741,6 +741,111 @@ def setDeletePlate(idRestaurant, idPlate):
     return jsonify(success=success, message=message)
 
 
+@admin.route('/restaurant/<int:idRestaurant>/update/plate/<int:idPlate>', methods=['POST'])
+def setUpdatePlate(idRestaurant, idPlate):
+    if request.method == 'POST':
+        if current_user.is_authenticated:
+            plate = Plate.query.get(idPlate)
+            restaurant = Restaurant.query.get(idRestaurant)
+
+            if restaurant:
+                if plate:
+                    if restaurant.id == plate.id_restaurant:
+                        name = request.form.get('name')
+                        type = request.form.get('type')
+                        content = request.form.get('content')
+                        unitPrice = request.form.get('price')
+                        picture = request.files.get('picture')
+
+                        args = []
+
+                        if picture and plate.picture != picture.filename:
+                            if allowed_image(picture.filename):
+                                if picture.mimetype == 'image/png' or picture.mimetype == 'image/jpg' or picture.mimetype == 'image/jpeg':
+                                    filename = secure_filename(picture.filename)
+                                    uploads_dir = 'uploads/' + str(current_user.id) + '/plates/' + str(plate.id) + '/'
+
+                                    os.makedirs(uploads_dir, exist_ok=True)
+                                    picture.save(os.path.join(uploads_dir, filename))
+
+                                    plate.picture = picture.filename
+                                    args.append("l'image")
+
+                                else:
+                                    return jsonify(success=False, message="Le fichier n'est pas une image")
+
+                            else:
+                                return jsonify(success=False, message="Le fichier n'a pas la bonne extension")
+
+                        if name and plate.name != name:
+                            plate.name = name
+                            args.append("le nom")
+
+                        if content and plate.content != content:
+                            plate.content = content
+                            args.append("la description")
+
+                        if type and plate.type != type:
+                            if type == 'Boisson':
+                                plate.type = type
+                                plate.content = None
+                            else:
+                                plate.type = type
+
+                                if not(content):
+                                    return jsonify(success=False, message="Le plat a besoin d'une description")
+
+                            args.append("le type")
+
+                        if unitPrice and plate.unitPrice != float(unitPrice):
+                            plate.unitPrice = float(unitPrice)
+                            args.append("le prix")
+
+                        if len(args) == 5:
+                            message = args[0] + ', ' + args[1] + ', ' + args[2] + ', ' + args[3] + ', ' + args[4] + ' ont été modifié'
+                            success = True
+
+                        elif len(args) == 4:
+                            message = args[0] + ', ' + args[1] + ', ' + args[2] + ', ' + args[3] + ' ont été modifié'
+                            success = True
+
+                        elif len(args) == 3:
+                            message = args[0] + ', ' + args[1] + ', ' + args[2] + ' ont été modifié'
+                            success = True
+
+                        elif len(args) == 2:
+                            message = args[0] + ', ' + args[1] + ' ont été modifié'
+                            success = True
+
+                        elif len(args) == 1:
+                            message = args[0] + ' a été modifié'
+                            success = True
+
+                        else:
+                            message = 'Tous les champs sont vides'
+                            success = False
+
+                        db.session.commit()
+
+                    else:
+                        success = False
+                        message = "Le plat n'appartient pas au restaurant"
+
+                else:
+                    success = False
+                    message = "Le plat n'est pas reconnue"
+
+            else:
+                success = False
+                message = "Le restaurant n'est pas reconnue"
+
+        else:
+            success = False
+            message = "Vous n'êtes pas connecté"
+
+    return jsonify(success=success, message=message)
+
+
 def allowed_image(filename):
     # We only want files with a . in the filename
     if not "." in filename:
