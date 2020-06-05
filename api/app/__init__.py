@@ -3,7 +3,9 @@ from flask import Flask
 from flask_cors import CORS
 from flask_login import LoginManager
 
+
 from .config.database import db
+from .config.mail import mail
 from .settings import Config
 
 # Import routes
@@ -19,6 +21,7 @@ app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 # initialization
 db.init_app(app)
+mail.init_app(app)
 
 CORS(app, resources={r'/*': {'origins': '*'}}, supports_credentials=True)
 

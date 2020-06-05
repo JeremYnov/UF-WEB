@@ -2,6 +2,8 @@ import json
 from datetime import datetime, timedelta
 from flask import Blueprint, request, jsonify
 from flask_login import LoginManager, login_user, current_user
+from flask_mail import Message
+from ..config.mail import mail
 from ..config.database import db
 from ..models.restaurant import Restaurant
 from ..models.user import User
@@ -38,12 +40,21 @@ def setAddOrder():
                     order = Order(total, restaurant, user)
                     db.session.add(order)
                     db.session.commit()
+                    msgFormat = ""
 
                     for plate in plates:
                         getPlate = Plate.query.get(int(plate['id']))
                         orderContent = OrderContent(int(plate['quantity']), order, getPlate)
+
+                        msgFormat += plate['name'] + "    " + str(plate['quantity']) + "    " + str(plate['price']) + "€\n"
                         db.session.add(orderContent)
                         db.session.commit()
+
+                    message = "Commande N°{0} \nPlats : \nNom    Quantité    Prix unitaire \n{1} \nTotal: {4}€ \nAdresse du client: {2} \nDate de livraison {3}".format(
+                        order.id, msgFormat, user.address, order.delivery_date, order.total)
+                    subject = "EATYNG Commande N°" + str(order.id)
+                    msg = Message(sender=(order.nameUser, user.mail), recipients=[restaurant.mail], body=message, subject=subject)
+                    mail.send(msg)
 
                     success = True
                     message = "la commande a bien été pris en compte"
