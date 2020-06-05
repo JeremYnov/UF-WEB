@@ -1,6 +1,6 @@
 <template>
    <div class="sidebar-wrapper">
-    <Sidebar/>
+    <Sidebar />
     <div class="main_content">
       <DashboardCards />
       <RestaurantsTable />

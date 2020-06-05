@@ -1,14 +1,8 @@
 <template>
-<div class="sidebar-wrapper">
-    <Sidebar v-on:chosenTable="chosenTable = $event" />
+  <div class="sidebar-wrapper">
+    <Sidebar />
     <div class="main_content">
-      <RestaurantHero :restaurantInfos="restaurant"/>
-
-      <DashboardCards />
-      <UsersTable v-if="chosenTable == 1"/>
-      <RestaurantsTable v-if="chosenTable == 2"/>
-      <CurrentOrdersTable v-if="chosenTable == 3"/>
-      <HistoryOrdersTable v-if="chosenTable == 4" />
+      <RestaurantHero :restaurantInfos="restaurant" />
     </div>
   </div>
 </template>
@@ -21,7 +15,7 @@ import Sidebar from "@/components/layouts/sidebar.vue";
 export default {
   components: {
     RestaurantHero,
-    Sidebar
+    Sidebar,
   },
   data: function() {
     return {
@@ -31,7 +25,7 @@ export default {
   methods: {
     async getRestaurantDashboard() {
       const response = await axios
-        .get("/api/admin/restaurant/"+ this.$route.params.id +"/dashboard")
+        .get("/api/admin/restaurant/" + this.$route.params.id + "/dashboard")
         .then(function(response) {
           console.log(response);
 
