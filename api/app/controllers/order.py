@@ -30,7 +30,7 @@ def setAddOrder():
             if user.id == idUser:
                 total = 2.5
                 for plate in plates:
-                    total += float(plate['price'])
+                    total += int(plate['quantity']) * float(plate['price'])
 
                 if user.balance > total:
                     user.balance -= total
