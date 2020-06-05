@@ -16,6 +16,26 @@ const routes = [
 		component : () => import('../views/admin/Dashboard.vue')
 	},
 	{
+		path      : '/admin/restaurant/dashboard',
+		name      : 'AdminRestaurantTableDashboard',
+		component : () => import('../views/admin/Restaurant-Table-Dashboard.vue')
+	},
+	{
+		path      : '/admin/member/dashboard',
+		name      : 'AdminMemberTableDashboard',
+		component : () => import('../views/admin/Member-Table-Dashboard.vue')
+	},
+	{
+		path      : '/admin/current-orders/dashboard',
+		name      : 'AdminCurrentOrderTableDashboard',
+		component : () => import('../views/admin/Current-Order-Table-Dashboard.vue')
+	},
+	{
+		path      : '/admin/history-orders/dashboard',
+		name      : 'AdminHistoryOrderTableDashboard',
+		component : () => import('../views/admin/History-Order-Table-Dashboard.vue')
+	},
+	{
 		path      : '/admin/restaurant/:id/dashboard',
 		name      : 'AdminRestaurantDashboard',
 		component : () => import('../views/admin/Restaurant-Dashboard.vue')

@@ -1,6 +1,6 @@
 .sidebar-wrapper {
     display: flex;
-    min-height: 100vh;
+    min-height: calc(100vh - 115px);
 
     //   position: relative;
     .sidebar {

@@ -1,14 +1,27 @@
 <template>
- <RestaurantHero :restaurantInfos="restaurant"/>
+<div class="sidebar-wrapper">
+    <Sidebar v-on:chosenTable="chosenTable = $event" />
+    <div class="main_content">
+      <RestaurantHero :restaurantInfos="restaurant"/>
+
+      <DashboardCards />
+      <UsersTable v-if="chosenTable == 1"/>
+      <RestaurantsTable v-if="chosenTable == 2"/>
+      <CurrentOrdersTable v-if="chosenTable == 3"/>
+      <HistoryOrdersTable v-if="chosenTable == 4" />
+    </div>
+  </div>
 </template>
 
 <script>
 import axios from "axios";
 import RestaurantHero from "@/components/hero/restaurant-hero.vue";
+import Sidebar from "@/components/layouts/sidebar.vue";
 
 export default {
   components: {
     RestaurantHero,
+    Sidebar
   },
   data: function() {
     return {
@@ -16,9 +29,9 @@ export default {
     };
   },
   methods: {
-    async getRestaurantProfile() {
+    async getRestaurantDashboard() {
       const response = await axios
-        .get("/api/restaurant/dashboard/restaurant/" + this.$route.params.id)
+        .get("/api/admin/restaurant/"+ this.$route.params.id +"/dashboard")
         .then(function(response) {
           console.log(response);
 
@@ -32,7 +45,11 @@ export default {
     },
   },
   mounted: function() {
-    this.getRestaurantProfile();
+    this.getRestaurantDashboard();
   },
 };
 </script>
+<style>
+@import url("https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
+</style>

@@ -1,6 +1,6 @@
 <template>
   <section class="profile-dashboard">
-   <ProfileHero :user="this.user"/>
+    <ProfileHero :user="this.user" />
   </section>
 </template>
 
@@ -18,9 +18,9 @@ export default {
     };
   },
   methods: {
-    async getUserProfile() {
+    async getmemberProfile() {
       const response = await axios
-        .get("/api/user/dashboard/profile/" + this.$route.params.id)
+        .get("/api/admin/member/"+ this.$route.params.id +"/profile")
         .then(function(response) {
           console.log(response);
 
@@ -34,7 +34,7 @@ export default {
     },
   },
   mounted: function() {
-    this.getUserProfile();
+    this.getmemberProfile();
   },
 };
 </script>

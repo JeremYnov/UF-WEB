@@ -32,6 +32,14 @@ export default {
       currentOrders: null
     };
   },
+  filters: {
+    truncate: function(value, limit) {
+      if (value.length > limit) {
+        value = value.substring(0, limit - 3) + "...";
+      }
+      return value;
+    },
+  },
   mounted() {
     this.getAllOrderInProgress();
   },
