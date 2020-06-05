@@ -6,14 +6,7 @@
 
     <form @submit.prevent="setUpdateProfile" method="POST">
       <div class="form__group field">
-        <input
-          v-model="form.name"
-          type="text"
-          name="name"
-          class="form__field"
-          placeholder="Nom"
-          required
-        />
+        <input v-model="form.name" type="text" name="name" class="form__field" placeholder="Nom" />
         <label for="name" class="form__label">Nom</label>
       </div>
 
@@ -30,17 +23,11 @@
 
       <div class="grid50-50">
         <div class="form__group field">
-          <input @change="previewFiles" type="file" id="file" required />
+          <input @change="previewFiles" type="file" id="file" />
           <label for="file">Choisir un fichier...</label>
         </div>
         <div class="form__group field">
-          <select
-            v-model="form.category"
-            name="category"
-            id="category"
-            class="form-select"
-            required
-          >
+          <select v-model="form.category" name="category" id="category" class="form-select">
             <option selected disabled>Choisissez</option>
             <option>Fast food</option>
             <option>Burger</option>
@@ -74,10 +61,10 @@ export default {
         // category: this.restaurant.category,
         // address: this.restaurant.address,
         // image: "",
-        name: null,
-        category: null,
-        address: null,
-        image: null,
+        name: "",
+        category: "",
+        address: "",
+        image: ""
       }
     };
   },
@@ -94,23 +81,32 @@ export default {
       bodyFormData.set("logo", this.form.image);
 
       const response = await axios
-        .post("/api/restaurant/update/profile", bodyFormData, {
-          headers: {
-            "Content-Type":
-              "application/x-www-form-urlencoded; multipart/form-data"
+        .post(
+          "/api/admin/restaurant/" + this.$route.params.id + "/update/profile",
+          bodyFormData,
+          {
+            headers: {
+              "Content-Type":
+                "application/x-www-form-urlencoded; multipart/form-data"
+            }
           }
-        })
+        )
         .then(function(response) {
           return response;
         })
         .catch(function(error) {
           console.log(error);
         });
-
       this.info = response.data;
+
+      console.log(response.data);
+
+      if (response.data.success) {
+        location.reload();
+      }
+
       this.$emit("closeOverlay", false);
       this.$emit("closePopup", false);
-      location.reload();
     }
   }
 };

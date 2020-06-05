@@ -96,12 +96,16 @@ export default {
       bodyFormData.set("price", this.form.unitPrice);
 
       const response = await axios
-        .post("/api/restaurant/add/new/plate", bodyFormData, {
-          headers: {
-            "Content-Type":
-              "application/x-www-form-urlencoded; multipart/form-data"
+        .post(
+          "/api/admin/restaurant/" + this.$route.params.id + "/add/new/plate",
+          bodyFormData,
+          {
+            headers: {
+              "Content-Type":
+                "application/x-www-form-urlencoded; multipart/form-data"
+            }
           }
-        })
+        )
         .then(function(response) {
           return response;
         })
@@ -110,9 +114,13 @@ export default {
         });
 
       this.info = response.data;
+
+      if (response.data.success) {
+        location.reload();
+      }
+
       this.$emit("closeOverlay", false);
       this.$emit("closePopup", false);
-      location.reload();
     }
   }
 };
