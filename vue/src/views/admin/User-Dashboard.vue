@@ -1,26 +1,31 @@
 <template>
-  <section class="profile-dashboard">
-   <ProfileHero :user="this.user"/>
-  </section>
+  <div class="sidebar-wrapper">
+    <Sidebar />
+    <div class="main_content">
+      <ProfileHero :user="this.user" />
+    </div>
+  </div>
 </template>
 
 <script>
 import axios from "axios";
 import ProfileHero from "@/components/hero/profile-hero.vue";
+import Sidebar from "@/components/layouts/sidebar.vue"
 
 export default {
   components: {
     ProfileHero,
+    Sidebar
   },
   data: function() {
     return {
-      user: null,
+      user: null
     };
   },
   methods: {
-    async getUserProfile() {
+    async getmemberProfile() {
       const response = await axios
-        .get("/api/user/dashboard/profile/" + this.$route.params.id)
+        .get("/api/admin/member/" + this.$route.params.id + "/profile")
         .then(function(response) {
           console.log(response);
 
@@ -31,10 +36,10 @@ export default {
         });
 
       this.user = response.data.results;
-    },
+    }
   },
   mounted: function() {
-    this.getUserProfile();
-  },
+    this.getmemberProfile();
+  }
 };
 </script>

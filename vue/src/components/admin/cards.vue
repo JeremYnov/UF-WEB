@@ -32,7 +32,7 @@
           Commande(s)
           <br />en cours
         </small>
-        <p>{{ numberOrder }}</p>
+        <p>{{ numberOrderInProgress }}</p>
       </div>
     </div>
     <div class="dashbord dashbord-dark">
@@ -43,7 +43,7 @@
           Total des
           <br />commandes
         </small>
-        <p>{{ numberUser }}</p>
+        <p>{{ numberOrder }}</p>
       </div>
     </div>
   </div>
