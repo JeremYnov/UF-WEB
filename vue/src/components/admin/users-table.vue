@@ -27,7 +27,7 @@
               <i class="fas fa-edit edit"></i>
             </button>
           </router-link>
-          <button class="delete-button" v-on:click="deletePlate(plate.id)">
+          <button class="delete-button" v-on:click="setMemberDelete(user.id)">
             <i class="fa fa-trash delete"></i>
           </button>
         </td>
@@ -42,6 +42,7 @@ export default {
   data() {
     return {
       users: null,
+      info: null
     };
   },
   filters: {
@@ -50,7 +51,7 @@ export default {
         value = value.substring(0, limit - 3) + "...";
       }
       return value;
-    },
+    }
   },
   mounted() {
     this.getAllMember();
@@ -71,6 +72,24 @@ export default {
 
       this.users = response.data.results;
     },
-  },
+    async setMemberDelete(id) {
+      const response = await axios
+        .get("/api/admin/member/" + id + "/delete")
+        .then(function(response) {
+          return response;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+
+      console.log(response.data);
+
+      this.info = response.data;
+
+      if (response.data.success) {
+        location.reload();
+      }
+    }
+  }
 };
 </script>

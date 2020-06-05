@@ -498,54 +498,49 @@ def setMemberUpdateProfile(id):
     return jsonify(success=success, message=message)
 
 
-@admin.route('/member/<int:id>/delete', methods=['POST'])
+@admin.route('/member/<int:id>/delete')
 def setMemberDelete(id):
-    if request.method == 'POST':
-        if current_user.is_authenticated:
-            user = User.query.get(id)
+    if current_user.is_authenticated:
+        user = User.query.get(id)
 
-            if user:
-                db.session.delete(user)
-                db.session.commit()
-
-                success = True
-                message = "L'utilisateur a été supprimé"
-
-            else:
-                success = False
-                message = "L'utilisateur n'est pas reconnue"
+        if user:
+            db.session.delete(user)
+            db.session.commit()
+            success = True
+            message = "L'utilisateur a été supprimé"
 
         else:
-            message = "L'utilisateur n'est pas connecté"
             success = False
+            message = "L'utilisateur n'est pas reconnue"
+
+    else:
+        message = "L'utilisateur n'est pas connecté"
+        success = False
 
     return jsonify(success=success, message=message)
 
 
-@admin.route('/restaurant/<int:id>/delete', methods=['POST'])
+@admin.route('/restaurant/<int:id>/delete')
 def setRestaurantDelete(id):
-    if request.method == 'POST':
-        if current_user.is_authenticated:
-            restaurant = Restaurant.query.get(id)
-            plates = Plate.query.filter_by(id_restaurant=restaurant.id)
+    if current_user.is_authenticated:
+        restaurant = Restaurant.query.get(id)
+        plates = Plate.query.filter_by(id_restaurant=restaurant.id)
 
-            if restaurant:
-                for plate in restaurant.restaurant_plate:
-                    db.session.delete(plate)
-
-                db.session.delete(restaurant)
-                db.session.commit()
-
-                success = True
-                message = "Le restaurant a été supprimé"
-
-            else:
-                success = False
-                message = "Le restaurant n'est pas reconnue"
+        if restaurant:
+            for plate in restaurant.restaurant_plate:
+                db.session.delete(plate)
+            db.session.delete(restaurant)
+            db.session.commit()
+            success = True
+            message = "Le restaurant a été supprimé"
 
         else:
-            message = "L'utilisateur n'est pas connecté"
             success = False
+            message = "Le restaurant n'est pas reconnue"
+
+    else:
+        message = "L'utilisateur n'est pas connecté"
+        success = False
 
     return jsonify(success=success, message=message)
 
