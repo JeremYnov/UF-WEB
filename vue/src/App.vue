@@ -2,7 +2,9 @@
   <div id="app">
     <navbar />
 
-    <router-view v-bind:style="{ 'padding-top': headerHeight + 'px' }" />
+    <router-view v-if="role != 'admin'" v-bind:style="{ 'padding-top': headerHeight + 'px' }" />
+
+    <router-view v-if="role == 'admin'" />
 
     <footpage />
     <script type="application/javascript" src="https://kit.fontawesome.com/c3feb606cd.js" crossorigin="anonymous"></script>
@@ -22,15 +24,22 @@ export default {
 
   data: function() {
     return {
-      headerHeight: 0
+      headerHeight: 0,
+      role:null
     };
   },
   mounted() {
     this.handleResize();
+    this.getSession()
   },
   methods: {
     handleResize() {
       this.headerHeight = document.querySelector(".header-main").clientHeight;
+    },
+    getSession() {
+      this.session = JSON.parse(localStorage.getItem("session")).session;
+      this.role = JSON.parse(localStorage.getItem("session")).user.role;
+      console.log(this.role)
     }
   }
 };
