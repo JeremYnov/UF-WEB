@@ -1,12 +1,15 @@
 <template>
   <div class="sidebar-wrapper" v-if="restaurant != null">
-    <div class="overlay" v-bind:class="{ 'is-open': closeThePopup }" v-on:click="closePopup()"></div>
+    <div
+      class="overlay"
+      v-bind:class="{ 'is-open': closeThePopup }"
+      v-on:click="closePopup()"
+    ></div>
     <Sidebar />
     <div class="main_content">
-     
       <RestaurantHero :restaurantInfos="restaurant" />
 
-       <div class="submit-btn-container">
+      <div class="submit-btn-container">
         <button class="submit-btn" v-on:click="toggleAdminAddPlate()">
           Ajouter un plat
         </button>
@@ -14,48 +17,22 @@
           Modifier les informations
         </button>
       </div>
-
-      <!-- <h2 class="section-title">Commandes en cours</h2>
-      <div
-        class="alert alert-warning"
-        role="alert"
-        v-if="restaurant.ordersInProgress.length == 0"
-      >
-        Aucune commande en cours
+      <div class="submit-btn-container">
+        <button class="submit-btn" v-on:click="chosenTable = 1">
+          Liste des plats
+        </button>
+        <button class="submit-btn" v-on:click="chosenTable = 2">
+          Commandes en cours
+        </button>
+        <button class="submit-btn" v-on:click="chosenTable = 3">
+          Historique des commandes
+        </button>
       </div>
-      <table
-        class="table table-striped"
-        v-if="restaurant.ordersInProgress.length > 0"
-      >
-        <thead>
-          <tr>
-            <th scope="col">Commande N°</th>
-            <th scope="col">Restaurant</th>
-            <th scope="col">Adresse du restaurant</th>
-            <th scope="col">Client</th>
-            <th scope="col">Mail du client</th>
-            <th scope="col">Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            v-for="currentOrder in restaurant.ordersInProgress"
-            :key="currentOrder.id"
-          >
-            <td>{{ currentOrder.id }}</td>
-            <td>{{ currentOrder.restaurant.name }}</td>
-            <td>{{ currentOrder.restaurant.address | truncate(40) }}</td>
-            <td>{{ restaurant.name }}</td>
-            <td>{{ restaurant.mail }}</td>
-            <td>{{ currentOrder.total }}€</td>
-          </tr>
-        </tbody>
-      </table> -->
-
-      <CurrentOrdersTable :restaurant="restaurant"/>
-      <HistoryOrdersTable :restaurant="restaurant"/>
+      <PlatesTable :plates="restaurant.plates" v-if="chosenTable == 1" />
       
-      <PlatesTable :plates="restaurant.plates"/>
+      <CurrentOrdersTable :restaurant="restaurant" v-if="chosenTable == 2" />
+
+      <HistoryOrdersTable :restaurant="restaurant" v-if="chosenTable == 3" />
     </div>
 
     <AdminAddPlatePopup
@@ -90,7 +67,7 @@ export default {
     AdminAddPlatePopup,
     CurrentOrdersTable,
     HistoryOrdersTable,
-    PlatesTable
+    PlatesTable,
   },
   data: function() {
     return {
@@ -98,9 +75,10 @@ export default {
       editInformationsPopupActive: false,
       addPlatePopupActive: false,
       closeThePopup: false,
+      chosenTable: 1,
     };
   },
-  
+
   methods: {
     toggleAdminAddPlate() {
       this.addPlatePopupActive = !this.addPlatePopupActive;

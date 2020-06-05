@@ -4,14 +4,11 @@
     <div
       class="alert alert-warning"
       role="alert"
-      v-if="restaurant.ordersInProgress.length == 0"
+      v-if="user.ordersInProgress.length == 0"
     >
       Aucune commande en cours
     </div>
-    <table
-      class="table table-striped"
-      v-if="restaurant.ordersInProgress.length > 0"
-    >
+    <table class="table table-striped" v-if="user.ordersInProgress.length > 0">
       <thead>
         <tr>
           <th scope="col">Commande N°</th>
@@ -24,14 +21,14 @@
       </thead>
       <tbody>
         <tr
-          v-for="currentOrder in restaurant.ordersInProgress"
+          v-for="currentOrder in user.ordersInProgress"
           :key="currentOrder.id"
         >
           <td>{{ currentOrder.id }}</td>
           <td>{{ currentOrder.restaurant.name }}</td>
           <td>{{ currentOrder.restaurant.address | truncate(40) }}</td>
-          <td>{{ restaurant.name }}</td>
-          <td>{{ restaurant.mail }}</td>
+          <td>{{ user.name }}</td>
+          <td>{{ user.mail }}</td>
           <td>{{ currentOrder.total }}€</td>
         </tr>
       </tbody>
@@ -41,8 +38,8 @@
 
 <script>
 export default {
-    props: {
-    restaurant: null,
+  props: {
+    user: null,
   },
   filters: {
     truncate: function(value, limit) {
