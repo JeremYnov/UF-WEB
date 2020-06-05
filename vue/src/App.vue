@@ -28,6 +28,7 @@ export default {
       role:null
     };
   },
+  
   mounted() {
     this.handleResize();
     this.getSession()
@@ -39,10 +40,10 @@ export default {
     getSession() {
       this.session = JSON.parse(localStorage.getItem("session")).session;
       this.role = JSON.parse(localStorage.getItem("session")).user.role;
-      console.log(this.role)
     }
   }
 };
+
 
 </script>
 

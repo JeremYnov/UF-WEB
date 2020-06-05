@@ -1,5 +1,5 @@
 <template>
-  <div class="restaurant">
+  <div class="restaurant" v-if="restaurant != null">
     <RestaurantHero :restaurantInfos="this.restaurant" />
 
     <section class="menu">

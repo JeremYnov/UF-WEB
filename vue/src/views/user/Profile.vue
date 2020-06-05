@@ -1,5 +1,5 @@
 <template>
-  <section class="profile">
+  <section class="profile" v-if="user != null">
     <ProfileHero :user="this.user" />
     <div class="submit-btn-container">
       <button class="submit-btn" v-on:click="toggleEditProfile()">
@@ -65,43 +65,6 @@
           />
           <label for="address" class="form__label">{{ user.address }}</label>
         </div>
-
-        <!-- <div class="form__group field">
-          <input
-            v-model="form.mail"
-            type="email"
-            name="mail"
-            class="form__field"
-            placeholder="Adresse mail"
-          />
-          <label for="mail" class="form__label">{{user.mail}}</label>
-        </div> -->
-
-        <!-- <div class="grid50-50">
-          <div class="form__group field">
-            <input
-              v-model="form.password"
-              type="password"
-              name="password"
-              class="form__field"
-              placeholder="Mot de passe"
-              required
-            />
-            <label for="password" class="form__label">Mot de passe</label>
-          </div>
-
-          <div class="form__group field">
-            <input
-              v-model="form.repassword"
-              type="password"
-              name="repassword"
-              class="form__field"
-              placeholder="Confirmation"
-              required
-            />
-            <label for="repassword" class="form__label">Confirmation</label>
-          </div>
-        </div> -->
         <div class="submit-btn-container">
           <button class="submit-btn" type="submit">
             Valider
@@ -123,7 +86,7 @@ export default {
   components: {
     ProfileHero,
     HistoricOrders,
-    InProgressOrders
+    InProgressOrders,
   },
   data: function() {
     return {
@@ -135,8 +98,8 @@ export default {
       form: {
         firstName: "",
         lastName: "",
-        address: ""
-      }
+        address: "",
+      },
     };
   },
   methods: {
@@ -173,7 +136,7 @@ export default {
 
       const response = await axios
         .post("/api/user/profile/update", bodyFormData, {
-          headers: { "Content-Type": "application/x-www-form-urlencoded" }
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
         })
         .then(function(response) {
           return response;
@@ -187,36 +150,11 @@ export default {
       // localStorage.setItem("session", response.data.session);
       // router.push("/");
       location.reload();
-    }
-    // handleResize() {
-    //   this.windowHeight = window.innerHeight;
-    //   this.pageHeight = document.querySelector("#app").clientHeight;
-    //   console.log("HEIGHT OF MY PAGE " + this.pageHeight);
-
-    //   this.headerHeight = document.querySelector(".header-main").clientHeight;
-    //   this.footerHeight = document.querySelector("footer").clientHeight;
-    //   this.screenHeight =
-    //     this.windowHeight - (this.headerHeight + this.footerHeight);
-    //   console.log(
-    //     "WINDOW HEIGHT :" +
-    //       this.windowHeight +
-    //       "SCREEN HEIGHT :" +
-    //       this.screenHeight
-    //   );
-    //   if (this.windowHeight > this.pageHeight) {
-    //     this.resize = true;
-    //     console.log(this.resize);
-    //   } else if (this.windowHeight < this.pageHeight) {
-    //     this.resize = false;
-    //     console.log(this.resize);
-    //   }
-    //   console.log(this.resize);
-    // },
+    },
   },
   mounted: function() {
     this.getProfile();
-    // this.handleResize();
-  }
+  },
 };
 </script>
 <style>
