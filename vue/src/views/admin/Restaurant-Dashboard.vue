@@ -10,10 +10,16 @@
       <RestaurantHero :restaurantInfos="restaurant" />
 
       <div class="submit-btn-container">
-        <button class="submit-btn" v-on:click="toggleAdminAddPlate()">
+        <button
+          class="submit-btn"
+          v-on:click="toggleAdminAddPlate(), scrollToTop()"
+        >
           Ajouter un plat
         </button>
-        <button class="submit-btn" v-on:click="toggleAdminEditInformations()">
+        <button
+          class="submit-btn"
+          v-on:click="toggleAdminEditInformations(), scrollToTop()"
+        >
           Modifier les informations
         </button>
       </div>
@@ -29,7 +35,7 @@
         </button>
       </div>
       <PlatesTable :plates="restaurant.plates" v-if="chosenTable == 1" />
-      
+
       <CurrentOrdersTable :restaurant="restaurant" v-if="chosenTable == 2" />
 
       <HistoryOrdersTable :restaurant="restaurant" v-if="chosenTable == 3" />
@@ -40,12 +46,20 @@
       v-on:closeOverlay="closeThePopup = $event"
       v-on:closePopup="addPlatePopupActive = $event"
     />
+
     <AdminEditRestaurantPopup
       :restaurant="restaurant"
       :popupActive="editInformationsPopupActive"
       v-on:closeOverlay="closeThePopup = $event"
       v-on:closePopup="editInformationsPopupActive = $event"
     />
+    
+    <!-- <EditPlatePopup
+      :popupActive="editPlatePopupActive"
+      :plateId="plateId"
+      v-on:closeOverlay="closeThePopup = $event"
+      v-on:closePopup="editInformationsPopupActive = $event"
+    /> -->
   </div>
 </template>
 
@@ -53,11 +67,12 @@
 import axios from "axios";
 import RestaurantHero from "@/components/hero/restaurant-hero.vue";
 import Sidebar from "@/components/layouts/sidebar.vue";
-import AdminEditRestaurantPopup from "@/components/admin/edit-restaurant-popup.vue";
-import AdminAddPlatePopup from "@/components/admin/add-plate-popup.vue";
+import AdminEditRestaurantPopup from "@/components/admin/restaurant/edit-restaurant-popup.vue";
+import AdminAddPlatePopup from "@/components/admin/restaurant/add-plate-popup.vue";
 import PlatesTable from "@/components/admin/restaurant/plates-table.vue";
 import CurrentOrdersTable from "@/components/admin/restaurant/current-orders-table.vue";
 import HistoryOrdersTable from "@/components/admin/restaurant/history-orders-table.vue";
+// import EditPlatePopup from "@/components/admin/restaurant/edit-plate-popup.vue";
 
 export default {
   components: {
@@ -68,18 +83,24 @@ export default {
     CurrentOrdersTable,
     HistoryOrdersTable,
     PlatesTable,
+    // EditPlatePopup,
   },
   data: function() {
     return {
       restaurant: null,
       editInformationsPopupActive: false,
+      // editPlatePopupActive: false,
       addPlatePopupActive: false,
       closeThePopup: false,
       chosenTable: 1,
+      // plateId: 0,
     };
   },
 
   methods: {
+    scrollToTop() {
+      window.scrollTo(0, 0);
+    },
     toggleAdminAddPlate() {
       this.addPlatePopupActive = !this.addPlatePopupActive;
       this.closeThePopup = !this.closeThePopup;
@@ -88,13 +109,20 @@ export default {
       this.editInformationsPopupActive = !this.editInformationsPopupActive;
       this.closeThePopup = !this.closeThePopup;
     },
+    // toggleEditPlate() {
+    //   this.editPlatePopupActive = !this.editPlatePopupActive;
+    //   this.closeThePopup = !this.closeThePopup;
+    // },
     closePopup() {
       this.closeThePopup = !this.closeThePopup;
       if (this.editInformationsPopupActive == true) {
         this.editInformationsPopupActive = !this.editInformationsPopupActive;
       } else if (this.addPlatePopupActive == true) {
         this.addPlatePopupActive = !this.addPlatePopupActive;
-      }
+      } 
+      // else if (this.editPlatePopupActive == true) {
+      //   this.editPlatePopupActive = !this.editPlatePopupActive;
+      // }
     },
     async getRestaurantDashboard() {
       const response = await axios

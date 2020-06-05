@@ -1,5 +1,5 @@
 <template>
-  <section class="current-orders">
+  <section class="history-orders">
     <h2 class="section-title">Historiques des commandes</h2>
       <div
         class="alert alert-warning"
