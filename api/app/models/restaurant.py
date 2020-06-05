@@ -18,7 +18,7 @@ class Restaurant(UserMixin, db.Model):
     creation = db.Column(db.DateTime, default=datetime.now(), nullable=False)
 
     restaurant_plate = db.relationship('Plate', backref='restaurant', lazy='dynamic')
-    restaurant_order = db.relationship('Order', backref='order', lazy='dynamic')
+    # restaurant_order = db.relationship('Order', backref='order', lazy='dynamic')
 
     def __init__(self, name, category, logo, address, mail, password):
         self.name = name

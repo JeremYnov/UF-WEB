@@ -8,6 +8,12 @@ class Order(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     total = db.Column(db.String(255), nullable=False)
+    nameUser = db.Column(db.String(255), nullable=False)
+    addressUser = db.Column(db.String(255), nullable=False)
+    mailUser = db.Column(db.String(255), nullable=False)
+    nameRestaurant = db.Column(db.String(255), nullable=False)
+    addressRestaurant = db.Column(db.String(255), nullable=False)
+    mailRestaurant = db.Column(db.String(255), nullable=False)
     creation_date = db.Column(db.DateTime, default=datetime.now(), nullable=False)
     delivery_date = db.Column(db.DateTime, default=datetime.now() + timedelta(hours=1), nullable=False)
 
@@ -16,10 +22,16 @@ class Order(db.Model):
 
     order_order_content = db.relationship('Plate', secondary='order_content', backref=db.backref('order', lazy='dynamic'))
 
-    def __init__(self, total, id_restaurant, id_user):
+    def __init__(self, total, restaurant, user):
         self.total = total
-        self.id_restaurant = id_restaurant.id
-        self.id_user = id_user.id
+        self.id_restaurant = restaurant.id
+        self.id_user = user.id
+        self.nameUser = user.lastName + " " + user.firstName
+        self.addressUser = user.address
+        self.mailUser = user.mail
+        self.nameRestaurant = restaurant.name
+        self.addressRestaurant = restaurant.address
+        self.mailRestaurant = restaurant.mail
 
     def __repr__(self):
         return '<Order {}>'.format(self.id)

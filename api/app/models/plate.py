@@ -14,7 +14,7 @@ class Plate(db.Model):
 
     id_restaurant = db.Column(db.Integer, db.ForeignKey('restaurant.id'), nullable=False)
 
-    plate_order_content = db.relationship('Order', secondary='order_content', backref=db.backref('plate', lazy='dynamic'))
+    # plate_order_content = db.relationship('Order', secondary='order_content', backref=db.backref('plate', lazy='dynamic'))
 
     def __init__(self, name, type, content, picture, unitPrice, id_restaurant):
         self.name = name

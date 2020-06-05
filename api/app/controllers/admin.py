@@ -158,30 +158,30 @@ def getAllOrderInProgress():
         arrayOrders = []
 
         for order in orders:
-            user = User.query.get(order.id_user)
-            restaurant = Restaurant.query.get(order.id_restaurant)
+            # user = User.query.get(order.id_user)
+            # restaurant = Restaurant.query.get(order.id_restaurant)
 
             arrayOrders.append(
                 {
                     "id": order.id,
                     "total": float(order.total),
                     "restaurant": {
-                        "id": restaurant.id,
-                        "name": restaurant.name,
-                        "address": restaurant.address,
-                        "mail": restaurant.mail
+                        "id": order.id_restaurant,
+                        "name": order.nameRestaurant,
+                        "address": order.addressRestaurant,
+                        "mail": order.mailRestaurant
                     },
                     "user": {
-                        "id": user.id,
-                        "name": user.lastName + ' ' + user.firstName,
-                        "address": user.address,
-                        "mail": user.mail
+                        "id": order.id_user,
+                        "name": order.nameUser,
+                        "address": order.addressUser,
+                        "mail": order.mailUser
                     }
                 }
             )
 
         results = arrayOrders
-        success = False
+        success = True
         message = "Liste des commande en cours"
 
     else:
@@ -200,8 +200,8 @@ def getAllOrderHistoric():
         arrayOrders = []
 
         for order in orders:
-            user = User.query.get(order.id_user)
-            restaurant = Restaurant.query.get(order.id_restaurant)
+            # user = User.query.get(order.id_user)
+            # restaurant = Restaurant.query.get(order.id_restaurant)
 
             arrayOrders.append(
                 {
@@ -209,16 +209,16 @@ def getAllOrderHistoric():
                     "total": float(order.total),
                     "deliveryDate": order.delivery_date.strftime("%m/%d/%Y"),
                     "restaurant": {
-                        "id": restaurant.id,
-                        "name": restaurant.name,
-                        "address": restaurant.address,
-                        "mail": restaurant.mail
+                        "id": order.id_restaurant,
+                        "name": order.nameRestaurant,
+                        "address": order.addressRestaurant,
+                        "mail": order.mailRestaurant
                     },
                     "user": {
-                        "id": user.id,
-                        "name": user.lastName + ' ' + user.firstName,
-                        "address": user.address,
-                        "mail": user.mail
+                        "id": order.id_user,
+                        "name": order.nameUser,
+                        "address": order.addressUser,
+                        "mail": order.mailUser
                     }
                 }
             )
@@ -284,10 +284,10 @@ def getMemberProfile(id):
                     "id": order.id,
                     "total": float(order.total),
                     "restaurant": {
-                        "id": restaurant.id,
-                        "name": restaurant.name,
-                        "address": restaurant.address,
-                        "mail": restaurant.mail
+                        "id": order.id_restaurant,
+                        "name": order.nameRestaurant,
+                        "address": order.addressRestaurant,
+                        "mail": order.mailRestaurant
                     },
                     "creationDate": order.creation_date.strftime("%m/%d/%Y"),
                     "user": order.id_user
@@ -302,10 +302,10 @@ def getMemberProfile(id):
                     "id": order.id,
                     "total": float(order.total),
                     "restaurant": {
-                        "id": restaurant.id,
-                        "name": restaurant.name,
-                        "address": restaurant.address,
-                        "mail": restaurant.mail
+                        "id": order.id_restaurant,
+                        "name": order.nameRestaurant,
+                        "address": order.addressRestaurant,
+                        "mail": order.mailRestaurant
                     },
                     "creationDate": order.creation_date.strftime("%m/%d/%Y"),
                     "user": order.id_user
@@ -358,10 +358,10 @@ def getRestaurantDashboard(id):
                     "restaurant": order.id_restaurant,
                     "creationDate": order.creation_date.strftime("%m/%d/%Y"),
                     "user": {
-                        "id": user.id,
-                        "name": user.lastName + ' ' + user.firstName,
-                        "address": user.address,
-                        "mail": user.mail
+                        "id": order.id_user,
+                        "name": order.nameUser,
+                        "address": order.addressUser,
+                        "mail": order.mailUser
                     }
                 }
             )
@@ -376,10 +376,10 @@ def getRestaurantDashboard(id):
                     "restaurant": order.id_restaurant,
                     "creationDate": order.creation_date.strftime("%m/%d/%Y"),
                     "user": {
-                        "id": user.id,
-                        "name": user.lastName + ' ' + user.firstName,
-                        "address": user.address,
-                        "mail": user.mail
+                        "id": order.id_user,
+                        "name": order.nameUser,
+                        "address": order.addressUser,
+                        "mail": order.mailUser
                     }
                 }
             )
@@ -498,6 +498,30 @@ def setMemberUpdateProfile(id):
     return jsonify(success=success, message=message)
 
 
+@admin.route('/member/<int:id>/delete', methods=['POST'])
+def setMemberDelete(id):
+    if request.method == 'POST':
+        if current_user.is_authenticated:
+            user = User.query.get(id)
+
+            if user:
+                db.session.delete(user)
+                db.session.commit()
+
+                success = True
+                message = "L'utilisateur a été supprimé"
+
+            else:
+                success = False
+                message = "L'utilisateur n'est pas reconnue"
+
+        else:
+            message = "L'utilisateur n'est pas connecté"
+            success = False
+
+    return jsonify(success=success, message=message)
+
+
 @admin.route('/restaurant/<int:id>/update/profile', methods=['POST'])
 def setRestaurantUpdateProfile(id):
     if request.method == 'POST':
@@ -527,10 +551,6 @@ def setRestaurantUpdateProfile(id):
                 category = request.form.get('category')
                 address = request.form.get('address')
                 logo = request.files.get('logo')
-                print(request.form)
-                print(request.files)
-
-                print(name)
 
                 args = []
 

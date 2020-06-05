@@ -72,17 +72,17 @@ def getOrderInProgress():
             arrayOrderInProgress = []
             for order in orderInProgress:
 
-                user = User.query.get(order.id_user)
+                # user = User.query.get(order.id_user)
                 arrayOrderInProgress.append(
                     {
                         "id": order.id,
                         "total": float(order.total),
                         "restaurant": order.id_restaurant,
                         "user": {
-                            "id": user.id,
-                            "name": user.lastName + ' ' + user.firstName,
-                            "address": user.address,
-                            "mail": user.mail
+                            "id": order.id_user,
+                            "name": order.nameUser,
+                            "address": order.addressUser,
+                            "mail": order.mailUser
                         }
                     }
                 )
@@ -114,7 +114,7 @@ def getOrderHistoric():
             arrayOrderHistorics = []
 
             for order in orderHistorics:
-                user = User.query.get(order.id_user)
+                # user = User.query.get(order.id_user)
                 arrayOrderHistorics.append(
                     {
                         "id": order.id,
@@ -122,10 +122,10 @@ def getOrderHistoric():
                         "restaurant": order.id_restaurant,
                         "creationDate": order.creation_date.strftime("%m/%d/%Y"),
                         "user": {
-                            "id": user.id,
-                            "name": user.lastName + ' ' + user.firstName,
-                            "address": user.address,
-                            "mail": user.mail
+                            "id": order.id_user,
+                            "name": order.nameUser,
+                            "address": order.addressUser,
+                            "mail": order.mailUser
                         }
                     }
                 )
