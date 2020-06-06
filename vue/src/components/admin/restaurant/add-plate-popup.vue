@@ -4,6 +4,15 @@
       <h2>Ajouter un plat</h2>
     </div>
 
+    <div v-if="info != null">
+      <div class="message-container" v-if="info.success">
+        <div class="success">{{ info.message }}</div>
+      </div>
+      <div class="message-container" v-else>
+        <div class="error">{{ info.message }}</div>
+      </div>
+    </div>
+
     <form @submit.prevent="setNewPlate" action method="POST">
       <div class="grid50-50">
         <div class="form__group field">
@@ -79,7 +88,8 @@ export default {
         description: "",
         unitPrice: "",
         image: ""
-      }
+      },
+      info: null
     };
   },
   methods: {
@@ -116,11 +126,13 @@ export default {
       this.info = response.data;
 
       if (response.data.success) {
-        location.reload();
-      }
+        await setTimeout(() => {
+          this.$emit("closeOverlay", false);
+          this.$emit("closePopup", false);
 
-      this.$emit("closeOverlay", false);
-      this.$emit("closePopup", false);
+          location.reload();
+        }, 2000);
+      }
     }
   }
 };
