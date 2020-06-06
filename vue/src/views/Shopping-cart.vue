@@ -137,6 +137,7 @@ export default {
       this.idRestaurant = parse.idRestaurant;
     },
     setTotalPrice() {
+      this.totalPrice = null;
       this.orderContents.forEach(element => {
         this.totalPrice += element.price * element.quantity;
       });

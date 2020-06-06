@@ -12,6 +12,7 @@
         <div class="error">{{ info.message }}</div>
       </div>
     </div>
+
     <div class="form-container">
       <form @submit.prevent="signup" action method="POST">
         <div class="grid50-50">
@@ -116,6 +117,7 @@
 </template>
 
 <script>
+import router from "../../router";
 const axios = require("axios");
 
 export default {
@@ -166,6 +168,12 @@ export default {
           console.log(error);
         });
       this.info = response.data;
+
+      if (response.data.success) {
+        await setTimeout(() => {
+          router.push("/user/login");
+        }, 2000);
+      }
     },
 
     handleResize() {
