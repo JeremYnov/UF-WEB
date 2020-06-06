@@ -1,11 +1,16 @@
 <template>
-  <div
-    class="add-plate-popup"
-    v-if="popupActive"
-    v-bind:class="{ 'is-active': popupActive }"
-  >
+  <div class="add-plate-popup" v-if="popupActive" v-bind:class="{ 'is-active': popupActive }">
     <div class="add-plate-title">
       <h2>Modifier les informations</h2>
+    </div>
+
+    <div v-if="info != null">
+      <div class="message-container" v-if="info.success">
+        <div class="success">{{ info.message }}</div>
+      </div>
+      <div class="message-container" v-else>
+        <div class="error">{{ info.message }}</div>
+      </div>
     </div>
 
     <form @submit.prevent="setUpdateProfile" method="POST">
@@ -44,14 +49,8 @@
         <label for="address" class="form__label">Adresse</label>
       </div>
 
-     <div class="form__group field">
-        <input
-          v-model="form.solde"
-          type="number"
-          name="sold"
-          class="form__field"
-          placeholder="Solde"
-        />
+      <div class="form__group field">
+        <input v-model="form.sold" type="text" name="sold" class="form__field" placeholder="Solde" />
         <label for="sold" class="form__label">Solde</label>
       </div>
 
@@ -67,7 +66,7 @@ import axios from "axios";
 export default {
   props: {
     popupActive: null,
-    restaurant: null,
+    restaurant: null
   },
   data: function() {
     return {
@@ -75,8 +74,9 @@ export default {
         firstName: "",
         lastName: "",
         address: "",
-        sold:0,
+        sold: ""
       },
+      info: null
     };
   },
   methods: {
@@ -93,13 +93,12 @@ export default {
 
       const response = await axios
         .post(
-          "/api/admin/user/" + this.$route.params.id + "/update/profile",
+          "/api/admin/member/" + this.$route.params.id + "/update/profile",
           bodyFormData,
           {
             headers: {
-              "Content-Type":
-                "application/x-www-form-urlencoded; multipart/form-data",
-            },
+              "Content-Type": "application/x-www-form-urlencoded"
+            }
           }
         )
         .then(function(response) {
@@ -108,17 +107,18 @@ export default {
         .catch(function(error) {
           console.log(error);
         });
+
       this.info = response.data;
 
-      console.log(response.data);
-
       if (response.data.success) {
-        location.reload();
-      }
+        await setTimeout(() => {
+          this.$emit("closeOverlay", false);
+          this.$emit("closePopup", false);
 
-      this.$emit("closeOverlay", false);
-      this.$emit("closePopup", false);
-    },
-  },
+          location.reload();
+        }, 2000);
+      }
+    }
+  }
 };
 </script>

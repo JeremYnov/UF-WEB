@@ -460,6 +460,7 @@ def setMemberUpdateProfile(id):
                     firstName = request.form.get('firstName')
                     lastName = request.form.get('lastName')
                     address = request.form.get('address')
+                    balance = request.form.get('sold')
 
                     args = []
 
@@ -474,6 +475,14 @@ def setMemberUpdateProfile(id):
                     if address and user.address != address:
                         user.address = address
                         args.append("l'adresse")
+
+                    if balance and user.balance != float(balance):
+                        user.balance = float(balance)
+                        args.append("le solde")
+
+                    if len(args) == 4:
+                        message = args[0] + ', ' + args[1] + ', ' + args[2] + ', ' + args[3] + ' ont été modifié'
+                        success = True
 
                     if len(args) == 3:
                         message = args[0] + ', ' + args[1] + ', ' + args[2] + ' ont été modifié'

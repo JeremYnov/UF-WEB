@@ -4,6 +4,15 @@
       <h2>Modifier les informations</h2>
     </div>
 
+    <div v-if="info != null">
+      <div class="message-container" v-if="info.success">
+        <div class="success">{{ info.message }}</div>
+      </div>
+      <div class="message-container" v-else>
+        <div class="error">{{ info.message }}</div>
+      </div>
+    </div>
+
     <form @submit.prevent="setUpdateProfile" method="POST">
       <div class="form__group field">
         <input v-model="form.name" type="text" name="name" class="form__field" placeholder="Nom" />
@@ -65,7 +74,8 @@ export default {
         category: "",
         address: "",
         image: ""
-      }
+      },
+      info: null
     };
   },
   methods: {
@@ -99,14 +109,14 @@ export default {
         });
       this.info = response.data;
 
-      console.log(response.data);
-
       if (response.data.success) {
-        location.reload();
-      }
+        await setTimeout(() => {
+          this.$emit("closeOverlay", false);
+          this.$emit("closePopup", false);
 
-      this.$emit("closeOverlay", false);
-      this.$emit("closePopup", false);
+          location.reload();
+        }, 2000);
+      }
     }
   }
 };
