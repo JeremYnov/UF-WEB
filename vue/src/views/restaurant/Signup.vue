@@ -37,11 +37,11 @@
     </div>
 
     <div v-if="info != null">
-      <div v-if="info.success">
-        <p>Success {{ info.message }}</p>
+      <div class="message-container" v-if="info.success">
+        <div class="success">{{ info.message }}</div>
       </div>
-      <div v-else>
-        <p>Error {{ info.message }}</p>
+      <div class="message-container" v-else>
+        <div class="error">{{ info.message }}</div>
       </div>
     </div>
 
@@ -139,6 +139,7 @@
 </template>
 
 <script>
+import router from "../../router";
 const axios = require("axios");
 
 export default {
@@ -192,6 +193,12 @@ export default {
         });
 
       this.info = response.data;
+
+      if (response.data.success) {
+        await setTimeout(() => {
+          router.push("/restaurant/login");
+        }, 2000);
+      }
     },
     previewFiles: function(event) {
       console.log(event.target.files[0]);
