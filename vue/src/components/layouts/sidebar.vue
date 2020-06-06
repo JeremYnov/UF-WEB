@@ -10,7 +10,7 @@
             name: 'AdminMemberTableDashboard',
           }"
         >
-          <i class="fas fa-home"></i>Membres</router-link
+          <i class="fas fa-user"></i>Membres</router-link
         >
       </li>
       <li>
@@ -18,7 +18,7 @@
           v-bind:to="{
             name: 'AdminRestaurantTableDashboard',
           }"
-          ><i class="fas fa-user"></i>Restaurateurs</router-link
+          ><i class="fas fa-concierge-bell"></i>Restaurateurs</router-link
         >
       </li>
       <h3>Commande</h3>
@@ -36,7 +36,7 @@
           v-bind:to="{
             name: 'AdminHistoryOrderTableDashboard',
           }"
-          ><i class="fas fa-blog"></i>Historique</router-link
+          ><i class="fas fa-history"></i>Historique</router-link
         >
       </li>
     </ul>

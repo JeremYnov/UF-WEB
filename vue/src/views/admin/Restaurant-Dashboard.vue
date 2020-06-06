@@ -34,7 +34,13 @@
           Historique des commandes
         </button>
       </div>
-      <PlatesTable :plates="restaurant.plates" v-if="chosenTable == 1" />
+      <PlatesTable
+        :plates="restaurant.plates"
+        v-if="chosenTable == 1"
+        v-on:openPopup="editPlatePopupActive = $event"
+        v-on:openOverlay="closeThePopup = $event"
+        v-on:plateId="plateId = $event"
+      />
 
       <CurrentOrdersTable :restaurant="restaurant" v-if="chosenTable == 2" />
 
@@ -53,13 +59,13 @@
       v-on:closeOverlay="closeThePopup = $event"
       v-on:closePopup="editInformationsPopupActive = $event"
     />
-    
-    <!-- <EditPlatePopup
+
+    <AdminEditPlatePopup
       :popupActive="editPlatePopupActive"
       :plateId="plateId"
       v-on:closeOverlay="closeThePopup = $event"
       v-on:closePopup="editInformationsPopupActive = $event"
-    /> -->
+    />
   </div>
 </template>
 
@@ -72,8 +78,7 @@ import AdminAddPlatePopup from "@/components/admin/restaurant/add-plate-popup.vu
 import PlatesTable from "@/components/admin/restaurant/plates-table.vue";
 import CurrentOrdersTable from "@/components/admin/restaurant/current-orders-table.vue";
 import HistoryOrdersTable from "@/components/admin/restaurant/history-orders-table.vue";
-// import EditPlatePopup from "@/components/admin/restaurant/edit-plate-popup.vue";
-
+import AdminEditPlatePopup from "@/components/admin/restaurant/edit-plate-popup.vue";
 export default {
   components: {
     RestaurantHero,
@@ -83,17 +88,17 @@ export default {
     CurrentOrdersTable,
     HistoryOrdersTable,
     PlatesTable,
-    // EditPlatePopup,
+    AdminEditPlatePopup,
   },
   data: function() {
     return {
       restaurant: null,
       editInformationsPopupActive: false,
-      // editPlatePopupActive: false,
+      editPlatePopupActive: false,
       addPlatePopupActive: false,
       closeThePopup: false,
       chosenTable: 1,
-      // plateId: 0,
+      plateId: 0,
     };
   },
 
@@ -109,20 +114,15 @@ export default {
       this.editInformationsPopupActive = !this.editInformationsPopupActive;
       this.closeThePopup = !this.closeThePopup;
     },
-    // toggleEditPlate() {
-    //   this.editPlatePopupActive = !this.editPlatePopupActive;
-    //   this.closeThePopup = !this.closeThePopup;
-    // },
     closePopup() {
       this.closeThePopup = !this.closeThePopup;
       if (this.editInformationsPopupActive == true) {
         this.editInformationsPopupActive = !this.editInformationsPopupActive;
       } else if (this.addPlatePopupActive == true) {
         this.addPlatePopupActive = !this.addPlatePopupActive;
-      } 
-      // else if (this.editPlatePopupActive == true) {
-      //   this.editPlatePopupActive = !this.editPlatePopupActive;
-      // }
+      }else if (this.editPlatePopupActive == true) {
+        this.editPlatePopupActive = !this.editPlatePopupActive;
+      }
     },
     async getRestaurantDashboard() {
       const response = await axios

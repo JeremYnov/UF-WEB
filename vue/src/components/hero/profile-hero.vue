@@ -9,8 +9,9 @@
     >
       <div class="hero-content">
         <h1 class>
-          {{ user.lastName }}
-          <span class="last-name">{{ user.firstName }}</span>
+          {{ user.firstName }}
+          
+          <span class="last-name">{{ user.lastName }}</span>
         </h1>
         <p>{{ user.address }}</p>
         <p class="restaurant-address">{{ user.mail }}</p>

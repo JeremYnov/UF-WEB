@@ -101,7 +101,7 @@ export default {
       bodyFormData.set("price", this.form.unitPrice);
 
       const response = await axios
-        .post("/api/restaurant/update/plate/"+this.plateId, bodyFormData, {
+        .post("/api/admin/restaurant/" + this.$route.params.id + "/update/plate" + this.plateId, bodyFormData, {
           headers: {
             "Content-Type":
               "application/x-www-form-urlencoded; multipart/form-data",
@@ -115,9 +115,15 @@ export default {
         });
 
       this.info = response.data;
-      this.$emit("closeOverlay", false);
-      this.$emit("closePopup", false);
-      location.reload();
+
+      if (response.data.success) {
+        await setTimeout(() => {
+          this.$emit("closeOverlay", false);
+          this.$emit("closePopup", false);
+
+          location.reload();
+        }, 2000);
+      }
     },
   },
 };
