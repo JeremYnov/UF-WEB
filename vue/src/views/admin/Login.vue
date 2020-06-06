@@ -96,8 +96,8 @@ export default {
         localStorage.setItem("session", parsed);
         // localStorage.setItem("session", response.data.session);
         await setTimeout(() => {
+          location.reload();
           router.push("/admin/dashboard");
-          // location.reload();
         }, 2000);
       }
     },
