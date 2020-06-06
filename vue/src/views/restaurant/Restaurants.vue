@@ -12,34 +12,52 @@
     <div class="container wrapper">
       <!-- <div v-for="restaurant in allRestaurant" :key="restaurant.id"> -->
       <div class="filter-container">
-        <button @click="getCategoryRestaurant('pizza')" class="category-button category-pizza">
-          <div class="category-name">
-            Pizza
-          </div>
-        </button>
-        <button @click="getCategoryRestaurant('fast food')" class="category-button category-fast-food">
+        <button
+          @click="getCategoryRestaurant('fast food')"
+          class="category-button category-fast-food"
+        >
           <div class="category-name">
             Fast-Food
           </div>
         </button>
-        <button @click="getCategoryRestaurant('sushi')" class="category-button category-sushi">
+        <button
+          @click="getCategoryRestaurant('indien')"
+          class="category-button category-indien"
+        >
           <div class="category-name">
-            Sushi
+            Indien
           </div>
         </button>
-        <button @click="getCategoryRestaurant('asiatique')" class="category-button category-asiatique">
+        <button
+          @click="getCategoryRestaurant('healthy')"
+          class="category-button category-healthy"
+        >
+          <div class="category-name">
+            Healthy
+          </div>
+        </button>
+        <button
+          @click="getCategoryRestaurant('asiatique')"
+          class="category-button category-asiatique"
+        >
           <div class="category-name">
             Asiatique
           </div>
         </button>
-        <button @click="getCategoryRestaurant('burger')" class="category-button category-burger">
+        <button
+          @click="getCategoryRestaurant('libanais')"
+          class="category-button category-libanais"
+        >
           <div class="category-name">
-            Burger
+            Libanais
           </div>
         </button>
-        <button @click="getCategoryRestaurant('japonais')" class="category-button category-japonais">
+        <button
+          @click="getCategoryRestaurant('gastronomie')"
+          class="category-button category-gastronomie"
+        >
           <div class="category-name">
-            Japonais
+            Gastronomie
           </div>
         </button>
       </div>
@@ -57,12 +75,12 @@ import RestaurantCard from "@/components/card/restaurant-card.vue";
 export default {
   name: "Restaurants",
   components: {
-    RestaurantCard
+    RestaurantCard,
   },
 
   data() {
     return {
-      allRestaurant: null
+      allRestaurant: null,
     };
   },
 
@@ -94,7 +112,7 @@ export default {
         });
 
       this.allRestaurant = response.data.results;
-    }
-  }
+    },
+  },
 };
 </script>

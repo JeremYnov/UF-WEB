@@ -35,13 +35,12 @@
     <div class="signup-title">
       <h2>Créer un compte</h2>
     </div>
-
     <div v-if="info != null">
-      <div v-if="info.success">
-        <p>Success {{ info.message }}</p>
+      <div class="message-container" v-if="info.success">
+        <div class="success">{{ info.message }}</div>
       </div>
-      <div v-else>
-        <p>Error {{ info.message }}</p>
+      <div class="message-container" v-else>
+        <div class="error">{{ info.message }}</div>
       </div>
     </div>
 
@@ -91,14 +90,19 @@
           </div>
 
           <div class="form__group field">
-            <select v-model="form.category" name="category" id="category" required>
+            <select
+              v-model="form.category"
+              name="category"
+              id="category"
+              required
+            >
               <option disabled>Choisissez</option>
               <option>Fast food</option>
-              <option>Burger</option>
-              <option>Pizza</option>
-              <option>Sushi</option>
+              <option>Healthy</option>
               <option>Asiatique</option>
-              <option>Japonais</option>
+              <option>Indien</option>
+              <option>Libanais</option>
+              <option>Gastronomie</option>
             </select>
 
             <label for="category" class="form__label">Categorie</label>
@@ -152,10 +156,10 @@ export default {
         mail: null,
         category: null,
         password: null,
-        repassword: null
+        repassword: null,
       },
       info: null,
-      screenHeight: 0
+      screenHeight: 0,
     };
   },
   created() {
@@ -181,8 +185,8 @@ export default {
         .post("/api/restaurant/signup", bodyFormData, {
           headers: {
             "Content-Type":
-              "application/x-www-form-urlencoded; multipart/form-data"
-          }
+              "application/x-www-form-urlencoded; multipart/form-data",
+          },
         })
         .then(function(response) {
           return response;
@@ -204,7 +208,7 @@ export default {
       this.footerHeight = document.querySelector("footer").clientHeight;
       this.screenHeight =
         this.windowHeight - (this.headerHeight + this.footerHeight);
-    }
-  }
+    },
+  },
 };
 </script>
