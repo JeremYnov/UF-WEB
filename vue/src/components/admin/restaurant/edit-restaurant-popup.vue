@@ -76,8 +76,8 @@ export default {
       let bodyFormData = new FormData();
 
       bodyFormData.set("name", this.form.name);
-      bodyFormData.set("category", this.form.type);
-      bodyFormData.set("address", this.form.description);
+      bodyFormData.set("category", this.form.category);
+      bodyFormData.set("address", this.form.address);
       bodyFormData.set("logo", this.form.image);
 
       const response = await axios
