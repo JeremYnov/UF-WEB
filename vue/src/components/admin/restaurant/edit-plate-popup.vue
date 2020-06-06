@@ -17,12 +17,11 @@
             name="name"
             class="form__field"
             placeholder="Nom"
-            required
           />
           <label for="name" class="form__label">Nom</label>
         </div>
         <div class="form__group field">
-          <select v-model="form.type" name="type" class="form-select" required>
+          <select v-model="form.type" name="type" class="form-select">
             <option disabled>Choisissez</option>
             <option>Menu</option>
             <option>Plat</option>
@@ -46,7 +45,7 @@
 
       <div class="grid50-50">
         <div class="form__group field">
-          <input @change="previewFiles" type="file" id="file" required />
+          <input @change="previewFiles" type="file" id="file" />
           <label for="file">Choisir un fichier...</label>
         </div>
         <div class="form__group field">
@@ -56,7 +55,6 @@
             name="unitPrice"
             class="form__field"
             placeholder="Prix Unitaire"
-            required
           />
           <label for="name" class="form__label">Prix Unitaire</label>
         </div>
@@ -79,11 +77,11 @@ export default {
   data: function() {
     return {
       form: {
-        name: null,
-        type: null,
-        description: null,
-        unitPrice: null,
-        image: null,
+        name: "",
+        type: "",
+        description: "",
+        unitPrice: "",
+        image: "",
       },
     };
   },
@@ -101,7 +99,7 @@ export default {
       bodyFormData.set("price", this.form.unitPrice);
 
       const response = await axios
-        .post("/api/admin/restaurant/" + this.$route.params.id + "/update/plate" + this.plateId, bodyFormData, {
+        .post("/api/admin/restaurant/" + this.$route.params.id + "/update/plate/" + this.plateId, bodyFormData, {
           headers: {
             "Content-Type":
               "application/x-www-form-urlencoded; multipart/form-data",
@@ -122,7 +120,7 @@ export default {
           this.$emit("closePopup", false);
 
           location.reload();
-        }, 2000);
+        }, 1000);
       }
     },
   },

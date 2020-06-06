@@ -65,13 +65,9 @@ export default {
       window.scrollTo(0, 0);
     },
     deletePlate(id) {
-      console.log("/api/restaurant/delete/plate/" + id);
+      // console.log("/api/admin/restaurant/delete/plate/" + id);
       const response = axios
-        .post("/api/restaurant/delete/plate/" + id, {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-        })
+        .get("/api/admin/restaurant/" + this.$route.params.id + "/delete/plate/" + id)
         .then(function(response) {
           return response;
         })

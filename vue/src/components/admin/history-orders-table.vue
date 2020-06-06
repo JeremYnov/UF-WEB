@@ -1,5 +1,13 @@
 <template>
-  <table class="table table-striped">
+<section class="history-orders" v-if="historyOrders != null">
+  <div
+      class="alert alert-warning"
+      role="alert"
+      v-if="historyOrders.length == 0"
+    >
+      Aucune commande n'a été passée
+    </div>
+<table class="table table-striped" v-if="historyOrders.length != 0">
     <thead>
       <tr>
         <th scope="col">Commande N°</th>
@@ -11,16 +19,18 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="currentOrder in currentOrders" :key="currentOrder.id">
-        <td>{{ currentOrder.id }}</td>
-        <td>{{ currentOrder.restaurant.name}}</td>
-        <td>{{ currentOrder.restaurant.address | truncate(40)}}</td>
-        <td>{{ currentOrder.user.name}}</td>
-        <td>{{ currentOrder.user.mail}}</td>
-        <td>{{ currentOrder.total}}€</td>
+      <tr v-for="historyOrder in historyOrders" :key="historyOrder.id">
+        <td>{{ historyOrder.id }}</td>
+        <td>{{ historyOrder.restaurant.name}}</td>
+        <td>{{ historyOrder.restaurant.address | truncate(40)}}</td>
+        <td>{{ historyOrder.user.name}}</td>
+        <td>{{ historyOrder.user.mail}}</td>
+        <td>{{ historyOrder.total}}€</td>
       </tr>
     </tbody>
   </table>
+</section>
+  
 </template>
 
 <script>
@@ -29,7 +39,7 @@ import axios from "axios";
 export default {
   data() {
     return {
-      currentOrders: null
+      historyOrders: null
     };
   },
   filters: {
@@ -54,7 +64,7 @@ export default {
           console.log(error);
         });
 
-      this.currentOrders = response.data.results;
+      this.historyOrders = response.data.results;
     }
   }
 };
