@@ -1,28 +1,26 @@
 <template>
-  <div
-    class="add-plate-popup"
-    v-if="popupActive"
-    v-bind:class="{ 'is-active': popupActive }"
-  >
+  <div class="add-plate-popup" v-if="popupActive" v-bind:class="{ 'is-active': popupActive }">
     <div class="add-plate-title">
       <h2>Modifier le plat</h2>
+    </div>
+
+    <div v-if="info != null">
+      <div class="message-container" v-if="info.success">
+        <div class="success">{{ info.message }}</div>
+      </div>
+      <div class="message-container" v-else>
+        <div class="error">{{ info.message }}</div>
+      </div>
     </div>
 
     <form @submit.prevent="setUpdatePlate" action method="POST">
       <div class="grid50-50">
         <div class="form__group field">
-          <input
-            v-model="form.name"
-            type="text"
-            name="name"
-            class="form__field"
-            placeholder="Nom"
-            required
-          />
+          <input v-model="form.name" type="text" name="name" class="form__field" placeholder="Nom" />
           <label for="name" class="form__label">Nom</label>
         </div>
         <div class="form__group field">
-          <select v-model="form.type" name="type" class="form-select" required>
+          <select v-model="form.type" name="type" class="form-select">
             <option disabled>Choisissez</option>
             <option>Menu</option>
             <option>Plat</option>
@@ -46,7 +44,7 @@
 
       <div class="grid50-50">
         <div class="form__group field">
-          <input @change="previewFiles" type="file" id="file" required />
+          <input @change="previewFiles" type="file" id="file" />
           <label for="file">Choisir un fichier...</label>
         </div>
         <div class="form__group field">
@@ -56,7 +54,6 @@
             name="unitPrice"
             class="form__field"
             placeholder="Prix Unitaire"
-            required
           />
           <label for="name" class="form__label">Prix Unitaire</label>
         </div>
@@ -74,17 +71,18 @@ import axios from "axios";
 export default {
   props: {
     popupActive: null,
-    plateId:null,
+    plateId: null
   },
   data: function() {
     return {
       form: {
-        name: null,
-        type: null,
-        description: null,
-        unitPrice: null,
-        image: null,
+        name: "",
+        type: "",
+        description: "",
+        unitPrice: "",
+        image: ""
       },
+      info: null
     };
   },
   methods: {
@@ -101,11 +99,11 @@ export default {
       bodyFormData.set("price", this.form.unitPrice);
 
       const response = await axios
-        .post("/api/restaurant/update/plate/"+this.plateId, bodyFormData, {
+        .post("/api/restaurant/update/plate/" + this.plateId, bodyFormData, {
           headers: {
             "Content-Type":
-              "application/x-www-form-urlencoded; multipart/form-data",
-          },
+              "application/x-www-form-urlencoded; multipart/form-data"
+          }
         })
         .then(function(response) {
           return response;
@@ -115,11 +113,17 @@ export default {
         });
 
       this.info = response.data;
-      this.$emit("closeOverlay", false);
-      this.$emit("closePopup", false);
-      location.reload();
-    },
-  },
+
+      if (response.data.success) {
+        await setTimeout(() => {
+          this.$emit("closeOverlay", false);
+          this.$emit("closePopup", false);
+
+          location.reload();
+        }, 2000);
+      }
+    }
+  }
 };
 </script>
 
