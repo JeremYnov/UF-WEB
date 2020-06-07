@@ -50,26 +50,26 @@ def setAddOrder():
                         db.session.add(orderContent)
                         db.session.commit()
 
-                    message = "Commande N°{0} \nPlats : \nNom    Quantité    Prix unitaire \n{1} \nTotal: {4}€ \nAdresse du client: {2} \nDate de livraison {3}".format(
+                    message = "Commande N°{0} \nPlats :      \nNom         Quantité         Prix unitaire \n{1} \nTotal: {4}€ \nAdresse du client: {2} \nDate de livraison {3}".format(
                         order.id, msgFormat, user.address, order.delivery_date, order.total)
                     subject = "EATYNG Commande N°" + str(order.id)
                     msg = Message(sender=(order.nameUser, user.mail), recipients=[restaurant.mail], body=message, subject=subject)
                     mail.send(msg)
 
                     success = True
-                    message = "la commande a bien été pris en compte"
+                    message = "La commande a bien été prise en compte"
 
                 else:
                     success = False
-                    message = "votre compte n'a pas assez d'argent"
+                    message = "Le solde de votre compte est trop faible pensez à le recharger"
 
             else:
                 success = False
-                message = " ce n'est pas le bon utilisateur"
+                message = "Ce n'est pas le bon utilisateur"
 
         else:
             success = False
-            message = "vous etes pas connecter"
+            message = "Vous n'êtes pas connecté"
 
     return jsonify(success=success, message=message)
 
@@ -99,19 +99,19 @@ def getOrderInProgress():
                 )
 
             results = arrayOrderInProgress
-            message = "les commande en cours"
+            message = "Les commandes en cours"
             success = True
 
         else:
             results = None
-            message = "il ny a pas de commande en cours"
+            message = "Il n'y a pas de commande en cours"
             success = False
 
         return jsonify(success=success, message=message, results=results)
 
     else:
         success = False
-        message = "vous etes pas connecter"
+        message = "Vous n'êtes pas connecté"
 
     return jsonify(success=success, message=message)
 
@@ -142,18 +142,18 @@ def getOrderHistoric():
                 )
 
             results = arrayOrderHistorics
-            message = "les commande en cours"
+            message = "Les commande en cours"
             success = True
 
         else:
             results = None
-            message = "il ny a pas de commande en cours"
+            message = "Il n'y a pas de commande en cours"
             success = False
 
         return jsonify(success=success, message=message, results=results)
 
     else:
         success = False
-        message = "vous etes pas connecter"
+        message = "Vous n'êtes pas connecté"
 
     return jsonify(success=success, message=message)

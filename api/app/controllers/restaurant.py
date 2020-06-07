@@ -482,14 +482,14 @@ def setUpdateRestaurant():
                     if newPassword == repassword:
                         restaurant.password = generate_password_hash(newPassword, method="pbkdf2:sha256", salt_length=8)
                         print(restaurant.password)
-                        message = "Le mot de passe à bien été modifié"
+                        message = "Le mot de passe a bien été modifié"
                         success = True
 
                     else:
                         message = "Le mot de passe n'est pas similaire sur les deux champs"
                         success = False
                 else:
-                    message = "Le champ du mot de passe est vide"
+                    message = "Le champ mot de passe est vide"
                     success = False
             else:
                 name = request.form.get('name')

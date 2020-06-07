@@ -708,7 +708,7 @@ def setRestaurantNewPlate(id):
 
             else:
                 success = False
-                message = "Le restaurant n'est pas reconnue"
+                message = "Le restaurant n'est pas reconnu"
 
         else:
             success = False
@@ -737,11 +737,11 @@ def setDeletePlate(idRestaurant, idPlate):
 
             else:
                 success = False
-                message = "Le plat n'est pas reconnue"
+                message = "Le plat n'est pas reconnu"
 
         else:
             success = False
-            message = "Le restaurant n'est pas reconnue"
+            message = "Le restaurant n'est pas reconnu"
 
     else:
         success = False
@@ -842,11 +842,11 @@ def setUpdatePlate(idRestaurant, idPlate):
 
                 else:
                     success = False
-                    message = "Le plat n'est pas reconnue"
+                    message = "Le plat n'est pas reconnu"
 
             else:
                 success = False
-                message = "Le restaurant n'est pas reconnue"
+                message = "Le restaurant n'est pas reconnu"
 
         else:
             success = False
